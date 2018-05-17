@@ -1,0 +1,41 @@
+apply plugin: 'com.android.application'
+def appConfig = rootProject.ext.configuration;
+def libs = rootProject.ext.libraries;
+
+android {
+    compileSdkVersion appConfig.compileSdkVersion
+    defaultConfig {
+        applicationId appConfig.applicationId
+        minSdkVersion appConfig.minSdkVersion
+        targetSdkVersion appConfig.targetSdkVersion
+        versionCode appConfig.versionCode
+        versionName appConfig.versionName
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+/***
+ * define variable of version if the same version of library used more than single time.
+ *
+ * */
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    // support libs
+    implementation "com.android.support:appcompat-v7:${libs.supportVersion}"
+    implementation "com.android.support:support-v4:${libs.supportVersion}"
+    implementation "com.android.support:design:${libs.supportVersion}"
+    implementation "com.android.support:recyclerview-v7:${libs.supportVersion}"
+    implementation "com.android.support:cardview-v7:${libs.supportVersion}"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    // Butterknife
+    implementation "com.jakewharton:butterknife:${libs.butterknifeVersion}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknifeVersion}"
+
+
+}
