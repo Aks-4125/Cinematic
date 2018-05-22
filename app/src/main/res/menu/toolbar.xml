@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/profile"
+        android:onClick="onOptionItemSelected"
+        android:icon="@drawable/round_account_circle_black_18dp"
+        android:title="Profile"
+        app:showAsAction="ifRoom"
+        />
+    <item android:id="@+id/logout"
+        android:onClick="onOptionItemSelected"
+        android:icon="@drawable/round_power_settings_new_black_18dp"
+        android:title="Logout"
+        app:showAsAction="ifRoom"
+
+        />
+</menu>
