@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Cinematic</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="rememberme">Remember Me</string>
+    <string name="login">Login</string>
+
+    <string name="signup">Signup</string>
+    <string name="username">User Name</string>
+    <string name="fullname">Full Name</string>
+    <string name="phonenumber">Phone Number</string>
+    <string name="createnewaccout">Create New Account</string>
 </resources>
