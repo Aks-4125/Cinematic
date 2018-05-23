@@ -2,12 +2,14 @@ package com.training.cinematic;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.training.cinematic.Model.User;
@@ -20,7 +22,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.RealmResults;
-import io.realm.SyncCredentials;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
 public class SignupActivity extends AppCompatActivity {
@@ -35,6 +36,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText email;
     @BindView(R.id.btn_signup)
     Button signup;
+    @BindView(R.id.img_back)
+    ImageView backButton;
     Realm realm;
     private static final String TAG = "Sign up Activity";
     private static final String KEY_EMAIL = "email";
@@ -51,7 +54,11 @@ public class SignupActivity extends AppCompatActivity {
         Realm.init(this);
         realm = Realm.getDefaultInstance();
 
-
+    }
+    @OnClick(R.id.img_back)
+    public void onImageClick(){
+        Intent intent=new Intent(SignupActivity.this,LoginActivity.class);
+        startActivity(intent);
     }
 
     @OnClick(R.id.btn_signup)
@@ -63,28 +70,29 @@ public class SignupActivity extends AppCompatActivity {
 
         if (Validation(sname, snumber, semail, spassword)) {
             try {
-                realm.beginTransaction();
-                User user = new User();
-                user.setFullname(getFullname());
-                user.setPhonenumber(getphonenumber());
-                user.setEmailid(getemailid());
-                user.setPassword(getpassword());
-                realm.copyToRealm(user);
-                realm.commitTransaction();
-                SharedPreferences sharedPreferences = getSharedPreferences(TAG, 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("FULLNAME", sname);
-                editor.putString("NUMBER", snumber);
-                editor.putString("KEY_EMAIL", semail);
-                editor.putString("KEY_PWD", spassword);
-                editor.commit();
+                try(Realm r=Realm.getDefaultInstance()){
+                    final User user = new User();
+                    user.setFullName(sname);
+                    user.setPhoneNumber(snumber);
+                    user.setEmailId(semail);
+                    user.setPassword(spassword);
+                    r.executeTransaction(realm -> {
+                        realm.insert(user);
+                    });
+                    SharedPreferences sharedPreferences = getSharedPreferences(TAG, 0);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("FULLNAME", sname);
+                    editor.putString("NUMBER", snumber);
+                    editor.putString("KEY_EMAIL", semail);
+                    editor.putString("KEY_PWD", spassword);
+                    editor.commit();
+                }
                 Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
                 Toast.makeText(this, "Registration suceesfully", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             } catch (RealmPrimaryKeyConstraintException e) {
                 e.printStackTrace();
-                email.setError("Email already exist");
-                realm.commitTransaction();
+                Snackbar.make(findViewById(R.id.edt_email),"Email already exist",Snackbar.LENGTH_LONG).show();
             }
         }
 
@@ -96,44 +104,34 @@ public class SignupActivity extends AppCompatActivity {
         realm.close();
     }
 
-    public String getFullname() {
-        return fullname.getText().toString();
-
-    }
-
-    public String getphonenumber() {
-        return phonenumber.getText().toString();
-    }
-
-    public String getemailid() {
-        return email.getText().toString();
-    }
-
-    public String getpassword() {
-        return password.getText().toString();
-    }
 
     public boolean Validation(String name, String number, String emaill, String passwordd) {
         if (name.trim().equals("")) {
-            fullname.setError("Name is Requried");
+            Snackbar.make(findViewById(R.id.edt_fullname),"Name is Requried",Snackbar.LENGTH_LONG).show();
             return false;
-        } else if (number.equals("")) {
-            phonenumber.setError("Number is Required");
+        }
+        else if (number.equals("")) {
+            Snackbar.make(findViewById(R.id.edt_phonenumber),"Number is Required",Snackbar.LENGTH_LONG).show();
             return false;
-        } else if (!isValidphone(number)) {
-            phonenumber.setError("Invalid phone number");
+        }
+        else if (!isValidphone(number)) {
+            Snackbar.make(findViewById(R.id.edt_phonenumber),"Invalid phone number",Snackbar.LENGTH_LONG).show();
             return false;
-        } else if (emaill.trim().equals("")) {
-            email.setError("Email is Required");
+        }
+        else if (emaill.trim().equals("")) {
+            Snackbar.make(findViewById(R.id.edt_email),"Email is Required",Snackbar.LENGTH_LONG).show();
             return false;
-        } else if (!isEmailvalid(emaill)) {
-            email.setError("Invalid Email Id");
+        }
+        else if (!isEmailvalid(emaill)) {
+            Snackbar.make(findViewById(R.id.edt_email),"Invalid Email Id",Snackbar.LENGTH_LONG).show();
             return false;
-        } else if (passwordd.equals("")) {
-            password.setError("Password is Required");
+        }
+        else if (passwordd.equals("")) {
+            Snackbar.make(findViewById(R.id.edt_password),"Password is Required",Snackbar.LENGTH_LONG).show();
             return false;
-        } else if (!isPasswordvalid(passwordd)) {
-            password.setError("Password must contain at least 8 characters");
+        }
+        else if (!isPasswordvalid(passwordd)) {
+            Snackbar.make(findViewById(R.id.edt_password),"Password must contain at least 8 characters",Snackbar.LENGTH_LONG).show();
             return false;
         }
         return true;

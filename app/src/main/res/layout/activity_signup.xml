@@ -20,14 +20,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+            <LinearLayout
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+          <ImageView
+              android:layout_marginLeft="10dp"
+              android:layout_weight="0.5"
+              android:id="@+id/img_back"
+              android:src="@drawable/round_keyboard_backspace_black_18dp"
+              android:layout_width="50dp"
+              android:layout_height="50dp" />
 
             <TextView
+                android:layout_weight="2.5"
                 android:id="@+id/txt_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="@string/signup"
                 android:textSize="30sp" />
+            </LinearLayout>
+
 
             <EditText
                 android:id="@+id/edt_fullname"
