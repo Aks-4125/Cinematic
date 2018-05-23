@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvOnboarding;
     @BindView(R.id.btnClickMe)
     AppCompatButton btnClickMe;
-    private static final String TAGA = "Main Activitity";
-    private static final String TAG = "Login activity";
+    private static final String TAG = "Main Activitity";
+    private static final String FLAG="flag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                SharedPreferences sharedPreferences = getSharedPreferences(TAG, 0);
+                SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.remove("logged");
+                editor.clear();
                 editor.commit();
                 finish();
                 return true;
