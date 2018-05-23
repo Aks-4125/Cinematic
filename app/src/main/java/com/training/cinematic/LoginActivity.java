@@ -2,6 +2,7 @@ package com.training.cinematic;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -34,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
     Button signup;
     private Realm realm;
     private static final String TAG = "Login activity";
+    private static final String FLAG="flag";
+
 
 
     @Override
@@ -43,12 +46,12 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Realm.init(this);
         realm = Realm.getDefaultInstance();
-        SharedPreferences sharedPreferences = getSharedPreferences(TAG, 0);
-        if (sharedPreferences.getString("logged", "").toString().equals("logged")) ;
-        {
+        SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
+        if (sharedPreferences.getBoolean("logged",false)){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
+
     }
 
     @OnClick(R.id.btn_signup)
@@ -65,10 +68,9 @@ public class LoginActivity extends AppCompatActivity {
         if (vaildate(email1, password1)) {
             try {
                 if (checkUser(email1, password1)) {
-                    SharedPreferences sharedPreferences = getSharedPreferences(TAG, 0);
+                    SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("logged", "logged");
-                    editor.commit();
+                    sharedPreferences.edit().putBoolean("logged",true).apply();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "Login Succesfully", Toast.LENGTH_SHORT).show();
@@ -77,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } catch (RealmPrimaryKeyConstraintException e) {
                 e.printStackTrace();
-                password.setError("Wrong password");
+             Snackbar.make(findViewById(R.id.edt_password),"Wrong Password",Snackbar.LENGTH_LONG).show();
 
             }
         }
@@ -104,17 +106,17 @@ public class LoginActivity extends AppCompatActivity {
     private boolean vaildate(String email1, String password1) {
 
         if (email1.trim().equals("")) {
-            email.setError("Email is Required");
+            Snackbar.make(findViewById(R.id.edt_email),"Email is required",Snackbar.LENGTH_LONG).show();
             return false;
         } else if (!isEmailVaild(email1)) {
-            email.setError("Invalid Email");
+            Snackbar.make(findViewById(R.id.edt_email),"Invalid Email",Snackbar.LENGTH_LONG).show();
             return false;
         }
         if (password1.trim().equals("")) {
-            password.setError("Password is Required");
+            Snackbar.make(findViewById(R.id.edt_password),"Password is Required",Snackbar.LENGTH_LONG).show();
             return false;
         } else if (!isPasswrodValid(password1)) {
-            password.setError("Password must contain at least 8 characters");
+            Snackbar.make(findViewById(R.id.edt_password),"Password must contain at least 8 characters",Snackbar.LENGTH_LONG).show();
             return false;
         }
 
@@ -124,23 +126,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
-    public static boolean isEmailVaild(String email1) {
+    public boolean isEmailVaild(String email1) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         Matcher matcher = pattern.matcher(email1);
         return matcher.matches();
 
     }
 
-    public static boolean isPasswrodValid(String password1) {
-
+    public boolean isPasswrodValid(String password1) {
         return password1.length() >= 8;
     }
 
     private boolean checkUser(String email, String password) {
         RealmResults<User> realmobjects = realm.where(User.class).findAll();
         for (User user : realmobjects) {
-            if (email.equals(user.getEmailid()) && password.equals(user.getPassword())) {
-                Log.e(TAG, user.getEmailid());
+            if (email.equals(user.getEmailId()) && password.equals(user.getPassword())) {
+                Log.e(TAG, user.getEmailId());
 
                 return true;
             }

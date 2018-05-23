@@ -24,9 +24,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".SignupActivity"
-            android:parentActivityName=".LoginActivity" />
-        <activity android:name=".ProfileActivity" android:theme="@style/AppTheme2"
+            android:name=".SignupActivity"  android:screenOrientation="portrait"
+            />
+        <activity android:name=".ProfileActivity" android:theme="@style/AppTheme2" android:label="Profile"
             android:parentActivityName=".MainActivity">
 
         </activity>

@@ -9,34 +9,34 @@ import io.realm.annotations.Required;
  */
 
 public class User extends RealmObject {
-    private String fullname;
-    private String phonenumber;
+    private String fullName;
+    private String phoneNumber;
     @PrimaryKey
-    private String email;
+    private String emailId;
     private String password;
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
-    public String getPhonenumber() {
-        return phonenumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhonenumber(String phonenumber) {
-        this.phonenumber = phonenumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getEmailid() {
-        return email;
+    public String getEmailId() {
+        return emailId;
     }
 
-    public void setEmailid(String email) {
-        this.email = email;
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
     }
 
     public String getPassword() {
