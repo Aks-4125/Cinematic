@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tvOnboarding;
     @BindView(R.id.btnClickMe)
     AppCompatButton btnClickMe;
-    private static final String TAG = "Main Activitity";
+    private static final String TAGA = "Main Activitity";
+    private static final String TAG = "Login activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
