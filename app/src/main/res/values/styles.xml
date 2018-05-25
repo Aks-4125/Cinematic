@@ -15,13 +15,13 @@
     </style>]
     <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">#dedcdc</item>
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
     <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">#d4d3d3</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">#149e96</item>
+        <item name="colorPrimaryDark">#dedcdc</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
