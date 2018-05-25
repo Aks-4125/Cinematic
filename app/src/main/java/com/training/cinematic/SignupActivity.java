@@ -37,8 +37,8 @@ public class SignupActivity extends AppCompatActivity {
     EditText email;
     @BindView(R.id.btn_signup)
     Button signup;
-    @BindView(R.id.img_back)
-    ImageView backButton;
+  /*  @BindView(R.id.img_back)
+    ImageView backButton;*/
     Realm realm;
     private static final String TAG = "Sign up Activity";
     String FLAG = "flag";
@@ -59,13 +59,13 @@ public class SignupActivity extends AppCompatActivity {
 
     }
 
-    @OnClick(R.id.img_back)
+  /*  @OnClick(R.id.img_back)
     public void onImageClick() {
         Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
 
         startActivity(intent);
     }
-
+*/
     @OnClick(R.id.btn_signup)
     public void OnViewClick() {
         String sname = fullname.getText().toString();
