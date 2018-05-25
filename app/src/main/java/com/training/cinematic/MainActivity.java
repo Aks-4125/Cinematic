@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.btnClickMe)
     AppCompatButton btnClickMe;
     private static final String TAG = "Main Activitity";
-    private static final String FLAG="flag";
+    private static final String FLAG = "flag";
+    String KEY_NAME = "name";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +51,14 @@ public class MainActivity extends AppCompatActivity {
             case R.id.logout:
                 SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.remove(KEY_NAME);
                 editor.clear();
                 editor.commit();
                 finish();
                 return true;
             case R.id.profile:
                 Toast.makeText(this, "User Profile", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(MainActivity.this,ProfileActivity.class);
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 return true;
             default:
