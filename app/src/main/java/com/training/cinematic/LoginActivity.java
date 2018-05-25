@@ -35,8 +35,12 @@ public class LoginActivity extends AppCompatActivity {
     Button signup;
     private Realm realm;
     private static final String TAG = "Login activity";
-    private static final String FLAG="flag";
-
+    String FLAG = "flag";
+    String KEY_EMAIL = "email";
+    String KEY_PWD = "password";
+    String NAME = "name";
+    String email1 = "email";
+    String password1 = "password";
 
 
     @Override
@@ -47,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         Realm.init(this);
         realm = Realm.getDefaultInstance();
         SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
-        if (sharedPreferences.getBoolean("logged",false)){
+        if (sharedPreferences.getBoolean("logged", false)) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -67,10 +71,8 @@ public class LoginActivity extends AppCompatActivity {
         String password1 = password.getText().toString();
         if (vaildate(email1, password1)) {
             try {
-                if (checkUser(email1, password1)) {
-                    SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    sharedPreferences.edit().putBoolean("logged",true).apply();
+                if (checkUserNew(email1, password1)) {
+
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "Login Succesfully", Toast.LENGTH_SHORT).show();
@@ -79,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } catch (RealmPrimaryKeyConstraintException e) {
                 e.printStackTrace();
-             Snackbar.make(findViewById(R.id.edt_password),"Wrong Password",Snackbar.LENGTH_LONG).show();
+                Snackbar.make(findViewById(R.id.edt_password), "Wrong Password", Snackbar.LENGTH_LONG).show();
 
             }
         }
@@ -106,17 +108,17 @@ public class LoginActivity extends AppCompatActivity {
     private boolean vaildate(String email1, String password1) {
 
         if (email1.trim().equals("")) {
-            Snackbar.make(findViewById(R.id.edt_email),"Email is required",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.edt_email), "Email is required", Snackbar.LENGTH_LONG).show();
             return false;
         } else if (!isEmailVaild(email1)) {
-            Snackbar.make(findViewById(R.id.edt_email),"Invalid Email",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.edt_email), "Invalid Email", Snackbar.LENGTH_LONG).show();
             return false;
         }
         if (password1.trim().equals("")) {
-            Snackbar.make(findViewById(R.id.edt_password),"Password is Required",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.edt_password), "Password is Required", Snackbar.LENGTH_LONG).show();
             return false;
         } else if (!isPasswrodValid(password1)) {
-            Snackbar.make(findViewById(R.id.edt_password),"Password must contain at least 8 characters",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.edt_password), "Password must contain at least 8 characters", Snackbar.LENGTH_LONG).show();
             return false;
         }
 
@@ -143,12 +145,33 @@ public class LoginActivity extends AppCompatActivity {
             if (email.equals(user.getEmailId()) && password.equals(user.getPassword())) {
                 Log.e(TAG, user.getEmailId());
 
+
                 return true;
             }
         }
 
 
         return false;
+    }
+
+    private boolean checkUserNew(String email, String password) {
+        User user = realm.where(User.class)
+                .equalTo("emailId", email)
+                .equalTo("password", password)
+                .findFirst();
+
+        if (user != null) {
+            SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            sharedPreferences.edit().putBoolean("logged", true).apply();
+            Log.e(KEY_EMAIL, user.getEmailId());
+            Log.e(KEY_PWD, user.getPassword());
+            editor.putString(KEY_EMAIL, email);
+            editor.commit();
+            return true;
+        } else return false;
+        //  return user != null;
+
     }
 
 }
