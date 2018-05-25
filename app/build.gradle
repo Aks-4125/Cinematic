@@ -6,7 +6,6 @@ def libs = rootProject.ext.libraries;
 android {
     compileSdkVersion appConfig.compileSdkVersion
     defaultConfig {
-        applicationId 'io.realm.examples.intro'
         applicationId appConfig.applicationId
         minSdkVersion appConfig.minSdkVersion
         targetSdkVersion appConfig.targetSdkVersion
@@ -25,29 +24,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-buildscript {
-    repositories {
-        google()
-        mavenLocal()
-        jcenter()
-        maven { url 'https://jitpack.io' }
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.0-alpha06'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        classpath "io.realm:realm-gradle-plugin:5.1.0"
-    }
-}
-
-group = 'io.realm'
-
-
-repositories {
-    mavenLocal()
-    jcenter()
-    google()
-}
-
 
 
 /***
