@@ -17,17 +17,13 @@ import io.realm.Realm;
 
 public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.name)
-    EditText fullname;
-    @BindView(R.id.txt_email)
-    TextView temail;
-    @BindView(R.id.txt_name)
-    TextView namee;
+    TextView fullname;
     @BindView(R.id.number)
-    EditText number;
+    TextView number;
     @BindView(R.id.email)
-    EditText email;
+    TextView email;
     @BindView(R.id.password)
-    EditText password;
+    TextView password;
     Intent intent;
     private static final String TAG = "profile activity";
     String FLAG = "flag";
