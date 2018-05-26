@@ -1,4 +1,4 @@
-package com.training.cinematic;
+package com.training.cinematic.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,10 +9,10 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.training.cinematic.Model.User;
+import com.training.cinematic.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -21,8 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
-import io.realm.RealmObject;
-import io.realm.RealmResults;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
 public class SignupActivity extends AppCompatActivity {

@@ -1,4 +1,4 @@
-package com.training.cinematic;
+package com.training.cinematic.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.training.cinematic.Model.User;
+import com.training.cinematic.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
