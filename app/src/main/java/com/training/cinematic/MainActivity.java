@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.profile:
-                Toast.makeText(this, "User Profile", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "User Profile.", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 startActivity(intent);
                 return true;
