@@ -1,4 +1,4 @@
-package com.training.cinematic;
+package com.training.cinematic.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.training.cinematic.Model.User;
+import com.training.cinematic.R;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

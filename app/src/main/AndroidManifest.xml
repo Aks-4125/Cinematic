@@ -11,10 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
-            android:theme="@style/AppTheme2" />
+            android:name=".activity.MainActivity"  android:theme="@style/AppTheme2"/>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme1">
             <intent-filter>
@@ -22,12 +21,19 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
         <activity
-            android:name=".SignupActivity"  android:screenOrientation="portrait"
-           android:theme="@style/AppTheme2" android:parentActivityName=".LoginActivity" android:label="Sign up"/>
-        <activity android:name=".ProfileActivity" android:theme="@style/AppTheme2" android:label="Profile"
-            android:parentActivityName=".MainActivity">
+            android:name=".activity.SignupActivity"
+            android:label="Sign up"
+            android:parentActivityName=".activity.LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme2" />
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:label="Profile"
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme2">
 
         </activity>
     </application>
