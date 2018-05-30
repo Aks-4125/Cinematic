@@ -5,9 +5,9 @@ package com.training.cinematic.Model;
  */
 
 public class movie {
-    String img;
-    String name;
-    String data;
+  private   String img;
+  private   String name;
+   private String data;
 
     public String getImg() {
         return img;
