@@ -2,11 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.training.cinematic.UpCom2Fragment">
+    android:background="#df000000"
+    tools:context="com.training.cinematic.Fragment.UpComingMovieFragment">
 
     <!-- TODO: Update blank fragment layout -->
    <android.support.v7.widget.RecyclerView
        android:id="@+id/recyclerview"
+       android:layout_marginTop="50dp"
        android:layout_width="match_parent"
        android:layout_height="wrap_content">
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.training.cinematic">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".MyApplication"
@@ -11,7 +12,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.MainActivity"  android:theme="@style/AppTheme2"/>
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
@@ -21,7 +23,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activity.SignupActivity"
@@ -34,6 +35,14 @@
             android:label="Profile"
             android:parentActivityName=".activity.MainActivity"
             android:theme="@style/AppTheme2">
+
+        </activity>
+        <activity
+            android:name=".activity.MovieDetailActivity"
+            android:theme="@style/AppTheme2" android:parentActivityName=".activity.MainActivity" android:label="Movie">
+
+        </activity>
+        <activity android:name=".activity.sliderActivity">
 
         </activity>
     </application>
