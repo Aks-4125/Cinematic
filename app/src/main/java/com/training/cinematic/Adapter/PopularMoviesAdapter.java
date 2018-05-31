@@ -10,8 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.training.cinematic.Model.MovieModel;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,14 +26,19 @@ import butterknife.ButterKnife;
 
 public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.MyHolder> {
 
+    List<MovieModel.Result>movies;
+    int rowlayout;
     Context context;
+    String MOVIES_POSTER_URL;
     int[] img;
     String[] data;
-    public PopularMoviesAdapter(Context context, int[] img, String[] data) {
+
+    public PopularMoviesAdapter(List<MovieModel.Result> movies, int rowlayout, Context context) {
+        this.movies = movies;
+        this.rowlayout = rowlayout;
         this.context = context;
-        this.img = img;
-        this.data = data;
     }
+
     @NonNull
     @Override
     public PopularMoviesAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,8 +49,15 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.movieimage.setImageResource(img[position]);
-        // holder.moviename.setText(data[position]);
+        holder.moviename.setText(movies.get(position).getTitle());
+        String path = "https://image.tmdb.org/t/p/w200/";
+        MOVIES_POSTER_URL = movies.get(position).getPosterPath();
+        String imageurl = path.concat(MOVIES_POSTER_URL);
+        holder.moviedate.setText(movies.get(position).getReleaseDate());
+        Picasso.with(context)
+                .load(imageurl)
+                .into(holder.movieimage);
+
 
 
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +72,7 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
 
     @Override
     public int getItemCount() {
-        return img.length;
+        return movies.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
@@ -64,6 +80,8 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         ImageView movieimage;
         @BindView(R.id.movie_name)
         TextView moviename;
+        @BindView(R.id.movie_date)
+        TextView moviedate;
         public MyHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

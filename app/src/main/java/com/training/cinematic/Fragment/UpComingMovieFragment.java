@@ -120,12 +120,12 @@ public class UpComingMovieFragment extends Fragment {
                 pathToStore = convertStreamToString(in);
                 // getting file length
                 int lenghtOfFile = conection.getContentLength();
-                Log.d("API RESPONSE", "response of apiUrl ------------------> " + pathToStore);
+            //    Log.d("API RESPONSE", "response of apiUrl ------------------> " + pathToStore);
 
                 movieResponse = new Gson().fromJson(pathToStore, MovieModel.class);
-                Log.d("API RESPONSE", "movieResponse size ------------------> " + movieResponse.getResults().size());
+              /*  Log.d("API RESPONSE", "movieResponse size ------------------> " + movieResponse.getResults().size());
                 Log.e("DATES", "Dates------------->" + movieResponse.getDates().toString());
-
+*/
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
