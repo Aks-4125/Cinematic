@@ -38,7 +38,7 @@ import butterknife.Unbinder;
 public class UpComingMovieFragment extends Fragment {
     private static final String TAG = "upcoming movie fragment";
     UpComingMovieAdapter upComingMovieAdapter;
-<<<<<<< Updated upstream
+
    /* String PERSON_KEY;
     int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
 =======
@@ -130,7 +130,6 @@ public class UpComingMovieFragment extends Fragment {
                 movieResponse = new Gson().fromJson(pathToStore, MovieModel.class);
                 Log.d("API RESPONSE", "movieResponse size ------------------> " + movieResponse.getResults().size());
                 Log.e("DATES", "Dates------------->" + movieResponse.getDates().toString());
-
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
