@@ -37,7 +37,7 @@ import butterknife.Unbinder;
  */
 public class UpComingMovieFragment extends Fragment {
     private static final String TAG = "upcoming movie fragment";
-    UpComingMovieAdapter movieadapter;
+    UpComingMovieAdapter upComingMovieAdapter;
     String PERSON_KEY;
     int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
     String data1[];
@@ -151,8 +151,8 @@ public class UpComingMovieFragment extends Fragment {
                 Log.d("API RESPONSE", "data form gson is " + moviename);
 
             }*/
-            movieadapter = new UpComingMovieAdapter(getActivity(), movieResponse.getResults());
-            mRecyclerView.setAdapter(movieadapter);
+            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), movieResponse.getResults());
+            mRecyclerView.setAdapter(upComingMovieAdapter);
 
         }
 

@@ -16,12 +16,12 @@ import java.util.ArrayList;
  * Created by dhruvisha on 5/28/2018.
  */
 
-public class Slider_adapter extends PagerAdapter {
+public class SliderAdapter extends PagerAdapter {
     private ArrayList<Integer> images;
     private LayoutInflater inflater;
     private Context context;
 
-    public Slider_adapter(Context context, ArrayList<Integer> images) {
+    public SliderAdapter(Context context, ArrayList<Integer> images) {
         this.context = context;
         this.images = images;
         inflater = LayoutInflater.from(context);

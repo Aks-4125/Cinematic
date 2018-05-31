@@ -42,7 +42,7 @@
             android:theme="@style/AppTheme2" android:parentActivityName=".activity.MainActivity" android:label="Movie">
 
         </activity>
-        <activity android:name=".activity.sliderActivity">
+        <activity android:name=".activity.SliderActivity">
 
         </activity>
     </application>

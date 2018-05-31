@@ -10,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
-import com.training.cinematic.Adapter.Slider_adapter;
+import com.training.cinematic.Adapter.SliderAdapter;
 import com.training.cinematic.Model.MovieModel;
 import com.training.cinematic.R;
 
@@ -59,7 +59,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         for (int i = 0; i < abc.length; i++)
             array.add(abc[i]);
         MovieModel move=new MovieModel();
-        viewPager.setAdapter(new Slider_adapter(MovieDetailActivity.this, array));
+        viewPager.setAdapter(new SliderAdapter(MovieDetailActivity.this, array));
         indicator.setViewPager(viewPager);
 
         final Handler handeer = new Handler();

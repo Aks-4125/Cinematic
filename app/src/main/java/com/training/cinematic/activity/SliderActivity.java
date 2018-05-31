@@ -5,18 +5,16 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.training.cinematic.Adapter.Slider_adapter;
+import com.training.cinematic.Adapter.SliderAdapter;
 import com.training.cinematic.R;
 
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.relex.circleindicator.CircleIndicator;
 
-public class sliderActivity extends AppCompatActivity {
+public class SliderActivity extends AppCompatActivity {
   private static  ViewPager viewPager;
 
     private static int currentpage = 0;
@@ -35,7 +33,7 @@ public class sliderActivity extends AppCompatActivity {
             array.add(abc[i]);
             viewPager=(ViewPager)findViewById(R.id.viewpager1);
             CircleIndicator indicator=(CircleIndicator)findViewById(R.id.circleindicator);
-            viewPager.setAdapter(new Slider_adapter(sliderActivity.this, array));
+            viewPager.setAdapter(new SliderAdapter(SliderActivity.this, array));
             indicator.setViewPager(viewPager);
 
             final Handler handeer = new Handler();
