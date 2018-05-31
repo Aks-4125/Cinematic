@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.training.cinematic.Adapter.PopularMoviesAdapter;
 import com.training.cinematic.ApiKeyInterface;
@@ -39,10 +38,10 @@ public class PopularMoviesFragment extends Fragment {
     PopularMoviesAdapter popularMovieAdapter;
     @BindView(R.id.recyclerview1)
     RecyclerView mRecyclerView;
-    private MovieModel movieresponce;
+   /* private MovieModel movieresponce;
     int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
-    String moviename[];
-    private static final String API_KEY="fec13c5a0623fefac5055a3f7b823553";
+    String moviename[];*/
+    private static int API_KEY=R.string.apikey;
 
     public PopularMoviesFragment() {
 
@@ -55,7 +54,7 @@ public class PopularMoviesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_popularmovies, container, false);
-        moviename = getResources().getStringArray(R.array.mname);
+      //  moviename = getResources().getStringArray(R.array.mname);
 
         unbinder = ButterKnife.bind(this, view);
 
@@ -68,13 +67,8 @@ public class PopularMoviesFragment extends Fragment {
 
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        if (API_KEY.isEmpty())
-        {
-            Toast.makeText(getContext(), "please get your api key", Toast.LENGTH_SHORT).show();
-            return;
-        }
         ApiKeyInterface apiKeyInterface = PopularMoviesRetorfit.getdata().create(ApiKeyInterface.class);
-        Call<MovieModel> call=apiKeyInterface.getMovielist(API_KEY);
+        Call<MovieModel> call=apiKeyInterface.getMovielist(getString(API_KEY));
         call.enqueue(new Callback<MovieModel>() {
             @Override
             public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
