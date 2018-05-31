@@ -25,42 +25,61 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  */
 public class PopularMoviesFragment extends Fragment {
-    private static  final String TAG="upcoming movie fragment";
+    private static final String TAG = "upcoming movie fragment";
     Unbinder unbinder;
-    PopularMoviesAdapter movieadapter;
-@BindView(R.id.recyclerview1)
+    PopularMoviesAdapter popularMovieAdapter;
+    @BindView(R.id.recyclerview1)
     RecyclerView mRecyclerView;
-private MovieModel movieresponce;
-    int movieimage[]={R.drawable.cardb,R.drawable.blur,R.drawable.pin,R.drawable.newback,R.drawable.blackba};
+    private MovieModel movieresponce;
+    int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
     String moviename[];
+
     public PopularMoviesFragment() {
 
 
-
     }
-
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_popularmovies, container, false);
-        moviename =getResources().getStringArray(R.array.mname);
+        View view = inflater.inflate(R.layout.fragment_popularmovies, container, false);
+        moviename = getResources().getStringArray(R.array.mname);
 
         unbinder = ButterKnife.bind(this, view);
 
         return view;
     }
-    public void onActivityCreated(@Nullable Bundle saveInstance) {
 
-        super.onActivityCreated(saveInstance);
+    public void onActivityCreated(@Nullable Bundle saveInstance) {
         super.onActivityCreated(saveInstance);
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-       movieadapter=new PopularMoviesAdapter(getActivity(), movieimage, moviename);
-        mRecyclerView.setAdapter(movieadapter);
+
+      /*  ApiKeyInterface apiService =
+                PopularMoviesRetorfil.getdata().create(ApiKeyInterface.class);
+
+        Call<MovieModel> call = apiService.getMovielist(KEY_POPULAR);
+        call.enqueue(new Callback<MovieModel>() {
+            @Override
+            public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
+                int statusCode = response.code();
+              *//*  List<MovieModel> movies=response.body(statusCode);
+                popularMovieAdapter=new PopularMoviesAdapter(getActivity(), movieresponce.getResults());*//*
+              *//*  List<Movie> movies = response.body().getResults();
+                mRecyclerView.setAdapter(new PopularMoviesAdapter(movies, R.layout.movie_item, getApplicationContext()));*//*
+            }
+
+            @Override
+            public void onFailure(Call<MovieModel> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+
+        });
+*/
+        popularMovieAdapter = new PopularMoviesAdapter(getActivity(), movieimage, moviename);
+        mRecyclerView.setAdapter(popularMovieAdapter);
     }
 
     @Override

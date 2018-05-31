@@ -28,7 +28,7 @@ import butterknife.ButterKnife;
 
 public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdapter.MyHolder> {
     Context context;
-      private static String MOVIES_POSTER_URL;
+    private static String MOVIES_POSTER_URL;
 
 
     List<MovieModel.Result> movieResponse;
@@ -60,20 +60,20 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         holder.moviename.setText(movie.getTitle());
         holder.moviedate.setText(movie.getReleaseDate());
         //    holder.movieimage.setImageResource(movie.getPosterPath("https://image.tmdb.org/t/p/w200"));
-      //  movie.setPosterPath("https://image.tmdb.org/t/p/w200");
+        //  movie.setPosterPath("https://image.tmdb.org/t/p/w200");
 
-        String path="https://image.tmdb.org/t/p/w200/";
-         MOVIES_POSTER_URL=movie.getPosterPath();
-        String imageurl=path.concat(MOVIES_POSTER_URL);
+        String path = "https://image.tmdb.org/t/p/w200/";
+        MOVIES_POSTER_URL = movie.getPosterPath();
+        String imageurl = path.concat(MOVIES_POSTER_URL);
 
-        Log.d("image path",imageurl);
+        Log.d("image path", imageurl);
         Picasso.with(context)
                 .load(imageurl)
                 .into(holder.movieimage);
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class));
+                context.startActivity(new Intent(context, MovieDetailActivity.class));
 
             }
         });

@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
@@ -48,7 +47,6 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "image", Toast.LENGTH_SHORT).show();
                 view.getContext().startActivity(new Intent(context,MovieDetailActivity.class));
 
             }

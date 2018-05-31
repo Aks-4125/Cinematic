@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
@@ -25,30 +24,31 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
     Context context;
     int[] img;
     String[] data;
+
     public PopularTvAdapter(Context context, int[] img, String[] data) {
         this.context = context;
         this.img = img;
         this.data = data;
     }
+
     @NonNull
     @Override
     public PopularTvAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(context);
-        View myview=inflater.inflate(R.layout.movie_item,parent,false);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View myview = inflater.inflate(R.layout.movie_item, parent, false);
         return new PopularTvAdapter.MyHolder(myview);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PopularTvAdapter.MyHolder holder, int position) {
         holder.movieimage.setImageResource(img[position]);
-       // holder.moviename.setText(data[position]);
+        // holder.moviename.setText(data[position]);
 
 
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "image", Toast.LENGTH_SHORT).show();
-                view.getContext().startActivity(new Intent(context,MovieDetailActivity.class));
+                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class));
 
             }
         });
@@ -64,6 +64,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         ImageView movieimage;
         @BindView(R.id.movie_name)
         TextView moviename;
+
         public MyHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

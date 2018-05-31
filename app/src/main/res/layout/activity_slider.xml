@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
 
-    tools:context="com.training.cinematic.activity.sliderActivity">
+    tools:context="com.training.cinematic.activity.SliderActivity">
 
     <RelativeLayout
         android:background="#000"

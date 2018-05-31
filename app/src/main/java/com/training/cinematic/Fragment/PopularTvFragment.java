@@ -26,7 +26,7 @@ import butterknife.Unbinder;
 public class PopularTvFragment extends Fragment {
 
     private static final String TAG = "upcoming movie fragment";
-    PopularTvAdapter movieadapter;
+    PopularTvAdapter tvAdapter;
     @BindView(R.id.recyclerview2)
     RecyclerView mRecyclerView;
     int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
@@ -56,10 +56,11 @@ public class PopularTvFragment extends Fragment {
         super.onActivityCreated(saveInstance);
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        movieadapter = new PopularTvAdapter(getActivity(), movieimage, moviename);
+        tvAdapter = new PopularTvAdapter(getActivity(), movieimage, moviename);
 
-        mRecyclerView.setAdapter(movieadapter);
+        mRecyclerView.setAdapter(tvAdapter);
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
