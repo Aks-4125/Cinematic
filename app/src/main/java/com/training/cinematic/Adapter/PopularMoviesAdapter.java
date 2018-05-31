@@ -49,18 +49,18 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.moviename.setText(movies.get(position).getTitle());
+        holder.movieName.setText(movies.get(position).getTitle());
         String path = "https://image.tmdb.org/t/p/w200/";
         MOVIES_POSTER_URL = movies.get(position).getPosterPath();
         String imageurl = path.concat(MOVIES_POSTER_URL);
-        holder.moviedate.setText(movies.get(position).getReleaseDate());
+        holder.movieDate.setText(movies.get(position).getReleaseDate());
         Picasso.with(context)
                 .load(imageurl)
-                .into(holder.movieimage);
+                .into(holder.movieImage);
 
 
 
-        holder.movieimage.setOnClickListener(new View.OnClickListener() {
+        holder.movieImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.getContext().startActivity(new Intent(context,MovieDetailActivity.class));
@@ -77,11 +77,11 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
 
     public class MyHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.movie_img)
-        ImageView movieimage;
+        ImageView movieImage;
         @BindView(R.id.movie_name)
-        TextView moviename;
+        TextView movieName;
         @BindView(R.id.movie_date)
-        TextView moviedate;
+        TextView movieDate;
         public MyHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

@@ -50,8 +50,8 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        /*holder.movieimage.setImageResource(img[position]);
-        holder.moviename.setText(data[position]);
+        /*holder.movieImage.setImageResource(img[position]);
+        holder.movieName.setText(data[position]);
 
 
 
@@ -59,7 +59,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         MovieModel.Result movie = movieResponse.get(position);
         holder.moviename.setText(movie.getTitle());
         holder.moviedate.setText(movie.getReleaseDate());
-        //    holder.movieimage.setImageResource(movie.getPosterPath("https://image.tmdb.org/t/p/w200"));
+        //    holder.movieImage.setImageResource(movie.getPosterPath("https://image.tmdb.org/t/p/w200"));
         //  movie.setPosterPath("https://image.tmdb.org/t/p/w200");
 
         String path = "https://image.tmdb.org/t/p/w200/";
