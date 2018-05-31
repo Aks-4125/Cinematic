@@ -34,7 +34,7 @@ import retrofit2.Response;
  */
 public class PopularTvFragment extends Fragment {
 
-    private static final String TAG = "upcoming movie fragment";
+    private static final String TAG = "upcoming Movie fragment";
     PopularTvAdapter tvAdapter;
     @BindView(R.id.recyclerview2)
     RecyclerView mRecyclerView;
