@@ -45,7 +45,6 @@ public class PopularTvFragment extends Fragment {
 
     public PopularTvFragment() {
 
-
     }
 
 
