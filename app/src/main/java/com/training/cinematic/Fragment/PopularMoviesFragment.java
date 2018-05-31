@@ -6,19 +6,28 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.training.cinematic.Adapter.PopularMoviesAdapter;
+import com.training.cinematic.ApiKeyInterface;
 import com.training.cinematic.Model.MovieModel;
+import com.training.cinematic.PopularMoviesRetorfit;
 import com.training.cinematic.R;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -33,6 +42,7 @@ public class PopularMoviesFragment extends Fragment {
     private MovieModel movieresponce;
     int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
     String moviename[];
+    private static final String API_KEY="fec13c5a0623fefac5055a3f7b823553";
 
     public PopularMoviesFragment() {
 
@@ -54,34 +64,33 @@ public class PopularMoviesFragment extends Fragment {
 
     public void onActivityCreated(@Nullable Bundle saveInstance) {
         super.onActivityCreated(saveInstance);
+
+
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-
-      /*  ApiKeyInterface apiService =
-                PopularMoviesRetorfil.getdata().create(ApiKeyInterface.class);
-
-        Call<MovieModel> call = apiService.getMovielist(KEY_POPULAR);
+        if (API_KEY.isEmpty())
+        {
+            Toast.makeText(getContext(), "please get your api key", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        ApiKeyInterface apiKeyInterface = PopularMoviesRetorfit.getdata().create(ApiKeyInterface.class);
+        Call<MovieModel> call=apiKeyInterface.getMovielist(API_KEY);
         call.enqueue(new Callback<MovieModel>() {
             @Override
             public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
-                int statusCode = response.code();
-              *//*  List<MovieModel> movies=response.body(statusCode);
-                popularMovieAdapter=new PopularMoviesAdapter(getActivity(), movieresponce.getResults());*//*
-              *//*  List<Movie> movies = response.body().getResults();
-                mRecyclerView.setAdapter(new PopularMoviesAdapter(movies, R.layout.movie_item, getApplicationContext()));*//*
+                List<MovieModel.Result> movies=response.body().getResults();
+                Log.d("popular movies","popular movies size"+movies.size());
+                mRecyclerView.setAdapter(new PopularMoviesAdapter(movies,R.layout.movie_item,getActivity()));
             }
 
             @Override
             public void onFailure(Call<MovieModel> call, Throwable t) {
                 Log.e(TAG, t.toString());
             }
-
         });
-*/
-        popularMovieAdapter = new PopularMoviesAdapter(getActivity(), movieimage, moviename);
         mRecyclerView.setAdapter(popularMovieAdapter);
-    }
 
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
