@@ -33,7 +33,7 @@ import retrofit2.Response;
  * A simple {@link Fragment} subclass.
  */
 public class PopularMoviesFragment extends Fragment {
-    private static final String TAG = "upcoming movie fragment";
+    private static final String TAG = "upcoming Movie fragment";
     Unbinder unbinder;
     PopularMoviesAdapter popularMovieAdapter;
     @BindView(R.id.recyclerview1)

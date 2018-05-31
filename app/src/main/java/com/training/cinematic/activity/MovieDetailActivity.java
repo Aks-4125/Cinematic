@@ -50,7 +50,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
         collapsingToolbarLayout.setTitle("Movie");
-        new GetJSONFromURL("https://api.themoviedb.org/3/movie/351286/images?api_key=fec13c5a0623fefac505 5a3f7b823553 ").execute();
+        new GetJSONFromURL("https://api.themoviedb.org/3/Movie/351286/images?api_key=fec13c5a0623fefac505 5a3f7b823553 ").execute();
         GetJSONFromURL data=new GetJSONFromURL();
         data.execute();
         init();
@@ -126,7 +126,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                 pathToStore = convertStreamToString(in);
                 // getting file length
                 int lenghtOfFile = conection.getContentLength();
-                Log.d("API RESPONSE", "response detail movie ------------------> " + pathToStore);
+                Log.d("API RESPONSE", "response detail Movie ------------------> " + pathToStore);
 
                /* MovieModel movieResponse = new Gson().fromJson(pathToStore, MovieModel.class);
                 Log.d("API RESPONSE", "movieResponse size ------------------> " + movieResponse.getResults().size());
