@@ -49,20 +49,20 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
 
     @Override
     public void onBindViewHolder(@NonNull PopularTvAdapter.MyHolder holder, int position) {
-     //   holder.movieimage.setImageResource(img[position]);
-        // holder.moviename.setText(data[position]);
-        holder.moviename.setText(popularTv.get(position).getName());
+     //   holder.movieImage.setImageResource(img[position]);
+        // holder.movieName.setText(data[position]);
+        holder.tvName.setText(popularTv.get(position).getName());
         Log.d("TV","POPULATTV NAMES"+popularTv.size());
-        holder.moviedate.setText(popularTv.get(position).getFirstAirDate());
+        holder.tvDate.setText(popularTv.get(position).getFirstAirDate());
         String path = "https://image.tmdb.org/t/p/w200/";
         TV_POSTAR_URL=popularTv.get(position).getPosterPath();
         String imageUrl=path.concat(TV_POSTAR_URL);
         Picasso.with(context)
                 .load(imageUrl)
-                .into(holder.movieimage);
+                .into(holder.tvImage);
 
 
-        holder.movieimage.setOnClickListener(new View.OnClickListener() {
+        holder.tvImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 view.getContext().startActivity(new Intent(context, MovieDetailActivity.class));
@@ -78,11 +78,11 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
 
     public class MyHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.movie_img)
-        ImageView movieimage;
+        ImageView tvImage;
         @BindView(R.id.movie_name)
-        TextView moviename;
+        TextView tvName;
         @BindView(R.id.movie_date)
-        TextView moviedate;
+        TextView tvDate;
 
         public MyHolder(View itemView) {
             super(itemView);
