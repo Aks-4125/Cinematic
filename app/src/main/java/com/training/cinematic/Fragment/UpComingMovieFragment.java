@@ -38,9 +38,9 @@ import butterknife.Unbinder;
 public class UpComingMovieFragment extends Fragment {
     private static final String TAG = "upcoming movie fragment";
     UpComingMovieAdapter upComingMovieAdapter;
-    String PERSON_KEY;
+   /* String PERSON_KEY;
     int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
-    String data1[];
+    String data1[];*/
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     Unbinder unbinder;
@@ -57,7 +57,7 @@ public class UpComingMovieFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_upcomingmovie, container, false);
-        data1 = getResources().getStringArray(R.array.mname);
+     //   data1 = getResources().getStringArray(R.array.mname);
         unbinder = ButterKnife.bind(this, view);
     /*    MovieModel movieModel = new MovieModel();
         List<MovieModel.Result> results = new ArrayList<MovieModel.Result>();

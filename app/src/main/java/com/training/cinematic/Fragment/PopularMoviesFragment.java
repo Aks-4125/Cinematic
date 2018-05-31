@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.training.cinematic.Adapter.PopularMoviesAdapter;
-import com.training.cinematic.ApiKeyInterface;
+import com.training.cinematic.ApiKeyForMovieInterface;
 import com.training.cinematic.Model.MovieModel;
 import com.training.cinematic.PopularMoviesRetorfit;
 import com.training.cinematic.R;
@@ -41,7 +41,7 @@ public class PopularMoviesFragment extends Fragment {
    /* private MovieModel movieresponce;
     int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
     String moviename[];*/
-    private static int API_KEY=R.string.apikey;
+    private static int API_KEY=R.string.apikeyformovie;
 
     public PopularMoviesFragment() {
 
@@ -67,8 +67,8 @@ public class PopularMoviesFragment extends Fragment {
 
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        ApiKeyInterface apiKeyInterface = PopularMoviesRetorfit.getdata().create(ApiKeyInterface.class);
-        Call<MovieModel> call=apiKeyInterface.getMovielist(getString(API_KEY));
+        ApiKeyForMovieInterface apiKeyForMovieInterface = PopularMoviesRetorfit.getPopularMovies().create(ApiKeyForMovieInterface.class);
+        Call<MovieModel> call= apiKeyForMovieInterface.getMovielist(getString(API_KEY));
         call.enqueue(new Callback<MovieModel>() {
             @Override
             public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {

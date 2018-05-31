@@ -11,7 +11,7 @@ import retrofit2.http.Query;
  * Created by dhruvisha on 5/31/2018.
  */
 
-public interface ApiKeyInterface {
+public interface ApiKeyForMovieInterface {
     @GET("movie/popular")
     Call<MovieModel> getMovielist(@Query("api_key") String api_key);
 

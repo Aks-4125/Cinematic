@@ -4,14 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+import com.training.cinematic.Model.TvModel;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,13 +27,16 @@ import butterknife.ButterKnife;
 
 public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHolder> {
     Context context;
-    int[] img;
-    String[] data;
+    int layout;
+    List<TvModel.Result>popularTv;
+    String TV_POSTAR_URL;
+    /*int[] img;
+    String[] data;*/
 
-    public PopularTvAdapter(Context context, int[] img, String[] data) {
+    public PopularTvAdapter(Context context, int layout, List<TvModel.Result> popularTv) {
         this.context = context;
-        this.img = img;
-        this.data = data;
+        this.layout = layout;
+        this.popularTv = popularTv;
     }
 
     @NonNull
@@ -41,8 +49,17 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
 
     @Override
     public void onBindViewHolder(@NonNull PopularTvAdapter.MyHolder holder, int position) {
-        holder.movieimage.setImageResource(img[position]);
+     //   holder.movieimage.setImageResource(img[position]);
         // holder.moviename.setText(data[position]);
+        holder.moviename.setText(popularTv.get(position).getName());
+        Log.d("TV","POPULATTV NAMES"+popularTv.size());
+        holder.moviedate.setText(popularTv.get(position).getFirstAirDate());
+        String path = "https://image.tmdb.org/t/p/w200/";
+        TV_POSTAR_URL=popularTv.get(position).getPosterPath();
+        String imageUrl=path.concat(TV_POSTAR_URL);
+        Picasso.with(context)
+                .load(imageUrl)
+                .into(holder.movieimage);
 
 
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +73,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
 
     @Override
     public int getItemCount() {
-        return img.length;
+        return popularTv.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
@@ -64,6 +81,8 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         ImageView movieimage;
         @BindView(R.id.movie_name)
         TextView moviename;
+        @BindView(R.id.movie_date)
+        TextView moviedate;
 
         public MyHolder(View itemView) {
             super(itemView);
