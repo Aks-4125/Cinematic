@@ -63,16 +63,16 @@ public class GetJSONFromURL extends AsyncTask<String, String, String> {
             pathToStore = convertStreamToString(in);
             // getting file length
             int lenghtOfFile = conection.getContentLength();
-         //   Log.d("API RESPONSE", "response of apiUrl ------------------> " + pathToStore);
+            Log.d("API RESPONSE", "response of apiUrl ------------------> " + pathToStore);
 
             MovieModel movieResponse = new Gson().fromJson(pathToStore, MovieModel.class);
-          //  Log.d("API RESPONSE", "movieResponse size ------------------> " + movieResponse.getResults().size());
+           Log.d("API RESPONSE", "movieResponse size ------------------> " + movieResponse.getResults().size());
             SharedPreferences mypref=context.getSharedPreferences(FILE,0);
             SharedPreferences.Editor editor=mypref.edit();
             Gson gson=new Gson();
             String json=gson.toJson(movieResponse);
             editor.putString(DETAILS,json).apply();
-         //   Log.e("data",DETAILS);
+           Log.e("data",DETAILS);
             Bundle bundle = new Bundle();
             bundle.putString("PERSON_KEY", movieResponse.getResults().toString());
            // bundle.putInt("YEAR_KEY", Integer.valueOf(launchYearSpinner.getSelectedItem().toString()));

@@ -30,9 +30,9 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
     int rowlayout;
     Context context;
     String MOVIES_POSTER_URL;
-    int[] img;
+   /* int[] img;
     String[] data;
-
+*/
     public PopularMoviesAdapter(List<MovieModel.Result> movies, int rowlayout, Context context) {
         this.movies = movies;
         this.rowlayout = rowlayout;
