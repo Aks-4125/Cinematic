@@ -46,10 +46,10 @@ import butterknife.Unbinder;
 public class UpComingMovieFragment extends Fragment {
     private static final String TAG = UpComingMovieFragment.class.getName();
     UpComingMovieAdapter upComingMovieAdapter;
-    @BindView(R.id.swipeRefreshLayoutupmovie)
+    @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
     List<MovieModel.Result> resultSet = new ArrayList<>();
-    @BindView(R.id.pbHeaderProgress)
+    @BindView(R.id.HeaderProgress)
     ProgressBar circleProgressbar;
     /* String PERSON_KEY;
      int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
@@ -73,7 +73,7 @@ public class UpComingMovieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_upcomingmovie, container, false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         //  data1 = getResources().getStringArray(R.array.mname);
         unbinder = ButterKnife.bind(this, view);
 
@@ -127,7 +127,7 @@ public class UpComingMovieFragment extends Fragment {
 
                     }
 
-                }, 2000);
+                }, 1000);
 
 
             }
@@ -174,10 +174,9 @@ public class UpComingMovieFragment extends Fragment {
             super.onPreExecute();
             circleProgressbar.setVisibility(View.VISIBLE);
 
-            if (resultSet==null){
+            if (resultSet == null) {
                 swipeRefreshLayout.setRefreshing(true);
-            }
-            else {
+            } else {
                 swipeRefreshLayout.setRefreshing(false);
             }
             // do is success false
@@ -237,13 +236,13 @@ public class UpComingMovieFragment extends Fragment {
             }*/
 
             resultSet.clear();
-         //   onRefreshComplete(resultSet);
+            //   onRefreshComplete(resultSet);
             resultSet.addAll(movieResponse.getResults());
             upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet);
             mRecyclerView.setAdapter(upComingMovieAdapter);
             mRecyclerView.clearAnimation();
-               swipeRefreshLayout.setRefreshing(false);
-               circleProgressbar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+            circleProgressbar.setVisibility(View.GONE);
 
 
         }
