@@ -42,16 +42,16 @@ public class PopularTvFragment extends Fragment {
 
     private static final String TAG = "upcoming Movie fragment";
     PopularTvAdapter tvAdapter;
-    @BindView(R.id.recyclerview2)
+    @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
-    @BindView(R.id.swipeRefreshLayoutTv)
+    @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.HeaderProgresstv)
+    @BindView(R.id.HeaderProgress)
     ProgressBar circleProgressbarTv;
-  /*  int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
-    String moviename[];*/
+    /*  int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
+      String moviename[];*/
     Unbinder unbinder;
-    private static int API_KEY=R.string.apikeyfortv;
+    private static int API_KEY = R.string.apikeyfortv;
 
     public PopularTvFragment() {
 
@@ -62,11 +62,24 @@ public class PopularTvFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_populartv, container, false);
-      //  moviename = getResources().getStringArray(R.array.mname);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        //  moviename = getResources().getStringArray(R.array.mname);
         unbinder = ButterKnife.bind(this, view);
         circleProgressbarTv.setVisibility(View.VISIBLE);
 
+        return view;
+    }
+
+    private void startRefresh() {
+
+        retrofitData();
+
+    }
+
+
+    public void onActivityCreated(@Nullable Bundle saveInstance) {
+
+        super.onActivityCreated(saveInstance);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -84,53 +97,43 @@ public class PopularTvFragment extends Fragment {
 
                     }
 
-                }, 2000);
+                }, 1000);
 
 
             }
 
         });
 
-
-        return view;
-    }
-    private void startRefresh() {
-        retrofitData();
-
-    }
-
-    public void onActivityCreated(@Nullable Bundle saveInstance) {
-
-        super.onActivityCreated(saveInstance);
-
         retrofitData();
 
 
     }
-    public void retrofitData(){
+
+    public void retrofitData() {
 
 
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        ApiKeyForTvInterface apiKeyForTvInterface= PopularTvRetrofit.getPopularTv().create(ApiKeyForTvInterface.class);
-        Call<TvModel> call=apiKeyForTvInterface.getTvList(getString(API_KEY));
+        ApiKeyForTvInterface apiKeyForTvInterface = PopularTvRetrofit.getPopularTv().create(ApiKeyForTvInterface.class);
+        Call<TvModel> call = apiKeyForTvInterface.getTvList(getString(API_KEY));
 
         call.enqueue(new Callback<TvModel>() {
             @Override
             public void onResponse(Call<TvModel> call, Response<TvModel> response) {
-                List<TvModel.Result> popularTv=response.body().getResults();
+                List<TvModel.Result> popularTv = response.body().getResults();
                 if (popularTv == null) {
                     circleProgressbarTv.setVisibility(View.VISIBLE);
-                }
-                else {
-                    Log.d("TAG","Popular Tv list--->"+popularTv.size());
-                    mRecyclerView.setAdapter(new PopularTvAdapter(getActivity(),R.layout.movie_item,popularTv));
-                    mRecyclerView.clearAnimation();
-                    swipeRefreshLayout.setRefreshing(false);
-                    circleProgressbarTv.setVisibility(View.GONE);
+                } else {
+                    Log.d("TAG", "Popular Tv list--->" + popularTv.size());
+                    if (mRecyclerView != null && swipeRefreshLayout != null && circleProgressbarTv != null) {
+                        mRecyclerView.setAdapter(new PopularTvAdapter(getActivity(), R.layout.movie_item, popularTv));
+                        mRecyclerView.clearAnimation();
+                        swipeRefreshLayout.setRefreshing(false);
+                        circleProgressbarTv.setVisibility(View.GONE);
+                    }
+
 
                 }
-
 
 
             }
