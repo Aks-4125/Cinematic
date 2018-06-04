@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/</item>
+        <item>@font/amarante</item>
+        <item>@font/belgrano</item>
+        <item>@font/berkshire_swash</item>
+        <item>@font/cagliostro</item>
+        <item>@font/cambo</item>
+        <item>@font/creepster</item>
+        <item>@font/crimson_text</item>
+        <item>@font/david_libre</item>
+        <item>@font/quantico</item>
+        <item>@font/radley</item>
+    </array>
+</resources>

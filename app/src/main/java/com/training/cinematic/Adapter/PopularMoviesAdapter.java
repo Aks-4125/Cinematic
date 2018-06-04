@@ -15,7 +15,11 @@ import com.training.cinematic.Model.MovieModel;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,13 +30,14 @@ import butterknife.ButterKnife;
 
 public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.MyHolder> {
 
-    List<MovieModel.Result>movies;
+    List<MovieModel.Result> movies;
     int rowlayout;
     Context context;
     String MOVIES_POSTER_URL;
-   /* int[] img;
-    String[] data;
-*/
+
+    /* int[] img;
+     String[] data;
+ */
     public PopularMoviesAdapter(List<MovieModel.Result> movies, int rowlayout, Context context) {
         this.movies = movies;
         this.rowlayout = rowlayout;
@@ -42,8 +47,8 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
     @NonNull
     @Override
     public PopularMoviesAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater=LayoutInflater.from(context);
-        View myview=inflater.inflate(R.layout.movie_item,parent,false);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View myview = inflater.inflate(R.layout.movie_item, parent, false);
         return new PopularMoviesAdapter.MyHolder(myview);
     }
 
@@ -53,17 +58,34 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         String path = "https://image.tmdb.org/t/p/w200/";
         MOVIES_POSTER_URL = movies.get(position).getPosterPath();
         String imageurl = path.concat(MOVIES_POSTER_URL);
-        holder.movieDate.setText(movies.get(position).getReleaseDate());
+
+        String movieDate = movies.get(position).getReleaseDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date;
+        String convertedDate = "";
+        try {
+            date = dateFormat.parse(movieDate);
+            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        holder.movieDate.setText(convertedDate);
+        holder.movieLanguage.setText("Language:"+movies.get(position).getOriginalLanguage());
+    /*    Boolean isadult=movies.get(position).getAdult();
+        if (isadult==true)
+        {
+            holder.adult.setVisibility(View.VISIBLE);
+        }*/
+        //   holder.movieDate.setText(movies.get(position).getReleaseDate());
         Picasso.with(context)
                 .load(imageurl)
                 .into(holder.movieImage);
 
 
-
         holder.movieImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context,MovieDetailActivity.class));
+                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class));
 
             }
         });
@@ -82,9 +104,13 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         TextView movieName;
         @BindView(R.id.movie_date)
         TextView movieDate;
+        @BindView(R.id.txt_language)
+        TextView movieLanguage;
+
         public MyHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
 
         }
     }

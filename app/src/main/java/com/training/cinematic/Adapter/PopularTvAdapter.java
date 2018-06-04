@@ -16,7 +16,11 @@ import com.training.cinematic.Model.TvModel;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +57,22 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         // holder.movieName.setText(data[position]);
         holder.tvName.setText(popularTv.get(position).getName());
         Log.d("TV","POPULATTV NAMES"+popularTv.size());
-        holder.tvDate.setText(popularTv.get(position).getFirstAirDate());
+
+        String tvDatee=popularTv.get(position).getFirstAirDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date;
+        String convertedDate="";
+        try {
+            date=dateFormat.parse(tvDatee);
+            convertedDate=new SimpleDateFormat("MMM dd, yyyy",Locale.getDefault()).format(date);
+        }
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+        }
+        holder.tvDate.setText(convertedDate);
+        holder.language.setText("Language:"+popularTv.get(position).getOriginalLanguage());
+        //holder.tvDate.setText(popularTv.get(position).getFirstAirDate());
         String path = "https://image.tmdb.org/t/p/w200/";
         TV_POSTAR_URL=popularTv.get(position).getPosterPath();
         String imageUrl=path.concat(TV_POSTAR_URL);
@@ -83,6 +102,8 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         TextView tvName;
         @BindView(R.id.movie_date)
         TextView tvDate;
+        @BindView(R.id.txt_language)
+        TextView language;
 
         public MyHolder(View itemView) {
             super(itemView);

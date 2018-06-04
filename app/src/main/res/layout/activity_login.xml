@@ -9,7 +9,6 @@
     android:orientation="vertical"
     tools:context="com.training.cinematic.activity.LoginActivity">
 
-
     <android.support.v7.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="260dp"

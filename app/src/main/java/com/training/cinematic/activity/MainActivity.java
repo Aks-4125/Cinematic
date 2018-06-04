@@ -3,6 +3,9 @@ package com.training.cinematic.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -34,6 +37,9 @@ public class MainActivity extends AppCompatActivity  {
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
+    boolean doublePresstoExit=false;
+    @BindView(R.id.constrainlayout)
+    ConstraintLayout constraintLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +124,22 @@ public class MainActivity extends AppCompatActivity  {
 
         }
 
+    }
+    public void onBackPressed(){
+        if (doublePresstoExit){
+            super.onBackPressed();
+            return;
+        }
+
+        this.doublePresstoExit=true;
+    //    Toast.makeText(this, "Please Click Back again to Exit ", Toast.LENGTH_SHORT).show();
+        Snackbar.make(constraintLayout, "Please Click Back again to Exit", Snackbar.LENGTH_LONG).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doublePresstoExit=false;
+            }
+        },2000);
     }
 
 
