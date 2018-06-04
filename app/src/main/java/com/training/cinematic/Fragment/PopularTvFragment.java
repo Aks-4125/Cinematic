@@ -71,7 +71,7 @@ public class PopularTvFragment extends Fragment {
             @Override
             public void onResponse(Call<TvModel> call, Response<TvModel> response) {
                 List<TvModel.Result>popularTv=response.body().getResults();
-                Log.d("TAG","Popular Tv list--->"+popularTv.size());
+                Log.d("TAG","Popular Tv list-->"+popularTv.size());
                 mRecyclerView.setAdapter(new PopularTvAdapter(getActivity(),R.layout.movie_item,popularTv));
             }
 
