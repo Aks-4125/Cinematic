@@ -1,5 +1,7 @@
 package com.training.cinematic.activity;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.Snackbar;
@@ -9,6 +11,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.training.cinematic.Model.User;
@@ -42,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     String NAME = "name";
     String email1 = "email";
     String password1 = "password";
-
+     ProgressDialog progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +54,15 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Realm.init(this);
         realm = Realm.getDefaultInstance();
+        progressBar=new ProgressDialog(this);
+        progressBar.setMessage("Please wait...");
+        progressBar.setCancelable(false);
+        progressBar.setIndeterminate(true);
         SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
         if (sharedPreferences.getBoolean("logged", false)) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
+            finish();
         }
 
     }
@@ -68,21 +76,24 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.btn_login)
 
     public void OnViewClicked() {
+        progressBar.show();
         String email1 = email.getText().toString();
         String password1 = password.getText().toString();
         if (vaildate(email1, password1)) {
             try {
                 if (checkUserNew(email1, password1)) {
-
+                    progressBar.dismiss();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     Toast.makeText(this, "Login Succesfully", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                    progressBar.dismiss();
                 }
             } catch (RealmPrimaryKeyConstraintException e) {
                 e.printStackTrace();
                 Snackbar.make(findViewById(R.id.edt_password), "Wrong Password", Snackbar.LENGTH_LONG).show();
+                progressBar.dismiss();
 
             }
         }
@@ -91,9 +102,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onDestroy() {
-
         super.onDestroy();
         realm.close();
+        progressBar.dismiss();
     }
 
 
@@ -110,16 +121,20 @@ public class LoginActivity extends AppCompatActivity {
 
         if (email1.trim().equals("")) {
             Snackbar.make(findViewById(R.id.edt_email), "Email is required", Snackbar.LENGTH_LONG).show();
+            progressBar.dismiss();
             return false;
         } else if (!isEmailVaild(email1)) {
             Snackbar.make(findViewById(R.id.edt_email), "Invalid Email", Snackbar.LENGTH_LONG).show();
+            progressBar.dismiss();
             return false;
         }
         if (password1.trim().equals("")) {
             Snackbar.make(findViewById(R.id.edt_password), "Password is Required", Snackbar.LENGTH_LONG).show();
+            progressBar.dismiss();
             return false;
         } else if (!isPasswrodValid(password1)) {
             Snackbar.make(findViewById(R.id.edt_password), "Password must contain at least 8 characters", Snackbar.LENGTH_LONG).show();
+            progressBar.dismiss();
             return false;
         }
 
@@ -169,6 +184,7 @@ public class LoginActivity extends AppCompatActivity {
             Log.e(KEY_PWD, user.getPassword());
             editor.putString(KEY_EMAIL, email);
             editor.commit();
+            finish();
             return true;
         } else return false;
         //  return user != null;

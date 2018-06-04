@@ -16,7 +16,10 @@ import com.training.cinematic.Model.MovieModel;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -58,10 +61,27 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
       */
         MovieModel.Result movie = movieResponse.get(position);
         holder.moviename.setText(movie.getTitle());
-        holder.moviedate.setText(movie.getReleaseDate());
-        //    holder.movieImage.setImageResource(movie.getPosterPath("https://image.tmdb.org/t/p/w200"));
-        //  movie.setPosterPath("https://image.tmdb.org/t/p/w200");
 
+        String dateString = movie.getReleaseDate();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        Date date;
+        String convertedDate = "";
+        try {
+            date = dateFormat.parse(dateString);
+            convertedDate = new SimpleDateFormat("MMM dd, yyyy",Locale.getDefault()).format(date);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+	//	Log.d("date","converted dateee"+convertedDate.toString());
+        holder.moviedate.setText(convertedDate);
+       /* Boolean isAdult=movie.getAdult();
+        Log.d("adult","adulttttt"+isAdult);
+        if (isAdult==true){
+            holder.adult.setVisibility(View.VISIBLE);
+        }*/
+
+       holder.language.setText("Language:"+movie.getOriginalLanguage());
         String path = "https://image.tmdb.org/t/p/w200/";
         MOVIES_POSTER_URL = movie.getPosterPath();
         String imageurl = path.concat(MOVIES_POSTER_URL);
@@ -92,10 +112,13 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         ImageView movieimage;
         @BindView(R.id.movie_date)
         TextView moviedate;
+        @BindView(R.id.txt_language)
+        TextView language;
 
         public MyHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+
 
         }
 

@@ -3,8 +3,10 @@ package com.training.cinematic.Fragment;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +14,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.training.cinematic.Adapter.UpComingMovieAdapter;
@@ -26,6 +32,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,16 +44,20 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  */
 public class UpComingMovieFragment extends Fragment {
-    private static final String TAG = "upcoming movie fragment";
+    private static final String TAG = UpComingMovieFragment.class.getName();
     UpComingMovieAdapter upComingMovieAdapter;
-
-   /* String PERSON_KEY;
-    int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
-=======
- //   String PERSON_KEY;
-  /*  int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
->>>>>>> Stashed changes
-    String data1[];*/
+    @BindView(R.id.swipeRefreshLayoutupmovie)
+    SwipeRefreshLayout swipeRefreshLayout;
+    List<MovieModel.Result> resultSet = new ArrayList<>();
+    @BindView(R.id.pbHeaderProgress)
+    ProgressBar circleProgressbar;
+    /* String PERSON_KEY;
+     int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
+ =======
+  //   String PERSON_KEY;
+   /*  int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
+ >>>>>>> Stashed changes
+     String data1[];*/
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     Unbinder unbinder;
@@ -62,14 +74,32 @@ public class UpComingMovieFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_upcomingmovie, container, false);
-     //   data1 = getResources().getStringArray(R.array.mname);
+        //  data1 = getResources().getStringArray(R.array.mname);
         unbinder = ButterKnife.bind(this, view);
+
+        // new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
     /*    MovieModel movieModel = new MovieModel();
         List<MovieModel.Result> results = new ArrayList<MovieModel.Result>();
         GetJSONFromURL result = new GetJSONFromURL();*/
-
         return view;
     }
+
+    //method to add content to listview while refresh
+    private void startRefresh() {
+        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+    }
+
+    //this method executes after loading contents
+   /* private void onRefreshComplete(List resultSet) {
+        //clear the existing adapter
+     //   resultSet.clear();
+
+      //  resultSet.addAll(movieResponse.getResults());
+        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+
+        swipeRefreshLayout.setRefreshing(false);
+    }
+*/
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -78,14 +108,53 @@ public class UpComingMovieFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
 
         new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+     /*   upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet);
+        mRecyclerView.setAdapter(upComingMovieAdapter);*/
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        startRefresh();
+                        final Animation animation = new AlphaAnimation((float) 0.5, 0);
+                        animation.setDuration(100);
+                        animation.setInterpolator(new LinearInterpolator());
+                        animation.setRepeatCount(Animation.INFINITE);
+                        animation.setRepeatMode(Animation.REVERSE);
+                        mRecyclerView.startAnimation(animation);
+                        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
 
+                    }
+
+                }, 2000);
+
+
+            }
+
+        });
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+
         unbinder.unbind();
+        //  swipeRefreshLayout.setRefreshing(false);
+
     }
+
+   /* @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new  GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+
+            }
+        }, 2500);
+
+    }*/
 
 
     public class GetJSONFromURL extends AsyncTask<String, String, String> {
@@ -103,6 +172,14 @@ public class UpComingMovieFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            circleProgressbar.setVisibility(View.VISIBLE);
+
+            if (resultSet==null){
+                swipeRefreshLayout.setRefreshing(true);
+            }
+            else {
+                swipeRefreshLayout.setRefreshing(false);
+            }
             // do is success false
 
         }
@@ -110,8 +187,10 @@ public class UpComingMovieFragment extends Fragment {
         @Override
         protected String doInBackground(String... fileDownloads) {
             int count;
+            //   swipeRefreshLayout.setRefreshing(true);
             String pathToStore = "";
             try {
+
                 URL url = new URL(apiUrl);
                 //   Log.d(getTag(url), "apiUrl is:" + url);
                 URLConnection conection = url.openConnection();
@@ -126,17 +205,18 @@ public class UpComingMovieFragment extends Fragment {
                 // getting file length
                 int lenghtOfFile = conection.getContentLength();
                 Log.d("API RESPONSE", "response of apiUrl ------------------> " + pathToStore);
-
                 movieResponse = new Gson().fromJson(pathToStore, MovieModel.class);
                 Log.d("API RESPONSE", "movieResponse size ------------------> " + movieResponse.getResults().size());
                 Log.e("DATES", "Dates------------->" + movieResponse.getDates().toString());
+
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
 
             }
-
+            //       swipeRefreshLayout.setRefreshing(false);
             return pathToStore;
+
         }
 
         @Override
@@ -155,8 +235,16 @@ public class UpComingMovieFragment extends Fragment {
                 Log.d("API RESPONSE", "data form gson is " + moviename);
 
             }*/
-            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), movieResponse.getResults());
+
+            resultSet.clear();
+         //   onRefreshComplete(resultSet);
+            resultSet.addAll(movieResponse.getResults());
+            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet);
             mRecyclerView.setAdapter(upComingMovieAdapter);
+            mRecyclerView.clearAnimation();
+               swipeRefreshLayout.setRefreshing(false);
+               circleProgressbar.setVisibility(View.GONE);
+
 
         }
 
