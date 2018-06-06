@@ -42,6 +42,7 @@ public class SliderMovieImages {
     public void setPosters(List<Poster> posters) {
         this.posters = posters;
     }
+
     public class Poster {
 
         @SerializedName("aspect_ratio")
@@ -123,6 +124,7 @@ public class SliderMovieImages {
         }
 
     }
+
     public class Backdrop {
 
         @SerializedName("aspect_ratio")
