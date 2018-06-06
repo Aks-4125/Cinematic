@@ -70,7 +70,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         }
         Log.d("date", "converted dateee" + convertedDate.toString());
         holder.moviedate.setText(convertedDate);
-       /* Boolean isAdult=movie.getAdult();
+     /*   Boolean isAdult=movie.getAdult();
         Log.d("adult","adulttttt"+isAdult);
         if (isAdult==true){
             holder.adult.setVisibility(View.VISIBLE);
