@@ -43,9 +43,6 @@
             android:theme="@style/AppTheme2" android:parentActivityName=".activity.MainActivity" android:label="Movie">
 
         </activity>
-        <activity android:name=".activity.SliderActivity">
-
-        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

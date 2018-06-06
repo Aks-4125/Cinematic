@@ -69,7 +69,7 @@ public class MovieModel implements Serializable {
         private Integer voteCount;
         @SerializedName("id")
 
-        private Integer id;
+        private int id;
         @SerializedName("video")
 
         private Boolean video;
@@ -115,7 +115,7 @@ public class MovieModel implements Serializable {
             this.voteCount = voteCount;
         }
 
-        public Integer getId() {
+        public int getId() {
             return id;
         }
 

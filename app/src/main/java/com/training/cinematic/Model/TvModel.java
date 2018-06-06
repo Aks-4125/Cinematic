@@ -2,13 +2,14 @@ package com.training.cinematic.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by dhruvisha on 5/31/2018.
  */
 
-public class TvModel {
+public class TvModel implements Serializable {
     @SerializedName("page")
 
     private Integer page;

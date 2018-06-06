@@ -53,12 +53,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        /*holder.movieImage.setImageResource(img[position]);
-        holder.movieName.setText(data[position]);
 
-
-
-      */
         MovieModel.Result movie = movieResponse.get(position);
         holder.moviename.setText(movie.getTitle());
 
@@ -68,12 +63,12 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         String convertedDate = "";
         try {
             date = dateFormat.parse(dateString);
-            convertedDate = new SimpleDateFormat("MMM dd, yyyy",Locale.getDefault()).format(date);
+            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date);
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-	//	Log.d("date","converted dateee"+convertedDate.toString());
+        Log.d("date", "converted dateee" + convertedDate.toString());
         holder.moviedate.setText(convertedDate);
        /* Boolean isAdult=movie.getAdult();
         Log.d("adult","adulttttt"+isAdult);
@@ -81,7 +76,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
             holder.adult.setVisibility(View.VISIBLE);
         }*/
 
-       holder.language.setText("Language:"+movie.getOriginalLanguage());
+        holder.language.setText("Language:" + movie.getOriginalLanguage());
         String path = "https://image.tmdb.org/t/p/w200/";
         MOVIES_POSTER_URL = movie.getPosterPath();
         String imageurl = path.concat(MOVIES_POSTER_URL);
@@ -93,7 +88,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, MovieDetailActivity.class));
+                context.startActivity(new Intent(context, MovieDetailActivity.class).putExtra("upComingMovieId", movie.getId()));
 
             }
         });

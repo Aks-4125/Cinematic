@@ -19,9 +19,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 import com.training.cinematic.Adapter.PopularMoviesAdapter;
-import com.training.cinematic.ApiKeyForMovieInterface;
+import com.training.cinematic.ApiClient;
 import com.training.cinematic.Model.MovieModel;
-import com.training.cinematic.PopularMoviesRetorfit;
 import com.training.cinematic.R;
 
 import java.util.List;
@@ -50,10 +49,8 @@ public class PopularMoviesFragment extends Fragment {
     ProgressDialog progressBar;
     @BindView(R.id.HeaderProgress)
     ProgressBar cirlcleProgressbarMovie;
-    /* private MovieModel movieresponce;
-     int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
-     String moviename[];*/
-    private static int API_KEY = R.string.apikeyformovie;
+
+
 
     public PopularMoviesFragment() {
 
@@ -66,7 +63,6 @@ public class PopularMoviesFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        //  moviename = getResources().getStringArray(R.array.mname);
 
         unbinder = ButterKnife.bind(this, view);
         cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
@@ -115,35 +111,41 @@ public class PopularMoviesFragment extends Fragment {
 
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        ApiKeyForMovieInterface apiKeyForMovieInterface = PopularMoviesRetorfit.getPopularMovies().create(ApiKeyForMovieInterface.class);
-        Call<MovieModel> call = apiKeyForMovieInterface.getMovielist(getString(API_KEY));
-        call.enqueue(new Callback<MovieModel>() {
-            @Override
-            public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
-                List<MovieModel.Result> movies = response.body().getResults();
-                if (movies == null) {
-                    cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
-                } else {
-                    Log.d("popular movies", "popular movies size" + movies.size());
-                    if (mRecyclerView != null && swipeRefreshLayout != null && cirlcleProgressbarMovie != null) {
 
-                        mRecyclerView.setAdapter(new PopularMoviesAdapter(movies, R.layout.movie_item, getActivity()));
-                        swipeRefreshLayout.setRefreshing(false);
-                        mRecyclerView.clearAnimation();
+        ApiClient apiClient=new ApiClient(getActivity());
+
+        apiClient.getClient()
+                .getMovielist(getString(Integer.parseInt(String.valueOf(R.string.apikey))))
+                .enqueue(new Callback<MovieModel>() {
+                    @Override
+                    public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
+                        List<MovieModel.Result> movies = response.body().getResults();
+                        if (movies == null) {
+                            cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
+                        } else {
+                            Log.d("popular movies", "popular movies size" + movies.size());
+                            if (mRecyclerView != null && swipeRefreshLayout != null && cirlcleProgressbarMovie != null) {
+
+                                mRecyclerView.setAdapter(new PopularMoviesAdapter(movies, R.layout.movie_item, getActivity()));
+                                swipeRefreshLayout.setRefreshing(false);
+                                mRecyclerView.clearAnimation();
+                                cirlcleProgressbarMovie.setVisibility(View.GONE);
+
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<MovieModel> call, Throwable t) {
+                        Log.e(TAG, t.toString());
                         cirlcleProgressbarMovie.setVisibility(View.GONE);
 
                     }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<MovieModel> call, Throwable t) {
-                Log.e(TAG, t.toString());
-                cirlcleProgressbarMovie.setVisibility(View.GONE);
-            }
-        });
+                });
         mRecyclerView.setAdapter(popularMovieAdapter);
+
+
 
     }
 
