@@ -122,6 +122,7 @@ public class PopularTvFragment extends Fragment {
                             circleProgressbarTv.setVisibility(View.VISIBLE);
                         } else {
                             Log.d("TAG", "Popular Tv list--->" + popularTv.size());
+
                             if (mRecyclerView != null && swipeRefreshLayout != null && circleProgressbarTv != null) {
                                 mRecyclerView.setAdapter(new PopularTvAdapter(getActivity(), R.layout.movie_item, popularTv));
                                 mRecyclerView.clearAnimation();

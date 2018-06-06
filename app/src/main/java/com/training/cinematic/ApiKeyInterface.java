@@ -17,17 +17,22 @@ public interface ApiKeyInterface {
     @GET("tv/popular")
     Call<TvModel> getTvList(@Query("api_key")String api_key);
     @GET("tv/{id}")
-    Call<MovieModel>getTvDetails(@Path("id")int id, @Query("api_key") String api_key);
+    Call<TvModel>getTvDetails(@Path("id")int id, @Query("api_key") String api_key);
 
-    @GET("movie/popular")
+    @GET("movieDetail/popular")
     Call<MovieModel> getMovielist(@Query("api_key") String api_key);
 
-    @GET("movie/{id}")
+    @GET("movieDetail/{id}")
     Call<MovieModel> getMovieDetails(@Path("id") int id,@Query("api_key") String api_key);
 
-    @GET("movie/{id}/images")
+    @GET("movieDetail/{id}/images")
     Call<SliderMovieImages> getImages(@Path("id") int id,@Query("api_key") String api_key);
 
-    @GET("movie/{id}/images")
+    @GET("tv/{id}/images")
+    Call<SliderMovieImages> getTvImages(@Path("id") int id,@Query("api_key") String api_key);
+
+    @GET("movieDetail/{id}/images")
     Call<SliderMovieImages> getId(@Path("id") int id);
+
+
 }

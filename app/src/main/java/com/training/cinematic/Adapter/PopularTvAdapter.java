@@ -76,6 +76,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         String imageUrl = path.concat(TV_POSTAR_URL);
         Log.d("image ", "image path for browser" + imageUrl);
 
+
         Picasso.with(context)
                 .load(imageUrl)
                 .into(holder.tvImage);
@@ -85,7 +86,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
             @Override
             public void onClick(View view) {
                 view.getContext().startActivity(new Intent(context, MovieDetailActivity.class).putExtra("tvId", popularTv.get(position).getId()));
-
+                Log.d("populat tv","id ---->>>>"+popularTv.get(position).getId());
             }
         });
     }
