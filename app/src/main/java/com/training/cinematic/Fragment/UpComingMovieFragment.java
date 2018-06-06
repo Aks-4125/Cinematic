@@ -51,13 +51,6 @@ public class UpComingMovieFragment extends Fragment {
     List<MovieModel.Result> resultSet = new ArrayList<>();
     @BindView(R.id.HeaderProgress)
     ProgressBar circleProgressbar;
-    /* String PERSON_KEY;
-     int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
- =======
-  //   String PERSON_KEY;
-   /*  int img[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
- >>>>>>> Stashed changes
-     String data1[];*/
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     Unbinder unbinder;
@@ -74,7 +67,6 @@ public class UpComingMovieFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        //  data1 = getResources().getStringArray(R.array.mname);
         unbinder = ButterKnife.bind(this, view);
 
         // new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
@@ -89,18 +81,6 @@ public class UpComingMovieFragment extends Fragment {
         new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
     }
 
-    //this method executes after loading contents
-   /* private void onRefreshComplete(List resultSet) {
-        //clear the existing adapter
-     //   resultSet.clear();
-
-      //  resultSet.addAll(movieResponse.getResults());
-        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
-
-        swipeRefreshLayout.setRefreshing(false);
-    }
-*/
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -108,8 +88,6 @@ public class UpComingMovieFragment extends Fragment {
         mRecyclerView.setLayoutManager(layoutManager);
 
         new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
-     /*   upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet);
-        mRecyclerView.setAdapter(upComingMovieAdapter);*/
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -140,21 +118,9 @@ public class UpComingMovieFragment extends Fragment {
         super.onDestroyView();
 
         unbinder.unbind();
-        //  swipeRefreshLayout.setRefreshing(false);
 
     }
 
-   /* @Override
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                new  GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
-
-            }
-        }, 2500);
-
-    }*/
 
 
     public class GetJSONFromURL extends AsyncTask<String, String, String> {
@@ -185,8 +151,6 @@ public class UpComingMovieFragment extends Fragment {
 
         @Override
         protected String doInBackground(String... fileDownloads) {
-            int count;
-            //   swipeRefreshLayout.setRefreshing(true);
             String pathToStore = "";
             try {
 
@@ -203,17 +167,16 @@ public class UpComingMovieFragment extends Fragment {
                 pathToStore = convertStreamToString(in);
                 // getting file length
                 int lenghtOfFile = conection.getContentLength();
-                Log.d("API RESPONSE", "response of apiUrl ------------------> " + pathToStore);
+                Log.d("TAG", "response of apiUrl ------------------> " + pathToStore);
                 movieResponse = new Gson().fromJson(pathToStore, MovieModel.class);
-                Log.d("API RESPONSE", "movieResponse size ------------------> " + movieResponse.getResults().size());
-                Log.e("DATES", "Dates------------->" + movieResponse.getDates().toString());
+                Log.d("TAG", "movieResponse size ------------------> " + movieResponse.getResults().size());
+                Log.e("TAG", "Dates------------->" + movieResponse.getDates().toString());
 
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
 
             }
-            //       swipeRefreshLayout.setRefreshing(false);
             return pathToStore;
 
         }

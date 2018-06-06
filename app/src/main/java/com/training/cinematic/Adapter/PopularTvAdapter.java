@@ -32,7 +32,7 @@ import butterknife.ButterKnife;
 public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHolder> {
     Context context;
     int layout;
-    List<TvModel.Result>popularTv;
+    List<TvModel.Result> popularTv;
     String TV_POSTAR_URL;
     /*int[] img;
     String[] data;*/
@@ -53,29 +53,29 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
 
     @Override
     public void onBindViewHolder(@NonNull PopularTvAdapter.MyHolder holder, int position) {
-     //   holder.movieImage.setImageResource(img[position]);
+        //   holder.movieImage.setImageResource(img[position]);
         // holder.movieName.setText(data[position]);
         holder.tvName.setText(popularTv.get(position).getName());
-        Log.d("TV","POPULATTV NAMES"+popularTv.size());
+        Log.d("TV", "POPULATTV NAMES" + popularTv.size());
 
-        String tvDatee=popularTv.get(position).getFirstAirDate();
+        String tvDatee = popularTv.get(position).getFirstAirDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date;
-        String convertedDate="";
+        String convertedDate = "";
         try {
-            date=dateFormat.parse(tvDatee);
-            convertedDate=new SimpleDateFormat("MMM dd, yyyy",Locale.getDefault()).format(date);
-        }
-        catch (ParseException e)
-        {
+            date = dateFormat.parse(tvDatee);
+            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date);
+        } catch (ParseException e) {
             e.printStackTrace();
         }
         holder.tvDate.setText(convertedDate);
-        holder.language.setText("Language:"+popularTv.get(position).getOriginalLanguage());
+        holder.language.setText("Language:" + popularTv.get(position).getOriginalLanguage());
         //holder.tvDate.setText(popularTv.get(position).getFirstAirDate());
         String path = "https://image.tmdb.org/t/p/w200/";
-        TV_POSTAR_URL=popularTv.get(position).getPosterPath();
-        String imageUrl=path.concat(TV_POSTAR_URL);
+        TV_POSTAR_URL = popularTv.get(position).getPosterPath();
+        String imageUrl = path.concat(TV_POSTAR_URL);
+        Log.d("image ", "image path for browser" + imageUrl);
+
         Picasso.with(context)
                 .load(imageUrl)
                 .into(holder.tvImage);
@@ -84,7 +84,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         holder.tvImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class));
+                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class).putExtra("tvId", popularTv.get(position).getId()));
 
             }
         });

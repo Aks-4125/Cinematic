@@ -18,9 +18,8 @@ import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 import com.training.cinematic.Adapter.PopularTvAdapter;
-import com.training.cinematic.ApiKeyForTvInterface;
+import com.training.cinematic.ApiClient;
 import com.training.cinematic.Model.TvModel;
-import com.training.cinematic.PopularTvRetrofit;
 import com.training.cinematic.R;
 
 import java.util.List;
@@ -48,10 +47,8 @@ public class PopularTvFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.HeaderProgress)
     ProgressBar circleProgressbarTv;
-    /*  int movieimage[] = {R.drawable.cardb, R.drawable.blur, R.drawable.pin, R.drawable.newback, R.drawable.blackba};
-      String moviename[];*/
     Unbinder unbinder;
-    private static int API_KEY = R.string.apikeyfortv;
+
 
     public PopularTvFragment() {
 
@@ -63,7 +60,6 @@ public class PopularTvFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-        //  moviename = getResources().getStringArray(R.array.mname);
         unbinder = ButterKnife.bind(this, view);
         circleProgressbarTv.setVisibility(View.VISIBLE);
 
@@ -80,6 +76,7 @@ public class PopularTvFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle saveInstance) {
 
         super.onActivityCreated(saveInstance);
+        retrofitData();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -104,7 +101,7 @@ public class PopularTvFragment extends Fragment {
 
         });
 
-        retrofitData();
+
 
 
     }
@@ -114,41 +111,38 @@ public class PopularTvFragment extends Fragment {
 
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        ApiKeyForTvInterface apiKeyForTvInterface = PopularTvRetrofit.getPopularTv().create(ApiKeyForTvInterface.class);
-        Call<TvModel> call = apiKeyForTvInterface.getTvList(getString(API_KEY));
+        ApiClient apiClient=new ApiClient(getActivity());
+        apiClient.getClient()
+                .getTvList(getString(Integer.parseInt(String.valueOf(R.string.apikey))))
+                .enqueue(new Callback<TvModel>() {
+                    @Override
+                    public void onResponse(Call<TvModel> call, Response<TvModel> response) {
+                        List<TvModel.Result> popularTv = response.body().getResults();
+                        if (popularTv == null) {
+                            circleProgressbarTv.setVisibility(View.VISIBLE);
+                        } else {
+                            Log.d("TAG", "Popular Tv list--->" + popularTv.size());
+                            if (mRecyclerView != null && swipeRefreshLayout != null && circleProgressbarTv != null) {
+                                mRecyclerView.setAdapter(new PopularTvAdapter(getActivity(), R.layout.movie_item, popularTv));
+                                mRecyclerView.clearAnimation();
+                                swipeRefreshLayout.setRefreshing(false);
+                                circleProgressbarTv.setVisibility(View.GONE);
+                            }
 
-        call.enqueue(new Callback<TvModel>() {
-            @Override
-            public void onResponse(Call<TvModel> call, Response<TvModel> response) {
-                List<TvModel.Result> popularTv = response.body().getResults();
-                if (popularTv == null) {
-                    circleProgressbarTv.setVisibility(View.VISIBLE);
-                } else {
-                    Log.d("TAG", "Popular Tv list--->" + popularTv.size());
-                    if (mRecyclerView != null && swipeRefreshLayout != null && circleProgressbarTv != null) {
-                        mRecyclerView.setAdapter(new PopularTvAdapter(getActivity(), R.layout.movie_item, popularTv));
-                        mRecyclerView.clearAnimation();
-                        swipeRefreshLayout.setRefreshing(false);
+
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<TvModel> call, Throwable t) {
+                        Log.e(TAG, t.toString());
                         circleProgressbarTv.setVisibility(View.GONE);
                     }
 
 
-                }
-
-
-            }
-
-            @Override
-            public void onFailure(Call<TvModel> call, Throwable t) {
-                Log.e(TAG, t.toString());
-                circleProgressbarTv.setVisibility(View.GONE);
-            }
-
-
-        });
-
-        //   tvAdapter = new PopularTvAdapter(getActivity(), movieimage, moviename);
-
+                });
         mRecyclerView.setAdapter(tvAdapter);
         swipeRefreshLayout.setRefreshing(false);
 

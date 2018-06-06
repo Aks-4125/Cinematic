@@ -35,9 +35,6 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
     Context context;
     String MOVIES_POSTER_URL;
 
-    /* int[] img;
-     String[] data;
- */
     public PopularMoviesAdapter(List<MovieModel.Result> movies, int rowlayout, Context context) {
         this.movies = movies;
         this.rowlayout = rowlayout;
@@ -70,7 +67,7 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
             e.printStackTrace();
         }
         holder.movieDate.setText(convertedDate);
-        holder.movieLanguage.setText("Language:"+movies.get(position).getOriginalLanguage());
+        holder.movieLanguage.setText("Language:" + movies.get(position).getOriginalLanguage());
     /*    Boolean isadult=movies.get(position).getAdult();
         if (isadult==true)
         {
@@ -85,7 +82,7 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         holder.movieImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class));
+                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class).putExtra("movieId", movies.get(position).getId()));
 
             }
         });

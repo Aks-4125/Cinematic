@@ -11,8 +11,7 @@
     <string name="phonenumber">Phone Number</string>
     <string name="createnewaccout">Create New Account</string>
     <string name="wrongpassword">Wrong Password</string>
-    <string name="apikeyformovie">fec13c5a0623fefac5055a3f7b823553</string>
-    <string name="apikeyfortv">fec13c5a0623fefac5055a3f7b823553</string>
+    <string name="apikey">fec13c5a0623fefac5055a3f7b823553</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
