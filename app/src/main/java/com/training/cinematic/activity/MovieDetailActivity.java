@@ -41,7 +41,9 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private ApiClient apiClient;
     private int movieDetailId;
+    private int tvDetailId;
 
+    int imagesId;
     int counter = 0;
 
 
@@ -55,60 +57,126 @@ public class MovieDetailActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("movieId")) {
             movieDetailId = getIntent().getIntExtra("movieId", 0);
+            movieDetail();
         }
         if (getIntent().hasExtra("tvId")) {
-            movieDetailId = getIntent().getIntExtra("tvId", 0);
+            tvDetailId = getIntent().getIntExtra("tvId", 0);
+            Log.d("Id", "id for tv-->" + tvDetailId);
+            tvDetail();
         }
         if (getIntent().hasExtra("upComingMovieId")) {
             movieDetailId = getIntent().getIntExtra("upComingMovieId", 0);
+            movieDetail();
         }
 
+
+    }
+
+    public void tvDetail() {
+        apiClient.getClient()
+                .getTvImages((tvDetailId), getString(Integer.parseInt((String.valueOf(R.string.apikey)))))
+                .enqueue(new Callback<SliderMovieImages>() {
+                    @Override
+                    public void onResponse(Call<SliderMovieImages> call, Response<SliderMovieImages> response) {
+                        List<SliderMovieImages.Backdrop> imagePath = response.body().getBackdrops();
+                        if (response.body().getBackdrops() != null) {
+                            SliderMovieImages sliderImage = response.body();
+                            imagesId = sliderImage.getId();
+
+
+                            Log.d("image path", "image path------->" + imagePath);
+                            String[] image = new String[imagePath.size()];
+                            for (int i = 1; i < imagePath.size(); i++)
+                                if (tvDetailId == imagesId) {
+
+                                    array.add(imagePath.get(i).getFilePath());
+                                }
+                            Log.d("image id", "image id for the movieDetail detail page" + imagesId);
+                            Log.d("moviedetails", "tvDetailId" + imagesId);
+                            Log.d("array", "arrya of images" + array);
+                            viewPager.setAdapter(new MovieDetailAdapter(MovieDetailActivity.this, array));
+                            indicator.setViewPager(viewPager);
+                            final Handler handeer = new Handler();
+                            final Runnable run = new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (currentpage == image.length) {
+                                        currentpage = 0;
+                                    }
+                                    viewPager.setCurrentItem(currentpage++, true);
+                                }
+                            };
+
+                            Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    handeer.post(run);
+                                }
+                            }, 2500, 2500);
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<SliderMovieImages> call, Throwable t) {
+                        Log.e(TAG, t.toString());
+                    }
+                });
+
+
+    }
+
+    public void movieDetail() {
         apiClient.getClient()
                 .getImages((movieDetailId), getString(Integer.parseInt((String.valueOf(R.string.apikey)))))
                 .enqueue(new Callback<SliderMovieImages>() {
                     @Override
                     public void onResponse(Call<SliderMovieImages> call, Response<SliderMovieImages> response) {
 
+
                         List<SliderMovieImages.Backdrop> imagePath = response.body().getBackdrops();
-                        Log.d("image path", "image path------->" + imagePath);
-                        SliderMovieImages sliderImage = response.body();
-                        Integer imagesId = sliderImage.getId();
+                        if (imagePath != null) {
 
 
-                        String[] image = new String[imagePath.size()];
-                        for (int j = 0; j < image.length; j++) {
+                            SliderMovieImages sliderImage = response.body();
+                            imagesId = sliderImage.getId();
 
-                            image[j] = imagePath.get(j).getFilePath();
-                        }
-                        for (int i = 0; i < image.length; i++)
-                            if (movieDetailId == sliderImage.getId()) {
-                                array.add(image[i]);
-                            }
 
-                        Log.d("moviedetails", "moviedetailid" + imagesId);
-                        Log.d("array", "arrya of images" + array);
-                        viewPager.setAdapter(new MovieDetailAdapter(MovieDetailActivity.this, array));
-                        indicator.setViewPager(viewPager);
-                        final Handler handeer = new Handler();
-                        final Runnable run = new Runnable() {
-                            @Override
-                            public void run() {
-                                if (currentpage == image.length) {
-                                    currentpage = 0;
+                            Log.d("image path", "image path------->" + imagePath);
+                            String[] image = new String[imagePath.size()];
+                            for (int i = 1; i < imagePath.size(); i++)
+                                if (movieDetailId == imagesId) {
+
+                                    array.add(imagePath.get(i).getFilePath());
                                 }
-                                viewPager.setCurrentItem(currentpage++, true);
-                            }
-                        };
+                            Log.d("image id", "image id for the movieDetail detail page" + imagesId);
+                            Log.d("moviedetails", "moviedetailid" + imagesId);
+                            Log.d("array", "arrya of images" + array);
+                            viewPager.setAdapter(new MovieDetailAdapter(MovieDetailActivity.this, array));
+                            indicator.setViewPager(viewPager);
+                            final Handler handeer = new Handler();
+                            final Runnable run = new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (currentpage == image.length) {
+                                        currentpage = 0;
+                                    }
+                                    viewPager.setCurrentItem(currentpage++, true);
+                                }
+                            };
 
-                        Timer timer = new Timer();
-                        timer.schedule(new TimerTask() {
-                            @Override
-                            public void run() {
-                                handeer.post(run);
-                            }
-                        }, 2000, 2000);
+                            Timer timer = new Timer();
+                            timer.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    handeer.post(run);
+                                }
+                            }, 2500, 2500);
+                        } else {
+                            tvDetail();
+                        }
                     }
-
 
                     @Override
                     public void onFailure(Call<SliderMovieImages> call, Throwable t) {

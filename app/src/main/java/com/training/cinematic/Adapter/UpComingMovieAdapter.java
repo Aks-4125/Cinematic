@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 
 public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdapter.MyHolder> {
     Context context;
-    private static String MOVIES_POSTER_URL;
+    private  String MOVIES_POSTER_URL;
 
 
     List<MovieModel.Result> movieResponse;
@@ -70,7 +70,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         }
         Log.d("date", "converted dateee" + convertedDate.toString());
         holder.moviedate.setText(convertedDate);
-     /*   Boolean isAdult=movie.getAdult();
+     /*   Boolean isAdult=movieDetail.getAdult();
         Log.d("adult","adulttttt"+isAdult);
         if (isAdult==true){
             holder.adult.setVisibility(View.VISIBLE);

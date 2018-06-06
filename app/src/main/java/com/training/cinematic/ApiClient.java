@@ -15,13 +15,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     private final String BASE_URL = "https://api.themoviedb.org/3/";
-    private Retrofit retrofit = null;
+
+
 
     private Context context;
 
     public ApiClient(Context context) {
         this.context = context;
     }
+
 
     public ApiKeyInterface getClient() {
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();

@@ -78,7 +78,7 @@ public class UpComingMovieFragment extends Fragment {
 
     //method to add content to listview while refresh
     private void startRefresh() {
-        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+        new GetJSONFromURL("https://api.themoviedb.org/3/movieDetail/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
     }
 
     @Override
@@ -87,7 +87,7 @@ public class UpComingMovieFragment extends Fragment {
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+        new GetJSONFromURL("https://api.themoviedb.org/3/movieDetail/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -101,7 +101,7 @@ public class UpComingMovieFragment extends Fragment {
                         animation.setRepeatCount(Animation.INFINITE);
                         animation.setRepeatMode(Animation.REVERSE);
                         mRecyclerView.startAnimation(animation);
-                        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+                        new GetJSONFromURL("https://api.themoviedb.org/3/movieDetail/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
 
                     }
 
