@@ -58,9 +58,7 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknifeVersion}"
 
 
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation "com.squareup.okhttp3:okhttp:${libs.okhttp3Version}"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     implementation "com.squareup.okhttp3:logging-interceptor:${libs.okhttp3Version}"
 
 }
