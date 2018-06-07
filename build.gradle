@@ -36,7 +36,8 @@ ext {
 
     libraries = [
             supportVersion    : "27.1.1",
-            butterknifeVersion: "8.8.1"
+            butterknifeVersion: "8.8.1",
+            okhttp3Version : "3.10.0"
     ]
 }
 
