@@ -4,108 +4,128 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     tools:context="com.training.cinematic.activity.MovieDetailActivity">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinator"
-        app:expandedTitleMarginStart="70dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:expandedTitleMarginStart="70dp">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:contentScrim="#828686">
+                app:contentScrim="#828686"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
                 <RelativeLayout
-                    android:background="#000"
                     android:layout_width="match_parent"
-                    android:layout_height="250dp">
+                    android:layout_height="190dp"
+                    android:background="#fff">
+
+
                     <android.support.v4.view.ViewPager
                         android:id="@+id/viewpager1"
-                        android:layout_alignParentTop="true"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="250dp"
+                        android:layout_alignParentTop="true" />
 
-                    <me.relex.circleindicator.CircleIndicator
-                        android:id="@+id/circleindicator"
-                        android:layout_width="match_parent"
-                        android:layout_alignParentBottom="true"
-                        android:layout_height="45dp"/>
-                </RelativeLayout>
-               <!-- <ImageView
-                    android:id="@+id/img"
-                    android:src="@drawable/bggg"
-                    android:scaleType="fitXY"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp" />
--->
-              <!--  <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <android.support.v4.view.ViewPager
-                        android:layout_centerInParent="true"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-
-                   <me.relex.circleindicator.CircleIndicator
-                       android:id="@+id/indicator"
-                       android:layout_alignParentBottom="true"
-                       android:layout_width="match_parent"
-                       android:layout_height="48dp"/>
-                </RelativeLayout>-->
-                    <android.support.v7.widget.Toolbar
-                        android:id="@+id/toolbar"
-                        android:minHeight="?attr/actionBarSize"
+                    <TextView
+                        android:id="@+id/text_name"
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_collapseMode="pin"
-                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="10dp"
+                        android:fontFamily="@font/belgrano"
+                        android:gravity="center"
+                        android:textColor="#fff"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+                    <!--<me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/circleindicator"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_alignParentBottom="true"
+                        android:layout_height="45dp"/>-->
+                </RelativeLayout>
+                <!-- <ImageView
+                     android:id="@+id/img"
+                     android:src="@drawable/bggg"
+                     android:scaleType="fitXY"
+                     android:layout_width="match_parent"
+                     android:layout_height="200dp" />
+ -->
+                <!--  <RelativeLayout
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content">
+                      <android.support.v4.view.ViewPager
+                          android:layout_centerInParent="true"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"/>
 
-                    </android.support.v7.widget.Toolbar>
+                     <me.relex.circleindicator.CircleIndicator
+                         android:id="@+id/indicator"
+                         android:layout_alignParentBottom="true"
+                         android:layout_width="match_parent"
+                         android:layout_height="48dp"/>
+                  </RelativeLayout>-->
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                </android.support.v7.widget.Toolbar>
 
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
-
+        <ProgressBar
+            android:id="@+id/progrssbar"
+            android:layout_gravity="center"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content" />
         <android.support.v4.widget.NestedScrollView
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:text="movie name"
-                    android:textColor="#000"
-                    android:textSize="25sp"
-                    android:textStyle="bold"
-                    android:id="@+id/text_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <android.support.v7.widget.AppCompatRatingBar
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RatingBar
+                    android:layout_gravity="center"
                     android:id="@+id/rating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp" />
+                    android:clickable="false"
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
+                    android:visibility="gone"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:stepSize="0.5" />
+
                 <TextView
-                    android:layout_marginTop="20dp"
-                    android:text="fbherjfgerhfbdd"
-                    android:textSize="15sp"
-                    android:inputType="textMultiLine"
                     android:id="@+id/text_description"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="15sp" />
 
             </LinearLayout>
-
-
-
 
 
         </android.support.v4.widget.NestedScrollView>

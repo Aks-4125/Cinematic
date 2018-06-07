@@ -88,7 +88,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, MovieDetailActivity.class).putExtra("upComingMovieId", movie.getId()));
+                context.startActivity(new Intent(context, MovieDetailActivity.class).putExtra("movieId", movie.getId()));
 
             }
         });
