@@ -3,9 +3,16 @@ apply plugin: 'realm-android'
 def appConfig = rootProject.ext.configuration;
 def libs = rootProject.ext.libraries;
 
+
 android {
     compileSdkVersion appConfig.compileSdkVersion
     defaultConfig {
+            javaCompileOptions {
+                annotationProcessorOptions {
+                    includeCompileClasspath false
+                }
+            }
+
         applicationId appConfig.applicationId
         minSdkVersion appConfig.minSdkVersion
         targetSdkVersion appConfig.targetSdkVersion
@@ -19,6 +26,7 @@ android {
 
         }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -53,10 +61,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.2.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'io.realm:realm-annotations-processor:4.0.0'
+    annotationProcessor 'io.realm:realm-annotations-processor:4.0.0'
     // Butterknife
     implementation "com.jakewharton:butterknife:${libs.butterknifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknifeVersion}"
-
 
     implementation "com.squareup.okhttp3:okhttp:${libs.okhttp3Version}"
     implementation "com.squareup.okhttp3:logging-interceptor:${libs.okhttp3Version}"

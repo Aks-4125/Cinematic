@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.training.cinematic.Model.TvModel;
+import com.training.cinematic.Model.TvResult;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
 
@@ -32,12 +32,12 @@ import butterknife.ButterKnife;
 public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHolder> {
     Context context;
     int layout;
-    List<TvModel.Result> popularTv;
+    List<TvResult> popularTv;
     String TV_POSTAR_URL;
     /*int[] img;
     String[] data;*/
 
-    public PopularTvAdapter(Context context, int layout, List<TvModel.Result> popularTv) {
+    public PopularTvAdapter(Context context, int layout, List<TvResult> popularTv) {
         this.context = context;
         this.layout = layout;
         this.popularTv = popularTv;

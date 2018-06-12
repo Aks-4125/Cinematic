@@ -17,9 +17,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.training.cinematic.Fragment.PopularMoviesFragment;
 import com.training.cinematic.Fragment.PopularTvFragment;
 import com.training.cinematic.Fragment.UpComingMovieFragment;
-import com.training.cinematic.Fragment.PopularMoviesFragment;
 import com.training.cinematic.R;
 
 import java.util.ArrayList;
@@ -27,11 +27,12 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity  {
 
 
-    private static final String TAG = "Main Activitity";
+    private static final String TAG =MainActivity.class.getName();
     private static final String FLAG = "flag";
     @BindView(R.id.tablayout)
     TabLayout tabLayout;
@@ -40,12 +41,15 @@ public class MainActivity extends AppCompatActivity  {
     boolean doublePresstoExit=false;
     @BindView(R.id.constrainlayout)
     ConstraintLayout constraintLayout;
+    private Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        Realm.init(this);
+       // realm=Realm.getDefaultInstance();
         setupViewPager(viewPager);
        tabLayout.setupWithViewPager(viewPager);
 
@@ -113,6 +117,8 @@ public class MainActivity extends AppCompatActivity  {
                 editor.clear();
                 editor.commit();
                 finish();
+                Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent1);
                 return true;
             case R.id.profile:
                 Toast.makeText(this, "User Profile.", Toast.LENGTH_SHORT).show();
@@ -130,9 +136,7 @@ public class MainActivity extends AppCompatActivity  {
             super.onBackPressed();
             return;
         }
-
         this.doublePresstoExit=true;
-    //    Toast.makeText(this, "Please Click Back again to Exit ", Toast.LENGTH_SHORT).show();
         Snackbar.make(constraintLayout, "Please Click Back again to Exit", Snackbar.LENGTH_LONG).show();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -140,6 +144,7 @@ public class MainActivity extends AppCompatActivity  {
                 doublePresstoExit=false;
             }
         },2000);
+
     }
 
 

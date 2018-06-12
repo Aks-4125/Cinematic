@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.MovieModel;
+import com.training.cinematic.Model.MovieResult;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
 
@@ -23,6 +24,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 /**
@@ -31,13 +34,17 @@ import butterknife.ButterKnife;
 
 public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdapter.MyHolder> {
     Context context;
-    private  String MOVIES_POSTER_URL;
+    private String MOVIES_POSTER_URL;
+    int layout;
+    private Realm realm;
+    RealmResults<MovieModel> movieResults;
 
 
-    List<MovieModel.Result> movieResponse;
+    List<MovieResult> movieResponse;
 
-    public UpComingMovieAdapter(Context activity, List<MovieModel.Result> movieResponse) {
-        this.context = activity;
+    public UpComingMovieAdapter(Context context, List<MovieResult> movieResponse, int layout) {
+        this.context = context;
+        this.layout = layout;
         this.movieResponse = movieResponse;
 
     }
@@ -53,8 +60,9 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+        realm = Realm.getDefaultInstance();
+        MovieResult movie = movieResponse.get(position);
 
-        MovieModel.Result movie = movieResponse.get(position);
         holder.moviename.setText(movie.getTitle());
 
         String dateString = movie.getReleaseDate();
@@ -85,6 +93,8 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         Picasso.with(context)
                 .load(imageurl)
                 .into(holder.movieimage);
+
+
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

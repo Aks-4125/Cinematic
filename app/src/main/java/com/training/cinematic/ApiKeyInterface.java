@@ -18,9 +18,8 @@ import retrofit2.http.Query;
 public interface ApiKeyInterface {
     @GET("tv/popular")
     Call<TvModel> getTvList(@Query("api_key") String api_key);
-/*
     @GET("tv/{id}")
-    Call<TvModel> getTvDetails(@Path("id") int id, @Query("api_key") String api_key);*/
+    Call<TvModel> getTvDetails(@Path("id") int id, @Query("api_key") String api_key);
 
     @GET("movie/popular")
     Call<MovieModel> getMovielist(@Query("api_key") String api_key);

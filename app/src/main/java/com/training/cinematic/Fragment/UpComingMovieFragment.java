@@ -1,6 +1,9 @@
 package com.training.cinematic.Fragment;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,10 +21,12 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.training.cinematic.Adapter.UpComingMovieAdapter;
 import com.training.cinematic.Model.MovieModel;
+import com.training.cinematic.Model.MovieResult;
 import com.training.cinematic.R;
 
 import java.io.BufferedInputStream;
@@ -38,6 +43,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.realm.Realm;
 
 
 /**
@@ -48,17 +54,30 @@ public class UpComingMovieFragment extends Fragment {
     UpComingMovieAdapter upComingMovieAdapter;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    List<MovieModel.Result> resultSet = new ArrayList<>();
+    List<MovieResult> resultSet = new ArrayList<>();
     @BindView(R.id.HeaderProgress)
     ProgressBar circleProgressbar;
     @BindView(R.id.recyclerview)
     RecyclerView mRecyclerView;
     Unbinder unbinder;
     private MovieModel movieResponse;
+    private Realm realm;
+    //private View view;
+    // RealmList<MovieResult> movieModel;
+    private String MOVIES_POSTER_URL;
 
     public UpComingMovieFragment() {
 
 
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting())
+            return true;
+        else
+            return false;
     }
 
 
@@ -68,7 +87,9 @@ public class UpComingMovieFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
-
+        realm = Realm.getDefaultInstance();
+//        realm.beginTransaction();
+        // realm.deleteAll();
         // new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
     /*    MovieModel movieModel = new MovieModel();
         List<MovieModel.Result> results = new ArrayList<MovieModel.Result>();
@@ -78,16 +99,34 @@ public class UpComingMovieFragment extends Fragment {
 
     //method to add content to listview while refresh
     private void startRefresh() {
-        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+        if (isConnected())
+            new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+        else {
+            Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+            circleProgressbar.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        circleProgressbar.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-
         new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+
+        MovieModel movieModel = realm.where(MovieModel.class).findFirst();
+
+        if (movieModel != null && !movieModel.getResults().isEmpty()) {
+            Toast.makeText(getActivity(), "movies fetch from realm =" + movieModel.getResults().size(), Toast.LENGTH_SHORT).show();
+            resultSet.addAll(movieModel.getResults());
+            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet, R.layout.movie_item);
+            mRecyclerView.setAdapter(upComingMovieAdapter);
+        }
+        //  getData();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -105,22 +144,46 @@ public class UpComingMovieFragment extends Fragment {
 
                     }
 
+
                 }, 1000);
 
 
             }
 
         });
+        // mRecyclerView.setLayoutManager(layoutManager);
+
+
     }
 
+
+    /*   public void onResume() {
+
+           super.onResume();
+           try (Realm r = Realm.getDefaultInstance()) {
+               //   resultSet.addAll(movieResponse.getResults());
+
+               // MovieResult movieResult = new MovieResult();
+               MovieModel movieResult = realm.createObject(MovieModel.class);
+               movieResult.setResults(movieResponse.getResults());
+               Log.d("title", "realmtitile" + movieResult);
+                          *//* movieResult.setReleaseDate(result.getTitle());
+                        movieResult.setOriginalLanguage(result.getOriginalLanguage());
+                        movieResult.setPosterPath(result.getPosterPath());
+*//*
+            r.executeTransaction(realm -> {
+                realm.insert(movieResult);
+                Log.d("realm result", "realm-------->" + movieResult);
+            });
+        }
+    }*/
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
+        realm.close();
         unbinder.unbind();
 
     }
-
 
 
     public class GetJSONFromURL extends AsyncTask<String, String, String> {
@@ -138,13 +201,16 @@ public class UpComingMovieFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            circleProgressbar.setVisibility(View.VISIBLE);
+
+            //  circleProgressbar.setVisibility(View.VISIBLE);
 
             if (resultSet == null) {
                 swipeRefreshLayout.setRefreshing(true);
             } else {
                 swipeRefreshLayout.setRefreshing(false);
             }
+
+
             // do is success false
 
         }
@@ -172,6 +238,39 @@ public class UpComingMovieFragment extends Fragment {
                 Log.d("TAG", "movieResponse size ------------------> " + movieResponse.getResults().size());
                 Log.e("TAG", "Dates------------->" + movieResponse.getDates().toString());
 
+                //  for (MovieModel movieResult:movieResponse)
+                //  realm.beginTransaction();
+                //  MovieModel movieResult = realm.createObject(MovieModel.class);
+                //    movieResult.setResults(movieResponse.getResults());
+                //  Log.d("title", "realmtitile" + movieResult);
+                realm.executeTransaction(r -> {
+                    r.insertOrUpdate(movieResponse);
+                    //  Log.d("realm result", "realm-------->" + movieResult);
+                });
+/*                try (Realm r = Realm.getDefaultInstance()) {
+                 //   resultSet.addAll(movieResponse.getResults());
+
+                    // MovieResult movieResult = new MovieResult();
+                        MovieModel movieResult = realm.createObject(MovieModel.class);
+                        movieResult.setResults(movieResponse.getResults());
+                        Log.d("title", "realmtitile" + movieResult);
+                       *//* movieResult.setReleaseDate(result.getTitle());
+                        movieResult.setOriginalLanguage(result.getOriginalLanguage());
+                        movieResult.setPosterPath(result.getPosterPath());
+*//*
+
+                      *//*  realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                RealmResults<MovieResult> movieResultRealmResults = realm
+                                        .where(MovieResult.class).findAll();
+                                for (MovieResult result : movieResultRealmResults) {
+                                    Log.d("realm result", "realm-------->" + result.getTitle());
+                                }
+                            }
+                        });*//*
+
+                }*/
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
@@ -198,17 +297,32 @@ public class UpComingMovieFragment extends Fragment {
 
             }*/
 
-            resultSet.clear();
-            //   onRefreshComplete(resultSet);
-            resultSet.addAll(movieResponse.getResults());
-            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet);
-            mRecyclerView.setAdapter(upComingMovieAdapter);
-            mRecyclerView.clearAnimation();
-            swipeRefreshLayout.setRefreshing(false);
-            circleProgressbar.setVisibility(View.GONE);
 
+            resultSet.clear();
+            swipeRefreshLayout.setRefreshing(false);
+            //   onRefreshComplete(resultSet);
+            Log.d("resultset", "resultset for realm" + resultSet);
+            mRecyclerView.clearAnimation();
+            circleProgressbar.setVisibility(View.GONE);
+            if (!movieResponse.getResults().isEmpty())
+                resultSet.addAll(movieResponse.getResults());
+            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet, R.layout.movie_item);
+            mRecyclerView.setAdapter(upComingMovieAdapter);
+            upComingMovieAdapter.notifyDataSetChanged();
+            ;
+           /* }
+            else
+            {
+                Toast.makeText(getContext(), "can't fond data", Toast.LENGTH_SHORT).show();
+            }*/
+
+
+            // realm.insertOrUpdate(resultSet);
+            //  realm.insertOrUpdate(movieModel);
+            Log.d("realmresult", "Result-->" + resultSet);
 
         }
+
 
         private String convertStreamToString(InputStream is) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
