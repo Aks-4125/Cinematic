@@ -62,9 +62,7 @@ public class UpComingMovieFragment extends Fragment {
     Unbinder unbinder;
     private MovieModel movieResponse;
     private Realm realm;
-    //private View view;
-    // RealmList<MovieResult> movieModel;
-    private String MOVIES_POSTER_URL;
+
 
     public UpComingMovieFragment() {
 
@@ -88,12 +86,6 @@ public class UpComingMovieFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         realm = Realm.getDefaultInstance();
-//        realm.beginTransaction();
-        // realm.deleteAll();
-        // new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
-    /*    MovieModel movieModel = new MovieModel();
-        List<MovieModel.Result> results = new ArrayList<MovieModel.Result>();
-        GetJSONFromURL result = new GetJSONFromURL();*/
         return view;
     }
 
@@ -157,26 +149,6 @@ public class UpComingMovieFragment extends Fragment {
     }
 
 
-    /*   public void onResume() {
-
-           super.onResume();
-           try (Realm r = Realm.getDefaultInstance()) {
-               //   resultSet.addAll(movieResponse.getResults());
-
-               // MovieResult movieResult = new MovieResult();
-               MovieModel movieResult = realm.createObject(MovieModel.class);
-               movieResult.setResults(movieResponse.getResults());
-               Log.d("title", "realmtitile" + movieResult);
-                          *//* movieResult.setReleaseDate(result.getTitle());
-                        movieResult.setOriginalLanguage(result.getOriginalLanguage());
-                        movieResult.setPosterPath(result.getPosterPath());
-*//*
-            r.executeTransaction(realm -> {
-                realm.insert(movieResult);
-                Log.d("realm result", "realm-------->" + movieResult);
-            });
-        }
-    }*/
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -247,30 +219,6 @@ public class UpComingMovieFragment extends Fragment {
                     r.insertOrUpdate(movieResponse);
                     //  Log.d("realm result", "realm-------->" + movieResult);
                 });
-/*                try (Realm r = Realm.getDefaultInstance()) {
-                 //   resultSet.addAll(movieResponse.getResults());
-
-                    // MovieResult movieResult = new MovieResult();
-                        MovieModel movieResult = realm.createObject(MovieModel.class);
-                        movieResult.setResults(movieResponse.getResults());
-                        Log.d("title", "realmtitile" + movieResult);
-                       *//* movieResult.setReleaseDate(result.getTitle());
-                        movieResult.setOriginalLanguage(result.getOriginalLanguage());
-                        movieResult.setPosterPath(result.getPosterPath());
-*//*
-
-                      *//*  realm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                RealmResults<MovieResult> movieResultRealmResults = realm
-                                        .where(MovieResult.class).findAll();
-                                for (MovieResult result : movieResultRealmResults) {
-                                    Log.d("realm result", "realm-------->" + result.getTitle());
-                                }
-                            }
-                        });*//*
-
-                }*/
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
@@ -309,16 +257,7 @@ public class UpComingMovieFragment extends Fragment {
             upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet, R.layout.movie_item);
             mRecyclerView.setAdapter(upComingMovieAdapter);
             upComingMovieAdapter.notifyDataSetChanged();
-            ;
-           /* }
-            else
-            {
-                Toast.makeText(getContext(), "can't fond data", Toast.LENGTH_SHORT).show();
-            }*/
 
-
-            // realm.insertOrUpdate(resultSet);
-            //  realm.insertOrUpdate(movieModel);
             Log.d("realmresult", "Result-->" + resultSet);
 
         }

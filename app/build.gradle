@@ -61,8 +61,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.2.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'io.realm:realm-annotations-processor:4.0.0'
-    annotationProcessor 'io.realm:realm-annotations-processor:4.0.0'
+  
     // Butterknife
     implementation "com.jakewharton:butterknife:${libs.butterknifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknifeVersion}"

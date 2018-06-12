@@ -34,8 +34,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
     int layout;
     List<TvResult> popularTv;
     String TV_POSTAR_URL;
-    /*int[] img;
-    String[] data;*/
+
 
     public PopularTvAdapter(Context context, int layout, List<TvResult> popularTv) {
         this.context = context;
@@ -86,7 +85,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
             @Override
             public void onClick(View view) {
                 view.getContext().startActivity(new Intent(context, MovieDetailActivity.class).putExtra("tvId", popularTv.get(position).getId()));
-                Log.d("populat tv","id ---->>>>"+popularTv.get(position).getId());
+                Log.d("populat tv", "id ---->>>>" + popularTv.get(position).getId());
             }
         });
     }

@@ -55,7 +55,6 @@ public class PopularTvFragment extends Fragment {
     ProgressBar circleProgressbarTv;
     Unbinder unbinder;
     private Realm realm;
-    TvModel result;
 
 
     public PopularTvFragment() {
@@ -155,16 +154,9 @@ public class PopularTvFragment extends Fragment {
                 .enqueue(new Callback<TvModel>() {
                     @Override
                     public void onResponse(Call<TvModel> call, Response<TvModel> response) {
-                        //result = response.body();
+
                         List<TvResult> popularTv = response.body().getResults();
-                        /*realm.beginTransaction();
-                        TvModel tvModel = realm.createObject(TvModel.class);
-                        tvModel.setResults(result.getResults());
-                        Log.d("title", "realmtitile" + tvModel);
-                        realm.executeTransaction(realm -> {
-                            realm.insert(tvModel);
-                            Log.d("realm result", "realm-------->" + tvModel);
-                        });*/
+
                         if (popularTv == null) {
                             circleProgressbarTv.setVisibility(View.VISIBLE);
                         } else {
