@@ -2,31 +2,36 @@ package com.training.cinematic.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.io.Serializable;
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by dhruvisha on 5/29/2018.
  */
 
-public class MovieModel implements Serializable {
+public class MovieModel extends RealmObject {
+
 
     @SerializedName("results")
-    private List<Result> results = null;
-    @SerializedName("page")
+    private RealmList<MovieResult> results = null;
+    @PrimaryKey
     private Integer page;
     @SerializedName("total_results")
     private Integer totalResults;
     @SerializedName("dates")
-    private Dates dates;
+    private MovieDates dates;
     @SerializedName("total_pages")
     private Integer totalPages;
 
-    public List<Result> getResults() {
+  /*  public int getId(){return id;}
+    public void setId(int id){this.id=id;}*/
+
+    public RealmList<MovieResult> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public void setResults(RealmList<MovieResult> results) {
         this.results = results;
     }
 
@@ -46,11 +51,11 @@ public class MovieModel implements Serializable {
         this.totalResults = totalResults;
     }
 
-    public Dates getDates() {
+    public MovieDates getDates() {
         return dates;
     }
 
-    public void setDates(Dates dates) {
+    public void setDates(MovieDates dates) {
         this.dates = dates;
     }
 
@@ -62,7 +67,8 @@ public class MovieModel implements Serializable {
         this.totalPages = totalPages;
     }
 
-    public class Result {
+
+   /* public class Result extends RealmObject {
 
         @SerializedName("vote_count")
 
@@ -220,8 +226,8 @@ public class MovieModel implements Serializable {
         }
 
     }
-
-    public class Dates {
+*/
+   /* public class Dates{
 
         @SerializedName("maximum")
 
@@ -246,5 +252,5 @@ public class MovieModel implements Serializable {
             this.minimum = minimum;
         }
 
-    }
+    }*/
 }

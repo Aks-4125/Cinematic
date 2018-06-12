@@ -23,7 +23,7 @@ public class ProfileActivity extends AppCompatActivity {
     @BindView(R.id.password)
     TextView password;
     Intent intent;
-    private static final String TAG = "profile activity";
+    private static final String TAG =ProfileActivity.class.getName();
     String FLAG = "flag";
 
     String KEY_EMAIL = "email";

@@ -1,6 +1,9 @@
 package com.training.cinematic.Fragment;
 
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -16,10 +19,12 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.training.cinematic.Adapter.PopularTvAdapter;
 import com.training.cinematic.ApiClient;
 import com.training.cinematic.Model.TvModel;
+import com.training.cinematic.Model.TvResult;
 import com.training.cinematic.R;
 
 import java.util.List;
@@ -29,6 +34,7 @@ import javax.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -48,10 +54,28 @@ public class PopularTvFragment extends Fragment {
     @BindView(R.id.HeaderProgress)
     ProgressBar circleProgressbarTv;
     Unbinder unbinder;
+    private Realm realm;
+    TvModel result;
 
 
     public PopularTvFragment() {
 
+    }
+
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            //    circleProgressbarTv.setVisibility(View.VISIBLE);
+            return true;
+
+        } else {
+
+            circleProgressbarTv.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+            return false;
+
+        }
     }
 
 
@@ -62,21 +86,27 @@ public class PopularTvFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         circleProgressbarTv.setVisibility(View.VISIBLE);
+        realm = Realm.getDefaultInstance();
+        Realm.init(getContext());
 
         return view;
     }
 
     private void startRefresh() {
+        if (isConnected()) {
+            retrofitData();
+        } else {
+            Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+            circleProgressbarTv.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+        }
 
-        retrofitData();
 
     }
 
 
     public void onActivityCreated(@Nullable Bundle saveInstance) {
-
         super.onActivityCreated(saveInstance);
-        retrofitData();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -100,8 +130,16 @@ public class PopularTvFragment extends Fragment {
             }
 
         });
+        if (isConnected()) {
+            retrofitData();
+
+        } else {
+            Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+            circleProgressbarTv.setVisibility(View.GONE);
 
 
+        }
 
 
     }
@@ -111,13 +149,22 @@ public class PopularTvFragment extends Fragment {
 
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        ApiClient apiClient=new ApiClient(getActivity());
+        ApiClient apiClient = new ApiClient(getActivity());
         apiClient.getClient()
                 .getTvList(getString(Integer.parseInt(String.valueOf(R.string.apikey))))
                 .enqueue(new Callback<TvModel>() {
                     @Override
                     public void onResponse(Call<TvModel> call, Response<TvModel> response) {
-                        List<TvModel.Result> popularTv = response.body().getResults();
+                        //result = response.body();
+                        List<TvResult> popularTv = response.body().getResults();
+                        /*realm.beginTransaction();
+                        TvModel tvModel = realm.createObject(TvModel.class);
+                        tvModel.setResults(result.getResults());
+                        Log.d("title", "realmtitile" + tvModel);
+                        realm.executeTransaction(realm -> {
+                            realm.insert(tvModel);
+                            Log.d("realm result", "realm-------->" + tvModel);
+                        });*/
                         if (popularTv == null) {
                             circleProgressbarTv.setVisibility(View.VISIBLE);
                         } else {
@@ -128,9 +175,9 @@ public class PopularTvFragment extends Fragment {
                                 mRecyclerView.clearAnimation();
                                 swipeRefreshLayout.setRefreshing(false);
                                 circleProgressbarTv.setVisibility(View.GONE);
+
+
                             }
-
-
                         }
 
 
@@ -153,5 +200,6 @@ public class PopularTvFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        realm.close();
     }
 }

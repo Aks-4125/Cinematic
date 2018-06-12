@@ -1,17 +1,17 @@
 package com.training.cinematic.activity;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.training.cinematic.Model.User;
@@ -38,14 +38,17 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.btn_signup)
     Button signup;
     private Realm realm;
-    private static final String TAG = "Login activity";
+    private static final String TAG = LoginActivity.class.getName();
     String FLAG = "flag";
     String KEY_EMAIL = "email";
     String KEY_PWD = "password";
     String NAME = "name";
     String email1 = "email";
     String password1 = "password";
-     ProgressDialog progressBar;
+ /*   @BindView(R.id.frame_progress)
+    View progressBar;*/
+    boolean isConnected;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +57,30 @@ public class LoginActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Realm.init(this);
         realm = Realm.getDefaultInstance();
-        progressBar=new ProgressDialog(this);
-        progressBar.setMessage("Please wait...");
-        progressBar.setCancelable(false);
-        progressBar.setIndeterminate(true);
+
+
+
         SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
         if (sharedPreferences.getBoolean("logged", false)) {
+
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
 
     }
+
+    public boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 
     @OnClick(R.id.btn_signup)
     public void Submit() {
@@ -76,24 +91,36 @@ public class LoginActivity extends AppCompatActivity {
     @OnClick(R.id.btn_login)
 
     public void OnViewClicked() {
-        progressBar.show();
+
         String email1 = email.getText().toString();
         String password1 = password.getText().toString();
+       // progressBar.setVisibility(View.VISIBLE);
         if (vaildate(email1, password1)) {
             try {
-                if (checkUserNew(email1, password1)) {
-                    progressBar.dismiss();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    Toast.makeText(this, "Login Succesfully", Toast.LENGTH_SHORT).show();
+                if (isConnected()) {
+                    if (checkUserNew(email1, password1)) {
+
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                      //  progressBar.setVisibility(View.GONE);
+                        startActivity(intent);
+                        Toast.makeText(this, "Login Succesfully", Toast.LENGTH_SHORT).show();
+
+                    } else {
+                        Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                      //  progressBar.setVisibility(View.GONE);
+                    }
+
+
                 } else {
-                    Toast.makeText(this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
-                    progressBar.dismiss();
+                    Toast.makeText(this, "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+                //  progressBar.setVisibility(View.GONE);
+
                 }
+
             } catch (RealmPrimaryKeyConstraintException e) {
                 e.printStackTrace();
                 Snackbar.make(findViewById(R.id.edt_password), "Wrong Password", Snackbar.LENGTH_LONG).show();
-                progressBar.dismiss();
+               // progressBar.setVisibility(View.GONE);
 
             }
         }
@@ -104,7 +131,8 @@ public class LoginActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         realm.close();
-        progressBar.dismiss();
+     //   progressBar.setVisibility(View.GONE);
+
     }
 
 
@@ -121,20 +149,20 @@ public class LoginActivity extends AppCompatActivity {
 
         if (email1.trim().equals("")) {
             Snackbar.make(findViewById(R.id.edt_email), "Email is required", Snackbar.LENGTH_LONG).show();
-            progressBar.dismiss();
+        //    progressBar.setVisibility(View.GONE);
             return false;
         } else if (!isEmailVaild(email1)) {
             Snackbar.make(findViewById(R.id.edt_email), "Invalid Email", Snackbar.LENGTH_LONG).show();
-            progressBar.dismiss();
+          //  progressBar.setVisibility(View.GONE);
             return false;
         }
         if (password1.trim().equals("")) {
             Snackbar.make(findViewById(R.id.edt_password), "Password is Required", Snackbar.LENGTH_LONG).show();
-            progressBar.dismiss();
+          //  progressBar.setVisibility(View.GONE);
             return false;
         } else if (!isPasswrodValid(password1)) {
             Snackbar.make(findViewById(R.id.edt_password), "Password must contain at least 8 characters", Snackbar.LENGTH_LONG).show();
-            progressBar.dismiss();
+          //  progressBar.setVisibility(View.GONE);
             return false;
         }
 
@@ -176,6 +204,7 @@ public class LoginActivity extends AppCompatActivity {
                 .equalTo("password", password)
                 .findFirst();
 
+
         if (user != null) {
             SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -185,10 +214,21 @@ public class LoginActivity extends AppCompatActivity {
             editor.putString(KEY_EMAIL, email);
             editor.commit();
             finish();
+
+
             return true;
-        } else return false;
-        //  return user != null;
+        } else {
+            return false;
+        }
 
     }
+
+    public void onResume() {
+
+        super.onResume();
+
+
+    }
+
 
 }

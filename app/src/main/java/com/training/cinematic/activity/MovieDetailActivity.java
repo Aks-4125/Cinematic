@@ -27,6 +27,7 @@ import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,9 +36,8 @@ public class MovieDetailActivity extends AppCompatActivity {
     private static final String TAG = MovieDetailActivity.class.getName();
     @BindView(R.id.viewpager1)
     ViewPager viewPager;
-    /* @BindView(R.id.circleindicator)
+     @BindView(R.id.circleindicator)
      CircleIndicator indicator;
- */
     private int currentpage = 0;
     private ArrayList<String> array = new ArrayList<String>();
     @BindView(R.id.toolbar)
@@ -106,7 +106,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                             Log.d("moviedetails", "tvDetailId" + imagesId);
                             Log.d("array", "arrya of images" + array);
                             viewPager.setAdapter(new MovieDetailAdapter(MovieDetailActivity.this, array));
-                            //   indicator.setViewPager(viewPager);
+                               indicator.setViewPager(viewPager);
                             final Handler handeer = new Handler();
                             final Runnable run = new Runnable() {
                                 @Override
@@ -167,7 +167,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         description.setText(descriptionTv);
                         viewPager.setVisibility(View.VISIBLE);
                         ratingBar.setVisibility(View.VISIBLE);
-
+                        indicator.setVisibility(View.VISIBLE);
                         movieName.setVisibility(View.VISIBLE);
                         description.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);
@@ -207,7 +207,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                             Log.d("moviedetails", "moviedetailid" + imagesId);
                             Log.d("array", "arrya of images" + array);
                             viewPager.setAdapter(new MovieDetailAdapter(MovieDetailActivity.this, array));
-                            //   indicator.setViewPager(viewPager);
+                               indicator.setViewPager(viewPager);
                             final Handler handeer = new Handler();
                             final Runnable run = new Runnable() {
                                 @Override
@@ -270,7 +270,7 @@ public class MovieDetailActivity extends AppCompatActivity {
                         ratingBar.setRating(rate);
                         viewPager.setVisibility(View.VISIBLE);
                         ratingBar.setVisibility(View.VISIBLE);
-
+                        indicator.setVisibility(View.VISIBLE);
                         movieName.setVisibility(View.VISIBLE);
                         description.setVisibility(View.VISIBLE);
                         progressBar.setVisibility(View.GONE);

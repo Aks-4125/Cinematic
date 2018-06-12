@@ -1,7 +1,10 @@
 package com.training.cinematic.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,7 +39,7 @@ public class SignupActivity extends AppCompatActivity {
     @BindView(R.id.btn_signup)
     Button signup;
     Realm realm;
-    private static final String TAG = "Sign up Activity";
+    private static final String TAG = SignupActivity.class.getName();
     String FLAG = "flag";
      String KEY_EMAIL = "email";
      String NUMBER = "number";
@@ -54,6 +57,14 @@ public class SignupActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
 
     }
+    public boolean isConnected(){
+        ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info=connectivityManager.getActiveNetworkInfo();
+        if (info!=null && info.isConnectedOrConnecting())
+            return true;
+        else
+            return false;
+    }
 
     @OnClick(R.id.btn_signup)
     public void OnViewClick() {
@@ -65,27 +76,34 @@ public class SignupActivity extends AppCompatActivity {
         if (Validation(sname, snumber, semail, spassword)) {
             try {
                 try (Realm r = Realm.getDefaultInstance()) {
-                    final User user = new User();
-                    user.setFullName(sname);
-                    user.setPhoneNumber(snumber);
-                    user.setEmailId(semail);
-                    user.setPassword(spassword);
-                    SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                   Log.e(KEY_NAME,user.getFullName());
-                    Log.e(NUMBER,user.getPhoneNumber());
-                    Log.e(KEY_EMAIL,user.getEmailId());
-                    Log.e(KEY_PWD,user.getPassword());
-                    editor.commit();
+                        if (isConnected()){
+                        final User user = new User();
+                        user.setFullName(sname);
+                        user.setPhoneNumber(snumber);
+                        user.setEmailId(semail);
+                        user.setPassword(spassword);
+                        SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        Log.e(KEY_NAME,user.getFullName());
+                        Log.e(NUMBER,user.getPhoneNumber());
+                        Log.e(KEY_EMAIL,user.getEmailId());
+                        Log.e(KEY_PWD,user.getPassword());
+                        editor.commit();
 
-                    r.executeTransaction(realm -> {
-                        realm.insert(user);
-                    });
-
+                        r.executeTransaction(realm -> {
+                            realm.insert(user);
+                        });
+                        Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
+                        Toast.makeText(this, "Registration suceesfully", Toast.LENGTH_SHORT).show();
+                        startActivity(intent);
+                        finish();
+                    }
+                        else
+                            Toast.makeText(this, "No Internet Connection!!", Toast.LENGTH_SHORT).show();
                 }
-                Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
-                Toast.makeText(this, "Registration suceesfully", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+
+
+
             } catch (RealmPrimaryKeyConstraintException e) {
                 e.printStackTrace();
                 Snackbar.make(findViewById(R.id.edt_email), "Email already exist", Snackbar.LENGTH_LONG).show();

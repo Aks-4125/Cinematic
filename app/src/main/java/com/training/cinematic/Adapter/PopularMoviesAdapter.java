@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.training.cinematic.Model.MovieModel;
+import com.training.cinematic.Model.MovieResult;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
 
@@ -30,12 +30,12 @@ import butterknife.ButterKnife;
 
 public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.MyHolder> {
 
-    List<MovieModel.Result> movies;
+    List<MovieResult> movies;
     int rowlayout;
     Context context;
     String MOVIES_POSTER_URL;
 
-    public PopularMoviesAdapter(List<MovieModel.Result> movies, int rowlayout, Context context) {
+    public PopularMoviesAdapter(List<MovieResult> movies, int rowlayout, Context context) {
         this.movies = movies;
         this.rowlayout = rowlayout;
         this.context = context;

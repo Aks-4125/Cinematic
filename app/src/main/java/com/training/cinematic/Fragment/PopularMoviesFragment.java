@@ -2,6 +2,9 @@ package com.training.cinematic.Fragment;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,10 +20,12 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.training.cinematic.Adapter.PopularMoviesAdapter;
 import com.training.cinematic.ApiClient;
 import com.training.cinematic.Model.MovieModel;
+import com.training.cinematic.Model.MovieResult;
 import com.training.cinematic.R;
 
 import java.util.List;
@@ -30,6 +35,7 @@ import javax.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -49,7 +55,7 @@ public class PopularMoviesFragment extends Fragment {
     ProgressDialog progressBar;
     @BindView(R.id.HeaderProgress)
     ProgressBar cirlcleProgressbarMovie;
-
+    private Realm realm;
 
 
     public PopularMoviesFragment() {
@@ -57,22 +63,46 @@ public class PopularMoviesFragment extends Fragment {
 
     }
 
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+          //  cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
+            return true;
+        }
+        else
+        {
+
+            cirlcleProgressbarMovie.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+            return false;
+
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
         unbinder = ButterKnife.bind(this, view);
         cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
+        realm=Realm.getDefaultInstance();
 
 
         return view;
     }
 
     public void startRefresh() {
-        retrofitFetchData();
+        if (isConnected()){
+            retrofitFetchData();
+        }
+        else {
+            Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+            cirlcleProgressbarMovie.setVisibility(View.GONE);
+
+        }
     }
 
     public void onActivityCreated(@Nullable Bundle saveInstance) {
@@ -100,9 +130,15 @@ public class PopularMoviesFragment extends Fragment {
             }
 
         });
+        if (isConnected()) {
+            retrofitFetchData();
 
-        retrofitFetchData();
-
+        }
+        else {
+            Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
+            cirlcleProgressbarMovie.setVisibility(View.GONE);
+        }
 
     }
 
@@ -112,14 +148,14 @@ public class PopularMoviesFragment extends Fragment {
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        ApiClient apiClient=new ApiClient(getActivity());
+        ApiClient apiClient = new ApiClient(getActivity());
 
         apiClient.getClient()
                 .getMovielist(getString(Integer.parseInt(String.valueOf(R.string.apikey))))
                 .enqueue(new Callback<MovieModel>() {
                     @Override
                     public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
-                        List<MovieModel.Result> movies = response.body().getResults();
+                        List<MovieResult> movies = response.body().getResults();
                         if (movies == null) {
                             cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
                         } else {
@@ -146,13 +182,13 @@ public class PopularMoviesFragment extends Fragment {
         mRecyclerView.setAdapter(popularMovieAdapter);
 
 
-
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        realm.close();
     }
 
 }
