@@ -113,12 +113,11 @@ public class UpComingMovieFragment extends Fragment {
         MovieModel movieModel = realm.where(MovieModel.class).findFirst();
 
         if (movieModel != null && !movieModel.getResults().isEmpty()) {
-            Toast.makeText(getActivity(), "movies fetch from realm =" + movieModel.getResults().size(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Fetching movies from database", Toast.LENGTH_SHORT).show();
             resultSet.addAll(movieModel.getResults());
             upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet, R.layout.movie_item);
             mRecyclerView.setAdapter(upComingMovieAdapter);
         }
-        //  getData();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -143,7 +142,6 @@ public class UpComingMovieFragment extends Fragment {
             }
 
         });
-        // mRecyclerView.setLayoutManager(layoutManager);
 
 
     }
@@ -152,9 +150,7 @@ public class UpComingMovieFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        realm.close();
         unbinder.unbind();
-
     }
 
 
@@ -174,7 +170,6 @@ public class UpComingMovieFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            //  circleProgressbar.setVisibility(View.VISIBLE);
 
             if (resultSet == null) {
                 swipeRefreshLayout.setRefreshing(true);
@@ -193,7 +188,6 @@ public class UpComingMovieFragment extends Fragment {
             try {
 
                 URL url = new URL(apiUrl);
-                //   Log.d(getTag(url), "apiUrl is:" + url);
                 URLConnection conection = url.openConnection();
                 conection.connect();
                 conection.setConnectTimeout(600000);
@@ -203,22 +197,18 @@ public class UpComingMovieFragment extends Fragment {
                 // read the response
                 InputStream in = new BufferedInputStream(conn.getInputStream());
                 pathToStore = convertStreamToString(in);
-                // getting file length
-                int lenghtOfFile = conection.getContentLength();
                 Log.d("TAG", "response of apiUrl ------------------> " + pathToStore);
                 movieResponse = new Gson().fromJson(pathToStore, MovieModel.class);
                 Log.d("TAG", "movieResponse size ------------------> " + movieResponse.getResults().size());
                 Log.e("TAG", "Dates------------->" + movieResponse.getDates().toString());
 
-                //  for (MovieModel movieResult:movieResponse)
-                //  realm.beginTransaction();
-                //  MovieModel movieResult = realm.createObject(MovieModel.class);
-                //    movieResult.setResults(movieResponse.getResults());
-                //  Log.d("title", "realmtitile" + movieResult);
-                realm.executeTransaction(r -> {
-                    r.insertOrUpdate(movieResponse);
-                    //  Log.d("realm result", "realm-------->" + movieResult);
+
+                realm = Realm.getDefaultInstance();
+                realm.executeTransaction(realm1 -> {
+
+                    realm1.copyToRealmOrUpdate(movieResponse);
                 });
+
 
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
@@ -230,25 +220,9 @@ public class UpComingMovieFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String fileDownload) {
-            //     Log.e("size",fileDownload);
-           /* JsonParser parser = new JsonParser();
-            JsonObject json = (JsonObject) parser.parse(fileDownload);
-            MovieModel movieModel = new MovieModel();
-            movieModel=new Gson().fromJson(fileDownload,MovieModel.class);
-            Log.e("mocvierwiifg",movieModel.toString());
-            if (movieModel.getDates() != null) {
-                for (int i = 0; i < 30; i++) {
-                    moviename[i] = movieModel.getDates().toString();
-
-                }
-                Log.d("API RESPONSE", "data form gson is " + moviename);
-
-            }*/
-
 
             resultSet.clear();
             swipeRefreshLayout.setRefreshing(false);
-            //   onRefreshComplete(resultSet);
             Log.d("resultset", "resultset for realm" + resultSet);
             mRecyclerView.clearAnimation();
             circleProgressbar.setVisibility(View.GONE);
