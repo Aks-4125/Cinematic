@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
-import com.training.cinematic.Model.MovieResult;
+import com.training.cinematic.Model.PopularMovieResult;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.MovieDetailActivity;
 
@@ -30,12 +30,12 @@ import butterknife.ButterKnife;
 
 public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdapter.MyHolder> {
 
-    List<MovieResult> movies;
+    List<PopularMovieResult> movies;
     int rowlayout;
     Context context;
     String MOVIES_POSTER_URL;
 
-    public PopularMoviesAdapter(List<MovieResult> movies, int rowlayout, Context context) {
+    public PopularMoviesAdapter(List<PopularMovieResult> movies, int rowlayout, Context context) {
         this.movies = movies;
         this.rowlayout = rowlayout;
         this.context = context;
@@ -52,10 +52,9 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
         holder.movieName.setText(movies.get(position).getTitle());
-        String path = "https://image.tmdb.org/t/p/w200/";
+        String path = "https://image.tmdb.org/t/p/w500/";
         MOVIES_POSTER_URL = movies.get(position).getPosterPath();
         String imageurl = path.concat(MOVIES_POSTER_URL);
-
         String movieDate = movies.get(position).getReleaseDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date date;

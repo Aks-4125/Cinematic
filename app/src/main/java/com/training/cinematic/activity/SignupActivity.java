@@ -26,7 +26,7 @@ import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
-public class SignupActivity extends AppCompatActivity {
+public class SignupActivity extends BaseActivity {
 
     @BindView(R.id.edt_fullname)
     EditText fullname;
@@ -46,7 +46,6 @@ public class SignupActivity extends AppCompatActivity {
     String KEY_NAME = "name";
      String KEY_PWD = "password";
     SharedPreferences.Editor editor;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

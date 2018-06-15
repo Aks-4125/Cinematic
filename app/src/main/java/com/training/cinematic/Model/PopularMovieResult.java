@@ -7,52 +7,51 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 /**
- * Created by dhruvisha on 6/11/2018.
+ * Created by dhruvisha on 6/15/2018.
  */
 
-public class MovieResult extends RealmObject {
-
+public class PopularMovieResult extends RealmObject {
     @SerializedName("vote_count")
-
+    
     private Integer voteCount;
-
     @PrimaryKey
-    private int id;
+    
+    private Integer id;
     @SerializedName("video")
-
+    
     private Boolean video;
     @SerializedName("vote_average")
-
+    
     private Double voteAverage;
     @SerializedName("title")
-
+    
     private String title;
     @SerializedName("popularity")
-
+    
     private Double popularity;
     @SerializedName("poster_path")
-
+    
     private String posterPath;
     @SerializedName("original_language")
-
+    
     private String originalLanguage;
     @SerializedName("original_title")
-
+    
     private String originalTitle;
     @SerializedName("genre_ids")
-
+    
     private RealmList<Integer> genreIds = null;
     @SerializedName("backdrop_path")
-
+    
     private String backdropPath;
     @SerializedName("adult")
-
+    
     private Boolean adult;
     @SerializedName("overview")
-
+    
     private String overview;
     @SerializedName("release_date")
-
+    
     private String releaseDate;
 
     public Integer getVoteCount() {
@@ -63,7 +62,7 @@ public class MovieResult extends RealmObject {
         this.voteCount = voteCount;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -166,4 +165,5 @@ public class MovieResult extends RealmObject {
     public void setReleaseDate(String releaseDate) {
         this.releaseDate = releaseDate;
     }
+
 }

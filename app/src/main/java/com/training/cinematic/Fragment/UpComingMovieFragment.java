@@ -1,9 +1,6 @@
 package com.training.cinematic.Fragment;
 
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,9 +14,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -49,12 +43,12 @@ import io.realm.Realm;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UpComingMovieFragment extends Fragment {
+public class UpComingMovieFragment extends BaseFragment {
     private static final String TAG = UpComingMovieFragment.class.getName();
     UpComingMovieAdapter upComingMovieAdapter;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    List<MovieResult> resultSet = new ArrayList<>();
+    List<MovieResult> movieResultArrayList = new ArrayList<>();
     @BindView(R.id.HeaderProgress)
     ProgressBar circleProgressbar;
     @BindView(R.id.recyclerview)
@@ -63,21 +57,9 @@ public class UpComingMovieFragment extends Fragment {
     private MovieModel movieResponse;
     private Realm realm;
 
-
     public UpComingMovieFragment() {
 
-
     }
-
-    public boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting())
-            return true;
-        else
-            return false;
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -91,9 +73,10 @@ public class UpComingMovieFragment extends Fragment {
 
     //method to add content to listview while refresh
     private void startRefresh() {
-        if (isConnected())
+        if (isConnected()) {
             new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
-        else {
+        } else {
+            mRecyclerView.clearAnimation();
             Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
             circleProgressbar.setVisibility(View.GONE);
@@ -108,16 +91,11 @@ public class UpComingMovieFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(false);
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
-        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+        if (isConnected())
+            new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
+        else
+            getData();
 
-        MovieModel movieModel = realm.where(MovieModel.class).findFirst();
-
-        if (movieModel != null && !movieModel.getResults().isEmpty()) {
-            Toast.makeText(getActivity(), "Fetching movies from database", Toast.LENGTH_SHORT).show();
-            resultSet.addAll(movieModel.getResults());
-            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet, R.layout.movie_item);
-            mRecyclerView.setAdapter(upComingMovieAdapter);
-        }
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -125,14 +103,6 @@ public class UpComingMovieFragment extends Fragment {
                     @Override
                     public void run() {
                         startRefresh();
-                        final Animation animation = new AlphaAnimation((float) 0.5, 0);
-                        animation.setDuration(100);
-                        animation.setInterpolator(new LinearInterpolator());
-                        animation.setRepeatCount(Animation.INFINITE);
-                        animation.setRepeatMode(Animation.REVERSE);
-                        mRecyclerView.startAnimation(animation);
-                        new GetJSONFromURL("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553").execute();
-
                     }
 
 
@@ -146,10 +116,22 @@ public class UpComingMovieFragment extends Fragment {
 
     }
 
+    public void getData() {
+        MovieModel movieModel = realm.where(MovieModel.class).findFirst();
+        if (movieModel != null && !movieModel.getResults().isEmpty()) {
+            Toast.makeText(getActivity(), "Fetching movies from database", Toast.LENGTH_SHORT).show();
+            movieResultArrayList.addAll(movieModel.getResults());
+            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), movieResultArrayList, R.layout.movie_item);
+            mRecyclerView.setAdapter(upComingMovieAdapter);
+            circleProgressbar.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        swipeRefreshLayout.removeAllViews();
         unbinder.unbind();
     }
 
@@ -171,7 +153,7 @@ public class UpComingMovieFragment extends Fragment {
             super.onPreExecute();
 
 
-            if (resultSet == null) {
+            if (movieResultArrayList == null) {
                 swipeRefreshLayout.setRefreshing(true);
             } else {
                 swipeRefreshLayout.setRefreshing(false);
@@ -204,12 +186,9 @@ public class UpComingMovieFragment extends Fragment {
 
 
                 realm = Realm.getDefaultInstance();
-                realm.executeTransaction(realm1 -> {
-
-                    realm1.copyToRealmOrUpdate(movieResponse);
+                realm.executeTransaction(realmu -> {
+                    realmu.copyToRealmOrUpdate(movieResponse);
                 });
-
-
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
 
@@ -221,21 +200,20 @@ public class UpComingMovieFragment extends Fragment {
         @Override
         protected void onPostExecute(String fileDownload) {
 
-            resultSet.clear();
+            movieResultArrayList.clear();
             swipeRefreshLayout.setRefreshing(false);
-            Log.d("resultset", "resultset for realm" + resultSet);
+            Log.d("resultset", "resultset for realm" + movieResultArrayList);
             mRecyclerView.clearAnimation();
             circleProgressbar.setVisibility(View.GONE);
             if (!movieResponse.getResults().isEmpty())
-                resultSet.addAll(movieResponse.getResults());
-            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), resultSet, R.layout.movie_item);
+                movieResultArrayList.addAll(movieResponse.getResults());
+            upComingMovieAdapter = new UpComingMovieAdapter(getActivity(), movieResultArrayList, R.layout.movie_item);
             mRecyclerView.setAdapter(upComingMovieAdapter);
             upComingMovieAdapter.notifyDataSetChanged();
 
-            Log.d("realmresult", "Result-->" + resultSet);
+            Log.d("realmresult", "Result-->" + movieResultArrayList);
 
         }
-
 
         private String convertStreamToString(InputStream is) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(is));
