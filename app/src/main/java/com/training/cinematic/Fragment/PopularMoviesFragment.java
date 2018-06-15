@@ -31,6 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -133,12 +134,12 @@ public class PopularMoviesFragment extends BaseFragment {
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
         if (isConnected()) {
-         /*   realm = Realm.getDefaultInstance();
+            realm = Realm.getDefaultInstance();
             realm.executeTransaction(realmm -> {
                RealmResults<PopularMovieResult> results=realmm.where(PopularMovieResult.class).findAll();
                results.deleteAllFromRealm();
 
-            });*/
+            });
             ApiClient apiClient = new ApiClient(getActivity());
             apiClient.getClient()
                     .getMovielist(getString(Integer.parseInt(String.valueOf(R.string.apikey))))
@@ -177,6 +178,9 @@ public class PopularMoviesFragment extends BaseFragment {
                     });
             mRecyclerView.setAdapter(popularMovieAdapter);
             swipeRefreshLayout.setRefreshing(false);
+        }
+        else {
+            getData();
         }
     }
 

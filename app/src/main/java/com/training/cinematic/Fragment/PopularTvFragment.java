@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.training.cinematic.Adapter.PopularTvAdapter;
 import com.training.cinematic.ApiClient;
+import com.training.cinematic.Model.PopularMovieResult;
 import com.training.cinematic.Model.TvModel;
 import com.training.cinematic.Model.TvResult;
 import com.training.cinematic.R;
@@ -29,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -129,11 +131,11 @@ public class PopularTvFragment extends BaseFragment {
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
         if (isConnected()) {
-           /* realm = Realm.getDefaultInstance();
+            realm = Realm.getDefaultInstance();
             realm.executeTransaction(realm1 -> {
                 RealmResults<PopularMovieResult> results=realm1.where(PopularMovieResult.class).findAll();
                 results.deleteAllFromRealm();
-            });*/
+            });
             ApiClient apiClient = new ApiClient(getActivity());
             apiClient.getClient()
                     .getTvList(getString(Integer.parseInt(String.valueOf(R.string.apikey))))
@@ -174,6 +176,9 @@ public class PopularTvFragment extends BaseFragment {
             mRecyclerView.setAdapter(tvAdapter);
             swipeRefreshLayout.setRefreshing(false);
 
+        }
+        else {
+            getData();
         }
     }
 

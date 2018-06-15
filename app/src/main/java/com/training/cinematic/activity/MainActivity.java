@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(1);
+        viewPager.setOffscreenPageLimit(2);
 
     }
 
