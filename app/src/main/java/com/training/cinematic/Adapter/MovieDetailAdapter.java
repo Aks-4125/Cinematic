@@ -20,8 +20,6 @@ import java.util.ArrayList;
  */
 
 public class MovieDetailAdapter extends PagerAdapter {
-
-
     private ArrayList<String> images;
     private LayoutInflater inflater;
     private Context context;
@@ -50,7 +48,7 @@ public class MovieDetailAdapter extends PagerAdapter {
         LayoutInflater inflater = LayoutInflater.from(context);
         View myImageLayout = inflater.inflate(R.layout.slide, view, false);
         ImageView myimage = (ImageView) myImageLayout.findViewById(R.id.image);
-       String path = "https://image.tmdb.org/t/p/w200/";
+        String path = "https://image.tmdb.org/t/p/w500/";
         String img = "";
         img = images.get(position);
         Log.d("slider", "slider imagepath" + path + img);

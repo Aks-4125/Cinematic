@@ -70,7 +70,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         holder.tvDate.setText(convertedDate);
         holder.language.setText("Language:" + popularTv.get(position).getOriginalLanguage());
         //holder.tvDate.setText(popularTv.get(position).getFirstAirDate());
-        String path = "https://image.tmdb.org/t/p/w200/";
+        String path = "https://image.tmdb.org/t/p/w500/";
         TV_POSTAR_URL = popularTv.get(position).getPosterPath();
         String imageUrl = path.concat(TV_POSTAR_URL);
         Log.d("image ", "image path for browser" + imageUrl);

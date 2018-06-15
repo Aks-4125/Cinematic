@@ -2,31 +2,32 @@ package com.training.cinematic.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by dhruvisha on 6/6/2018.
  */
 
-public class MovieDetailModel {
+public class MovieDetailModel extends RealmObject{
     @SerializedName("adult")
     private Boolean adult;
     @SerializedName("backdrop_path")
 
     private String backdropPath;
-    @SerializedName("belongs_to_collection")
+   /* @SerializedName("belongs_to_collection")
 
-    private BelongsToCollection belongsToCollection;
+    private BelongsToCollection belongsToCollection;*/
     @SerializedName("budget")
 
     private Integer budget;
-    @SerializedName("genres")
+  /*  @SerializedName("genres")
 
-    private List<Genre> genres = null;
+    private List<Genre> genres = null;*/
     @SerializedName("homepage")
 
     private String homepage;
-    @SerializedName("id")
+   @PrimaryKey
    
     private Integer id;
     @SerializedName("imdb_id")
@@ -47,12 +48,12 @@ public class MovieDetailModel {
     @SerializedName("poster_path")
 
     private String posterPath;
-    @SerializedName("production_companies")
+  /*  @SerializedName("production_companies")
    
     private List<ProductionCompany> productionCompanies = null;
     @SerializedName("production_countries")
 
-    private List<ProductionCountry> productionCountries = null;
+    private List<ProductionCountry> productionCountries = null;*/
     @SerializedName("release_date")
 
     private String releaseDate;
@@ -62,9 +63,9 @@ public class MovieDetailModel {
     @SerializedName("runtime")
    
     private Integer runtime;
-    @SerializedName("spoken_languages")
+   /* @SerializedName("spoken_languages")
    
-    private List<SpokenLanguage> spokenLanguages = null;
+    private List<SpokenLanguage> spokenLanguages = null;*/
     @SerializedName("status")
    
     private String status;
@@ -99,13 +100,13 @@ public class MovieDetailModel {
         this.backdropPath = backdropPath;
     }
 
-    public BelongsToCollection getBelongsToCollection() {
+  /*  public BelongsToCollection getBelongsToCollection() {
         return belongsToCollection;
     }
 
     public void setBelongsToCollection(BelongsToCollection belongsToCollection) {
         this.belongsToCollection = belongsToCollection;
-    }
+    }*/
 
     public Integer getBudget() {
         return budget;
@@ -115,13 +116,13 @@ public class MovieDetailModel {
         this.budget = budget;
     }
 
-    public List<Genre> getGenres() {
+   /* public List<Genre> getGenres() {
         return genres;
     }
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
-    }
+    }*/
 
     public String getHomepage() {
         return homepage;
@@ -187,7 +188,7 @@ public class MovieDetailModel {
         this.posterPath = posterPath;
     }
 
-    public List<ProductionCompany> getProductionCompanies() {
+   /* public List<ProductionCompany> getProductionCompanies() {
         return productionCompanies;
     }
 
@@ -201,7 +202,7 @@ public class MovieDetailModel {
 
     public void setProductionCountries(List<ProductionCountry> productionCountries) {
         this.productionCountries = productionCountries;
-    }
+    }*/
 
     public String getReleaseDate() {
         return releaseDate;
@@ -227,13 +228,13 @@ public class MovieDetailModel {
         this.runtime = runtime;
     }
 
-    public List<SpokenLanguage> getSpokenLanguages() {
+    /*public List<SpokenLanguage> getSpokenLanguages() {
         return spokenLanguages;
     }
 
     public void setSpokenLanguages(List<SpokenLanguage> spokenLanguages) {
         this.spokenLanguages = spokenLanguages;
-    }
+    }*/
 
     public String getStatus() {
         return status;
@@ -282,7 +283,7 @@ public class MovieDetailModel {
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
     }
-    public class ProductionCompany {
+   /* public class ProductionCompany {
 
         @SerializedName("id")
        
@@ -455,5 +456,5 @@ public class MovieDetailModel {
             this.name = name;
         }
 
-    }
+    }*/
 }

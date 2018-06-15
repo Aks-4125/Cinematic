@@ -11,7 +11,15 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class MovieModel extends RealmObject {
+    private String type;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     @SerializedName("results")
     private RealmList<MovieResult> results = null;

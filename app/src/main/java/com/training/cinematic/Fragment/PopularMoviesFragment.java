@@ -2,9 +2,6 @@ package com.training.cinematic.Fragment;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -16,16 +13,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.training.cinematic.Adapter.PopularMoviesAdapter;
 import com.training.cinematic.ApiClient;
-import com.training.cinematic.Model.MovieModel;
-import com.training.cinematic.Model.MovieResult;
+import com.training.cinematic.Model.PoplarMovieModel;
+import com.training.cinematic.Model.PopularMovieResult;
 import com.training.cinematic.R;
 
 import java.util.List;
@@ -36,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.realm.Realm;
+import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,7 +39,7 @@ import retrofit2.Response;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PopularMoviesFragment extends Fragment {
+public class PopularMoviesFragment extends BaseFragment {
     private static final String TAG = "upcoming Movie fragment";
     Unbinder unbinder;
     PopularMoviesAdapter popularMovieAdapter;
@@ -56,29 +51,16 @@ public class PopularMoviesFragment extends Fragment {
     @BindView(R.id.HeaderProgress)
     ProgressBar cirlcleProgressbarMovie;
     private Realm realm;
+    List<PopularMovieResult> movies;
+    RealmList<PopularMovieResult> movieModelList;
 
+    int movieId;
 
     public PopularMoviesFragment() {
 
 
     }
 
-    public boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-          //  cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
-            return true;
-        }
-        else
-        {
-
-            cirlcleProgressbarMovie.setVisibility(View.GONE);
-            swipeRefreshLayout.setRefreshing(false);
-            return false;
-
-        }
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,26 +69,32 @@ public class PopularMoviesFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
-        realm=Realm.getDefaultInstance();
-
+        realm = Realm.getDefaultInstance();
 
         return view;
     }
 
     public void startRefresh() {
-        if (isConnected()){
+        if (isConnected()) {
             retrofitFetchData();
-        }
-        else {
-            Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+        } else {
             swipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
             cirlcleProgressbarMovie.setVisibility(View.GONE);
-
+            mRecyclerView.clearAnimation();
         }
     }
 
     public void onActivityCreated(@Nullable Bundle saveInstance) {
         super.onActivityCreated(saveInstance);
+        cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
+        final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
+        mRecyclerView.setLayoutManager(layoutManager);
+        if (isConnected())
+            retrofitFetchData();
+        else
+            getData();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -114,79 +102,90 @@ public class PopularMoviesFragment extends Fragment {
                     @Override
                     public void run() {
                         startRefresh();
-                        final Animation animation = new AlphaAnimation((float) 0.5, 0);
-                        animation.setDuration(100);
-                        animation.setInterpolator(new LinearInterpolator());
-                        animation.setRepeatCount(Animation.INFINITE);
-                        animation.setRepeatMode(Animation.REVERSE);
-                        mRecyclerView.startAnimation(animation);
-
-
                     }
 
-                }, 1000);
+                }, 50);
 
 
             }
 
         });
-        if (isConnected()) {
-            retrofitFetchData();
+
+
+    }
+
+    public void getData() {
+        mRecyclerView.clearAnimation();
+        swipeRefreshLayout.setRefreshing(false);
+        movies = realm.where(PopularMovieResult.class)
+                .findAll();
+        if (movies != null) {
+            Toast.makeText(getActivity(), "Fetching movies from database", Toast.LENGTH_SHORT).show();
+            popularMovieAdapter = new PopularMoviesAdapter(movies, R.layout.movie_item, getActivity());
+            mRecyclerView.setAdapter(popularMovieAdapter);
 
         }
-        else {
-            Toast.makeText(getActivity(), "No Internet Connection!!", Toast.LENGTH_SHORT).show();
-            swipeRefreshLayout.setRefreshing(false);
-            cirlcleProgressbarMovie.setVisibility(View.GONE);
-        }
 
+        cirlcleProgressbarMovie.setVisibility(View.GONE);
     }
 
     public void retrofitFetchData() {
-
-
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
+        if (isConnected()) {
+         /*   realm = Realm.getDefaultInstance();
+            realm.executeTransaction(realmm -> {
+               RealmResults<PopularMovieResult> results=realmm.where(PopularMovieResult.class).findAll();
+               results.deleteAllFromRealm();
 
-        ApiClient apiClient = new ApiClient(getActivity());
+            });*/
+            ApiClient apiClient = new ApiClient(getActivity());
+            apiClient.getClient()
+                    .getMovielist(getString(Integer.parseInt(String.valueOf(R.string.apikey))))
+                    .enqueue(new Callback<PoplarMovieModel>() {
+                        @Override
+                        public void onResponse(Call<PoplarMovieModel> call, Response<PoplarMovieModel> response) {
+                            movies = response.body().getResults();
 
-        apiClient.getClient()
-                .getMovielist(getString(Integer.parseInt(String.valueOf(R.string.apikey))))
-                .enqueue(new Callback<MovieModel>() {
-                    @Override
-                    public void onResponse(Call<MovieModel> call, Response<MovieModel> response) {
-                        List<MovieResult> movies = response.body().getResults();
-                        if (movies == null) {
-                            cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
-                        } else {
-                            Log.d("popular movies", "popular movies size" + movies.size());
-                            if (mRecyclerView != null && swipeRefreshLayout != null && cirlcleProgressbarMovie != null) {
+                            movieModelList = response.body().getResults();
 
-                                mRecyclerView.setAdapter(new PopularMoviesAdapter(movies, R.layout.movie_item, getActivity()));
-                                swipeRefreshLayout.setRefreshing(false);
-                                mRecyclerView.clearAnimation();
-                                cirlcleProgressbarMovie.setVisibility(View.GONE);
+                            if (movies == null) {
+                                cirlcleProgressbarMovie.setVisibility(View.VISIBLE);
+                            } else {
+                                Log.d("popular movies", "popular movies size" + movies.size());
+                                if (mRecyclerView != null && swipeRefreshLayout != null && cirlcleProgressbarMovie != null) {
+                                    realm = Realm.getDefaultInstance();
+                                    realm.executeTransaction(realmm -> {
+                                        realmm.copyToRealmOrUpdate(movieModelList);
+                                    });
+                                    mRecyclerView.setAdapter(new PopularMoviesAdapter(movies, R.layout.movie_item, getActivity()));
+                                    swipeRefreshLayout.setRefreshing(false);
+                                    mRecyclerView.clearAnimation();
+                                    cirlcleProgressbarMovie.setVisibility(View.GONE);
 
+                                }
                             }
+
                         }
 
-                    }
+                        @Override
+                        public void onFailure(Call<PoplarMovieModel> call, Throwable t) {
+                            Log.e(TAG, t.toString());
+                            cirlcleProgressbarMovie.setVisibility(View.GONE);
 
-                    @Override
-                    public void onFailure(Call<MovieModel> call, Throwable t) {
-                        Log.e(TAG, t.toString());
-                        cirlcleProgressbarMovie.setVisibility(View.GONE);
-
-                    }
-                });
-        mRecyclerView.setAdapter(popularMovieAdapter);
-
-
+                        }
+                    });
+            mRecyclerView.setAdapter(popularMovieAdapter);
+            swipeRefreshLayout.setRefreshing(false);
+        }
     }
+
+
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        swipeRefreshLayout.removeAllViews();
         unbinder.unbind();
         realm.close();
     }

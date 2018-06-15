@@ -79,7 +79,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         }*/
 
         holder.language.setText("Language:" + movie.getOriginalLanguage());
-        String path = "https://image.tmdb.org/t/p/w200/";
+        String path = "https://image.tmdb.org/t/p/w500/";
         MOVIES_POSTER_URL = movie.getPosterPath();
         String imageurl = path.concat(MOVIES_POSTER_URL);
 

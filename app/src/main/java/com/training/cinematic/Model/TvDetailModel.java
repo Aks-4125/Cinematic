@@ -2,49 +2,51 @@ package com.training.cinematic.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by dhruvisha on 6/7/2018.
  */
 
-public class TvDetailModel {
+public class TvDetailModel extends RealmObject {
     @SerializedName("backdrop_path")
    
     private String backdropPath;
-    @SerializedName("created_by")
+   /* @SerializedName("created_by")
    
-    private List<CreatedBy> createdBy = null;
+    private List<CreatedBy> createdBy = null;*/
     @SerializedName("episode_run_time")
    
-    private List<Integer> episodeRunTime = null;
+    private RealmList<Integer> episodeRunTime = null;
     @SerializedName("first_air_date")
    
     private String firstAirDate;
-    @SerializedName("genres")
+   /* @SerializedName("genres")
    
-    private List<Genre> genres = null;
+    private List<Genre> genres = null;*/
     @SerializedName("homepage")
    
     private String homepage;
-    @SerializedName("id")
+    @PrimaryKey
    
     private Integer id;
     @SerializedName("in_production")
    
     private Boolean inProduction;
-    @SerializedName("languages")
+   /* @SerializedName("languages")
    
-    private List<String> languages = null;
+    private List<String> languages = null;*/
     @SerializedName("last_air_date")
    
     private String lastAirDate;
     @SerializedName("name")
    
     private String name;
-    @SerializedName("networks")
+   /* @SerializedName("networks")
    
-    private List<Network> networks = null;
+    private List<Network> networks = null;*/
     @SerializedName("number_of_episodes")
    
     private Integer numberOfEpisodes;
@@ -53,7 +55,7 @@ public class TvDetailModel {
     private Integer numberOfSeasons;
     @SerializedName("origin_country")
    
-    private List<String> originCountry = null;
+    private RealmList<String> originCountry = null;
     @SerializedName("original_language")
    
     private String originalLanguage;
@@ -69,12 +71,12 @@ public class TvDetailModel {
     @SerializedName("poster_path")
    
     private String posterPath;
-    @SerializedName("production_companies")
+   /* @SerializedName("production_companies")
    
     private List<ProductionCompany> productionCompanies = null;
     @SerializedName("seasons")
    
-    private List<Season> seasons = null;
+    private List<Season> seasons = null;*/
     @SerializedName("status")
    
     private String status;
@@ -96,19 +98,19 @@ public class TvDetailModel {
         this.backdropPath = backdropPath;
     }
 
-    public List<CreatedBy> getCreatedBy() {
+  /*  public List<CreatedBy> getCreatedBy() {
         return createdBy;
     }
 
     public void setCreatedBy(List<CreatedBy> createdBy) {
         this.createdBy = createdBy;
-    }
+    }*/
 
-    public List<Integer> getEpisodeRunTime() {
+    public RealmList<Integer> getEpisodeRunTime() {
         return episodeRunTime;
     }
 
-    public void setEpisodeRunTime(List<Integer> episodeRunTime) {
+    public void setEpisodeRunTime(RealmList<Integer> episodeRunTime) {
         this.episodeRunTime = episodeRunTime;
     }
 
@@ -120,13 +122,13 @@ public class TvDetailModel {
         this.firstAirDate = firstAirDate;
     }
 
-    public List<Genre> getGenres() {
+  /*  public List<Genre> getGenres() {
         return genres;
     }
 
     public void setGenres(List<Genre> genres) {
         this.genres = genres;
-    }
+    }*/
 
     public String getHomepage() {
         return homepage;
@@ -152,14 +154,14 @@ public class TvDetailModel {
         this.inProduction = inProduction;
     }
 
-    public List<String> getLanguages() {
+    /*public List<String> getLanguages() {
         return languages;
     }
 
     public void setLanguages(List<String> languages) {
         this.languages = languages;
     }
-
+*/
     public String getLastAirDate() {
         return lastAirDate;
     }
@@ -176,14 +178,14 @@ public class TvDetailModel {
         this.name = name;
     }
 
-    public List<Network> getNetworks() {
+    /*public List<Network> getNetworks() {
         return networks;
     }
 
     public void setNetworks(List<Network> networks) {
         this.networks = networks;
     }
-
+*/
     public Integer getNumberOfEpisodes() {
         return numberOfEpisodes;
     }
@@ -200,11 +202,11 @@ public class TvDetailModel {
         this.numberOfSeasons = numberOfSeasons;
     }
 
-    public List<String> getOriginCountry() {
+    public RealmList<String> getOriginCountry() {
         return originCountry;
     }
 
-    public void setOriginCountry(List<String> originCountry) {
+    public void setOriginCountry(RealmList<String> originCountry) {
         this.originCountry = originCountry;
     }
 
@@ -248,7 +250,7 @@ public class TvDetailModel {
         this.posterPath = posterPath;
     }
 
-    public List<ProductionCompany> getProductionCompanies() {
+   /* public List<ProductionCompany> getProductionCompanies() {
         return productionCompanies;
     }
 
@@ -262,7 +264,7 @@ public class TvDetailModel {
 
     public void setSeasons(List<Season> seasons) {
         this.seasons = seasons;
-    }
+    }*/
 
     public String getStatus() {
         return status;
@@ -295,7 +297,7 @@ public class TvDetailModel {
     public void setVoteCount(Integer voteCount) {
         this.voteCount = voteCount;
     }
-    public class CreatedBy {
+   /* public class CreatedBy {
 
         @SerializedName("id")
        
@@ -545,5 +547,5 @@ public class TvDetailModel {
             this.seasonNumber = seasonNumber;
         }
 
-    }
+    }*/
 }

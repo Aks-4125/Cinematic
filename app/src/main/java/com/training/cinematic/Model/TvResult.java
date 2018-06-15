@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by dhruvisha on 6/11/2018.
@@ -38,7 +39,7 @@ public class TvResult extends RealmObject {
         @SerializedName("original_language")
 
         private String originalLanguage;
-        @SerializedName("id")
+       @PrimaryKey
 
         private Integer id;
         @SerializedName("vote_average")

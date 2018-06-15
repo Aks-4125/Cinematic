@@ -1,7 +1,7 @@
 package com.training.cinematic;
 
 import com.training.cinematic.Model.MovieDetailModel;
-import com.training.cinematic.Model.MovieModel;
+import com.training.cinematic.Model.PoplarMovieModel;
 import com.training.cinematic.Model.SliderMovieImages;
 import com.training.cinematic.Model.TvDetailModel;
 import com.training.cinematic.Model.TvModel;
@@ -22,7 +22,7 @@ public interface ApiKeyInterface {
     Call<TvModel> getTvDetails(@Path("id") int id, @Query("api_key") String api_key);
 
     @GET("movie/popular")
-    Call<MovieModel> getMovielist(@Query("api_key") String api_key);
+    Call<PoplarMovieModel> getMovielist(@Query("api_key") String api_key);
 
   /*  @GET("movie/{id}")
     Call<MovieModel> getMovieDetails(@Path("id") int id, @Query("api_key") String api_key);

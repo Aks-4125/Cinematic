@@ -27,7 +27,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends BaseActivity  {
 
     @BindView(R.id.edt_email)
     EditText email;

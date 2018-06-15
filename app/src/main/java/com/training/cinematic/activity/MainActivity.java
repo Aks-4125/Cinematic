@@ -29,19 +29,23 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
 
-    private static final String TAG =MainActivity.class.getName();
+    private static final String TAG = MainActivity.class.getName();
     private static final String FLAG = "flag";
     @BindView(R.id.tablayout)
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
-    boolean doublePresstoExit=false;
+    boolean doublePresstoExit = false;
     @BindView(R.id.constrainlayout)
     ConstraintLayout constraintLayout;
     private Realm realm;
+    private ViewPagerAdapter adapter;
+    PopularTvFragment popularTvFragment ;
+    PopularMoviesFragment popularMoviesFragment;
+    UpComingMovieFragment upComingMovieFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +53,17 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Realm.init(this);
-       // realm=Realm.getDefaultInstance();
+       /*  popularTvFragment=new PopularTvFragment() ;
+         popularMoviesFragment=new PopularMoviesFragment();
+        upComingMovieFragment=new UpComingMovieFragment();*/
         setupViewPager(viewPager);
-       tabLayout.setupWithViewPager(viewPager);
-
+        tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(1);
-
-
 
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFrag(new PopularMoviesFragment(), "Popular Movies");
         viewPager.setCurrentItem(0);
         adapter.addFrag(new UpComingMovieFragment(), "Upcoming Movies");
@@ -131,19 +134,20 @@ public class MainActivity extends AppCompatActivity  {
         }
 
     }
-    public void onBackPressed(){
-        if (doublePresstoExit){
+
+    public void onBackPressed() {
+        if (doublePresstoExit) {
             super.onBackPressed();
             return;
         }
-        this.doublePresstoExit=true;
+        this.doublePresstoExit = true;
         Snackbar.make(constraintLayout, "Please Click Back again to Exit", Snackbar.LENGTH_LONG).show();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                doublePresstoExit=false;
+                doublePresstoExit = false;
             }
-        },2000);
+        }, 2000);
 
     }
 
