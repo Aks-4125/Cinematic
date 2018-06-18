@@ -9,26 +9,26 @@ import io.realm.annotations.PrimaryKey;
  * Created by dhruvisha on 6/6/2018.
  */
 
-public class MovieDetailModel extends RealmObject{
+public class MovieDetailModel extends RealmObject {
     @SerializedName("adult")
     private Boolean adult;
     @SerializedName("backdrop_path")
 
     private String backdropPath;
-   /* @SerializedName("belongs_to_collection")
+    /* @SerializedName("belongs_to_collection")
 
-    private BelongsToCollection belongsToCollection;*/
+     private BelongsToCollection belongsToCollection;*/
     @SerializedName("budget")
 
     private Integer budget;
-  /*  @SerializedName("genres")
+    /*  @SerializedName("genres")
 
-    private List<Genre> genres = null;*/
+      private List<Genre> genres = null;*/
     @SerializedName("homepage")
 
     private String homepage;
-   @PrimaryKey
-   
+    @PrimaryKey
+
     private Integer id;
     @SerializedName("imdb_id")
 
@@ -48,40 +48,40 @@ public class MovieDetailModel extends RealmObject{
     @SerializedName("poster_path")
 
     private String posterPath;
-  /*  @SerializedName("production_companies")
-   
-    private List<ProductionCompany> productionCompanies = null;
-    @SerializedName("production_countries")
+    /*  @SerializedName("production_companies")
 
-    private List<ProductionCountry> productionCountries = null;*/
+      private List<ProductionCompany> productionCompanies = null;
+      @SerializedName("production_countries")
+
+      private List<ProductionCountry> productionCountries = null;*/
     @SerializedName("release_date")
 
     private String releaseDate;
     @SerializedName("revenue")
-   
+
     private Integer revenue;
     @SerializedName("runtime")
-   
+
     private Integer runtime;
-   /* @SerializedName("spoken_languages")
-   
-    private List<SpokenLanguage> spokenLanguages = null;*/
+    /* @SerializedName("spoken_languages")
+
+     private List<SpokenLanguage> spokenLanguages = null;*/
     @SerializedName("status")
-   
+
     private String status;
     @SerializedName("tagline")
-   
+
     private String tagline;
     @SerializedName("title")
-   
+
     private String title;
     @SerializedName("video")
     private Boolean video;
     @SerializedName("vote_average")
-   
+
     private Double voteAverage;
     @SerializedName("vote_count")
-   
+
     private Integer voteCount;
 
     public Boolean getAdult() {

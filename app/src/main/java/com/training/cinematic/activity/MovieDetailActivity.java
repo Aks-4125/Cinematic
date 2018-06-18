@@ -9,7 +9,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -31,7 +30,6 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -98,7 +96,7 @@ public class MovieDetailActivity extends BaseActivity {
                 getDataTv(tvDetailId);
             }
         }
-
+        ratingBar.setOnTouchListener((v, event) -> true);
     }
 
     public boolean isConnected() {
@@ -112,52 +110,62 @@ public class MovieDetailActivity extends BaseActivity {
     }
 
     public void getDataMovies(int movieDetailId) {
+
+        MovieDetailModel movieDetailModel = realm.where(MovieDetailModel.class)
+                .equalTo("id", movieDetailId).findFirst();
+
+        if (movieDetailModel != null) {
+            Double rates = movieDetailModel.getVoteAverage();
+            float rating = (float) (rates / 2);
+            ratingBar.setRating(rating);
+            ratingBar.setVisibility(View.VISIBLE);
+            movieName.setText(movieDetailModel.getTitle());
+            description.setText(movieDetailModel.getOverview());
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setTitle(movieDetailModel.getTitle());
+        }
+
+       /*
         RealmResults<MovieDetailModel> realmResults = realm.where(MovieDetailModel.class).findAll();
-        ratingBar.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
-            }
-        });
+
         for (MovieDetailModel movieDetailModel : realmResults) {
 
             movieId = movieDetailModel.getId();
             if (movieDetailId == movieId) {
-                Double rates = movieDetailModel.getVoteAverage();
-                float rating = (float) (rates / 2);
-                ratingBar.setRating(rating);
-                ratingBar.setVisibility(View.VISIBLE);
-                movieName.setText(movieDetailModel.getTitle());
-                description.setText(movieDetailModel.getOverview());
+
 
             }
-
-        }
+*/
+        //}
 
 
     }
 
-    public void getDataTv(int tvDetailId ){
-        RealmResults<TvDetailModel> tvDetailModelRealmResults=realm.where(TvDetailModel.class).findAll();
+    public void getDataTv(int tvDetailId) {
+        TvDetailModel tvDetailModel = realm.where(TvDetailModel.class)
+                .equalTo("id", tvDetailId).findFirst();
+        Double rate = tvDetailModel.getVoteAverage();
+        float rating = (float) (rate / 2);
+        ratingBar.setRating(rating);
+        ratingBar.setVisibility(View.VISIBLE);
+        movieName.setText(tvDetailModel.getName());
+        description.setText(tvDetailModel.getOverview());
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setTitle(tvDetailModel.getName());
+    /*    RealmResults<TvDetailModel> tvDetailModelRealmResults = realm.where(TvDetailModel.class).findAll();
         ratingBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 return true;
             }
         });
-        for (TvDetailModel tvDetailModel:tvDetailModelRealmResults){
-            tvId=tvDetailModel.getId();
-            if (tvId==tvDetailId){
-                Double rate=tvDetailModel.getVoteAverage();
-                float rating=(float) (rate/2);
-                ratingBar.setRating(rating);
-                ratingBar.setVisibility(View.VISIBLE);
-                movieName.setText(tvDetailModel.getName());
-                description.setText(tvDetailModel.getOverview());
+        for (TvDetailModel tvDetailModel : tvDetailModelRealmResults) {
+            tvId = tvDetailModel.getId();
+            if (tvId == tvDetailId) {
+
             }
 
-        }
-
+        }*/
 
 
     }
@@ -174,26 +182,7 @@ public class MovieDetailActivity extends BaseActivity {
                         realm.executeTransaction(realm1 -> {
                             realm1.insertOrUpdate(tvDetailModel);
                         });
-                        getDataMovies(tvDetailId);
-
-                        tvId = tvDetailModel.getId();
-
-                        String name = tvDetailModel.getName();
-                        String descriptionTv = tvDetailModel.getOverview();
-                        Double rate = tvDetailModel.getVoteAverage();
-                        float rating = (float) (rate / 2);
-                        ratingBar.setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                return true;
-                            }
-                        });
-                        ratingBar.setRating(rating);
-                        ratingBar.setVisibility(View.VISIBLE);
-                        movieName.setText(name);
-                        description.setText(descriptionTv);
-                        viewPager.setVisibility(View.VISIBLE);
-                        indicator.setVisibility(View.VISIBLE);
+                        getDataTv(tvDetailId);
 
 
                     }
@@ -236,6 +225,8 @@ public class MovieDetailActivity extends BaseActivity {
                                         currentpage = 0;
                                     }
                                     viewPager.setCurrentItem(currentpage++, true);
+                                    viewPager.setVisibility(View.VISIBLE);
+                                    indicator.setVisibility(View.VISIBLE);
                                     progressBar.setVisibility(View.GONE);
                                     indicator.setViewPager(viewPager);
                                 }
@@ -251,8 +242,6 @@ public class MovieDetailActivity extends BaseActivity {
                         }
 
 
-
-
                     }
 
                     @Override
@@ -263,52 +252,7 @@ public class MovieDetailActivity extends BaseActivity {
                 });
     }
 
- /*   public void getDetailOfTv() {
-        apiClient.getClient()
-                .getTvDetail((tvDetailId), getString(Integer.parseInt(String.valueOf(R.string.apikey))))
-                .enqueue(new Callback<TvDetailModel>() {
-                    @Override
-                    public void onResponse(Call<TvDetailModel> call, Response<TvDetailModel> response) {
-                        progressBar.setVisibility(View.GONE);
 
-                        tvDetailModel = response.body();
-
-                        tvId = tvDetailModel.getId();
-
-                        String name = tvDetailModel.getName();
-                        String descriptionTv = tvDetailModel.getOverview();
-                        Double rate = tvDetailModel.getVoteAverage();
-                        float rating = (float) (rate / 2);
-
-                        ratingBar.setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                return true;
-                            }
-                        });
-                        ratingBar.setRating(rating);
-                        movieName.setText(name);
-                        description.setText(descriptionTv);
-                       *//* realm = Realm.getDefaultInstance();
-                        realm.executeTransaction(realm1 -> {
-                            realm1.insertOrUpdate( tvDetailModel);
-                        });*//*
-                        viewPager.setVisibility(View.VISIBLE);
-                        //  ratingBar.setVisibility(View.VISIBLE);
-                        indicator.setVisibility(View.VISIBLE);
-                      *//*  movieName.setVisibility(View.VISIBLE);
-                        description.setVisibility(View.VISIBLE);*//*
-                        //progressBar.setVisibility(View.GONE);
-
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<TvDetailModel> call, Throwable t) {
-                        Log.e(TAG, t.toString());
-                    }
-                });
-    }*/
 
     public void movieDetail() {
         apiClient.getClient()
@@ -370,10 +314,11 @@ public class MovieDetailActivity extends BaseActivity {
                                         currentpage = 0;
                                     }
                                     viewPager.setCurrentItem(currentpage++, true);
+                                    viewPager.setVisibility(View.VISIBLE);
                                     progressBar.setVisibility(View.GONE);
                                 }
                             };
-                            viewPager.setVisibility(View.VISIBLE);
+
                             indicator.setVisibility(View.VISIBLE);
                             Timer timer = new Timer();
                             timer.schedule(new TimerTask() {
@@ -383,8 +328,6 @@ public class MovieDetailActivity extends BaseActivity {
                                 }
                             }, 2500, 2500);
                         }
-
-
 
 
                     }
@@ -399,68 +342,5 @@ public class MovieDetailActivity extends BaseActivity {
 
     }
 
-  /*  public void getDetailOfMovie() {
-        apiClient.getClient()
-                .getMovieDetail((movieDetailId), getString(Integer.parseInt(String.valueOf(R.string.apikey))))
-                .enqueue(new Callback<MovieDetailModel>() {
-                    @Override
-                    public void onResponse(Call<MovieDetailModel> call, Response<MovieDetailModel> response) {
-                        MovieDetailModel movieDetailModel = response.body();
 
-                        realm = Realm.getDefaultInstance();
-                        realm.executeTransaction(realm1 -> {
-                            realm1.insertOrUpdate(movieDetailModel);
-                        });
-                        getDataMovies(movieDetailId);
-                              *//*  Double rates=movieDetailModel.getVoteAverage();
-                                float rating=(float) (rates/2);
-                                ratingBar.setRating(rating);
-                                movieName.setText(movieDetailModel.getTitle());
-                                description.setText(movieDetailModel.getOverview());
-                               // progressBar.setVisibility(View.GONE);
-                                ratingBar.setVisibility(View.VISIBLE);
-                                movieName.setVisibility(View.VISIBLE);
-                                description.setVisibility(View.VISIBLE);
-
-
-
-
-
-                        movieId = movieDetailModel.getId();*//*
-                     *//*   String name = movieDetailModel.getTitle();
-                        String descriptionMovie = movieDetailModel.getOverview();
-                        Double rating = movieDetailModel.getVoteAverage();
-                        Log.d("rating", "ratings-->" + rating);
-                        float rate = (float) (rating / 2);
-                        movieName.setText(name);
-                        description.setText(descriptionMovie);*//*
-                     *//*   ratingBar.setOnTouchListener(new View.OnTouchListener() {
-                            @Override
-                            public boolean onTouch(View v, MotionEvent event) {
-                                return true;
-                            }
-                        });
-                     //   ratingBar.setRating(rate);
-
-                        viewPager.setVisibility(View.VISIBLE);*//*
-                    *//*    ratingBar.setVisibility(View.VISIBLE);
-                        indicator.setVisibility(View.VISIBLE);
-                        movieName.setVisibility(View.VISIBLE);
-                        description.setVisibility(View.VISIBLE);*//*
-                        //progressBar.setVisibility(View.GONE);
-                        //visible view
-                        //close progress
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<MovieDetailModel> call, Throwable t) {
-                        Log.e(TAG, t.toString());
-
-                        //close progress
-
-                    }
-                });
-
-    }*/
 }

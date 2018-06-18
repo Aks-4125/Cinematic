@@ -41,7 +41,7 @@
         </activity>
         <activity
             android:name=".activity.MovieDetailActivity"
-            android:theme="@style/AppTheme2" android:parentActivityName=".activity.MainActivity" android:label="Movie">
+            android:theme="@style/AppTheme2" android:parentActivityName=".activity.MainActivity" >
 
         </activity>
 

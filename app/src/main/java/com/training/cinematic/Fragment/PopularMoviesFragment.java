@@ -157,7 +157,7 @@ public class PopularMoviesFragment extends BaseFragment {
                                 if (mRecyclerView != null && swipeRefreshLayout != null && cirlcleProgressbarMovie != null) {
                                     realm = Realm.getDefaultInstance();
                                     realm.executeTransaction(realmm -> {
-                                        realmm.copyToRealmOrUpdate(movieModelList);
+                                        realmm.insertOrUpdate(movieModelList);
                                     });
                                     mRecyclerView.setAdapter(new PopularMoviesAdapter(movies, R.layout.movie_item, getActivity()));
                                     swipeRefreshLayout.setRefreshing(false);
