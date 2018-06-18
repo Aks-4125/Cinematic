@@ -152,7 +152,7 @@ public class PopularTvFragment extends BaseFragment {
 
                                     realm = Realm.getDefaultInstance();
                                     realm.executeTransaction(realm1 -> {
-                                        realm1.copyToRealmOrUpdate(popularTv);
+                                        realm1.insertOrUpdate(popularTv);
                                     });
                                     mRecyclerView.setAdapter(new PopularTvAdapter(getActivity(), R.layout.movie_item, popularTv));
                                     mRecyclerView.clearAnimation();

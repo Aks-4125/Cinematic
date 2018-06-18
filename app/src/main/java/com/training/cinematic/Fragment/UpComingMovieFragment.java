@@ -187,7 +187,7 @@ public class UpComingMovieFragment extends BaseFragment {
 
                 realm = Realm.getDefaultInstance();
                 realm.executeTransaction(realmu -> {
-                    realmu.copyToRealmOrUpdate(movieResponse);
+                    realmu.insertOrUpdate(movieResponse);
                 });
             } catch (Exception e) {
                 Log.e("Error: ", e.getMessage(), e);
