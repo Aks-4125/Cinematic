@@ -1,14 +1,18 @@
 package com.training.cinematic.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
@@ -30,6 +34,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmResults;
 import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +60,8 @@ public class MovieDetailActivity extends BaseActivity {
     RatingBar ratingBar;
     @BindView(R.id.progrssbar)
     ProgressBar progressBar;
+    @BindView(R.id.text_date)
+    TextView date;
     TvDetailModel tvDetailModel;
     private ApiClient apiClient;
     private int movieDetailId;
@@ -62,9 +69,11 @@ public class MovieDetailActivity extends BaseActivity {
     int imagesId;
     int movieId;
     int tvId;
-    int counter = 0;
     Realm realm;
-
+    String SHARE = "share";
+    String NAME = "name";
+    String RATING = "rating";
+    MenuItem menuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,6 +107,64 @@ public class MovieDetailActivity extends BaseActivity {
         }
         ratingBar.setOnTouchListener((v, event) -> true);
     }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.share, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.share:
+                RealmResults<MovieDetailModel> realmResults = realm.where(MovieDetailModel.class).findAll();
+                for (MovieDetailModel movieDetailModel : realmResults) {
+
+                    movieId = movieDetailModel.getId();
+
+                    if (movieDetailId == movieId) {
+                        String name = movieDetailModel.getTitle();
+                        String url = movieDetailModel.getHomepage();
+                        Uri movieuri = Uri.parse(movieDetailModel.getHomepage());
+                        Double rating = movieDetailModel.getVoteAverage();
+                        float rates = (float) (rating / 2);
+                        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.setFlags(android.content.Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Cinematic App");
+                        intent.putExtra(android.content.Intent.EXTRA_TEXT, "Movie Name:\n" + name +
+                                "\n URL: \n" + movieuri + "\n Rating: " + rates);
+                        intent.putExtra(Intent.EXTRA_STREAM, url);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(intent, "Share link"));
+                    }
+                }
+                RealmResults<TvDetailModel> tvDetailModelRealmResults = realm.where(TvDetailModel.class).findAll();
+                for (TvDetailModel tvDetailModel : tvDetailModelRealmResults) {
+                    tvId = tvDetailModel.getId();
+                    if (tvId == tvDetailId) {
+                        String name = tvDetailModel.getName();
+                        Double rating = tvDetailModel.getVoteAverage();
+                        Uri tvurl = Uri.parse(tvDetailModel.getHomepage());
+                        float rates = (float) (rating / 2);
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+                        intent.setType("text/plain");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Cinematic App");
+                        intent.putExtra(Intent.EXTRA_TEXT, "Tv Show Name:" + name + "\n URL:"
+                                + tvurl + "\n Rating:" + rates);
+                        startActivity(Intent.createChooser(intent, "Share link"));
+
+                    }
+                }
+
+
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public boolean isConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

@@ -41,10 +41,10 @@ public class SignupActivity extends BaseActivity {
     Realm realm;
     private static final String TAG = SignupActivity.class.getName();
     String FLAG = "flag";
-     String KEY_EMAIL = "email";
-     String NUMBER = "number";
+    String KEY_EMAIL = "email";
+    String NUMBER = "number";
     String KEY_NAME = "name";
-     String KEY_PWD = "password";
+    String KEY_PWD = "password";
     SharedPreferences.Editor editor;
 
     @Override
@@ -56,10 +56,11 @@ public class SignupActivity extends BaseActivity {
         realm = Realm.getDefaultInstance();
 
     }
-    public boolean isConnected(){
-        ConnectivityManager connectivityManager=(ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info=connectivityManager.getActiveNetworkInfo();
-        if (info!=null && info.isConnectedOrConnecting())
+
+    public boolean isConnected() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+        if (info != null && info.isConnectedOrConnecting())
             return true;
         else
             return false;
@@ -75,7 +76,7 @@ public class SignupActivity extends BaseActivity {
         if (Validation(sname, snumber, semail, spassword)) {
             try {
                 try (Realm r = Realm.getDefaultInstance()) {
-                        if (isConnected()){
+                    if (isConnected()) {
                         final User user = new User();
                         user.setFullName(sname);
                         user.setPhoneNumber(snumber);
@@ -83,10 +84,10 @@ public class SignupActivity extends BaseActivity {
                         user.setPassword(spassword);
                         SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        Log.e(KEY_NAME,user.getFullName());
-                        Log.e(NUMBER,user.getPhoneNumber());
-                        Log.e(KEY_EMAIL,user.getEmailId());
-                        Log.e(KEY_PWD,user.getPassword());
+                        Log.e(KEY_NAME, user.getFullName());
+                        Log.e(NUMBER, user.getPhoneNumber());
+                        Log.e(KEY_EMAIL, user.getEmailId());
+                        Log.e(KEY_PWD, user.getPassword());
                         editor.commit();
 
                         r.executeTransaction(realm -> {
@@ -96,11 +97,9 @@ public class SignupActivity extends BaseActivity {
                         Toast.makeText(this, "Registration suceesfully", Toast.LENGTH_SHORT).show();
                         startActivity(intent);
                         finish();
-                    }
-                        else
-                            Toast.makeText(this, "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+                    } else
+                        Toast.makeText(this, "No Internet Connection!!", Toast.LENGTH_SHORT).show();
                 }
-
 
 
             } catch (RealmPrimaryKeyConstraintException e) {
