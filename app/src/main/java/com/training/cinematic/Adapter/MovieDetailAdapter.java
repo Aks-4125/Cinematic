@@ -55,7 +55,6 @@ public class MovieDetailAdapter extends PagerAdapter {
         Picasso.with(context)
                 .load(path + img)
                 .into(myimage);
-
         view.addView(myImageLayout, 0);
         return myImageLayout;
     }

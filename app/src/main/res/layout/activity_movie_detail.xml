@@ -109,7 +109,7 @@
             android:fillViewport="true"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -126,14 +126,20 @@
                     android:stepSize="0.5" />
 
                 <TextView
+                    android:layout_below="@+id/rating"
+                    android:id="@+id/text_date"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:layout_below="@+id/text_date"
                     android:id="@+id/text_description"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:textSize="15sp" />
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
         </android.support.v4.widget.NestedScrollView>
