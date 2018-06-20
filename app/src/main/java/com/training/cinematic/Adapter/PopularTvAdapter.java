@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.TvResult;
 import com.training.cinematic.R;
-import com.training.cinematic.activity.MovieDetailActivity;
+import com.training.cinematic.activity.DetailScreenActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -84,7 +84,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         holder.tvImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class).putExtra("tvId", popularTv.get(position).getId()));
+                view.getContext().startActivity(new Intent(context, DetailScreenActivity.class).putExtra("tvId", popularTv.get(position).getId()));
                 Log.d("populat tv", "id ---->>>>" + popularTv.get(position).getId());
             }
         });

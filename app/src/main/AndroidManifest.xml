@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.training.cinematic">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -24,7 +26,6 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".activity.SignupActivity"
@@ -36,18 +37,22 @@
             android:name=".activity.ProfileActivity"
             android:label="Profile"
             android:parentActivityName=".activity.MainActivity"
-            android:theme="@style/AppTheme2">
-
-        </activity>
+            android:theme="@style/AppTheme2"></activity>
         <activity
             android:name=".activity.MovieDetailActivity"
-            android:theme="@style/AppTheme2" android:parentActivityName=".activity.MainActivity" >
-
-        </activity>
+            android:parentActivityName=".activity.MainActivity"
+            android:theme="@style/AppTheme2"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <activity android:name=".activity.DetailScreenActivity" android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

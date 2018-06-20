@@ -7,11 +7,11 @@ def libs = rootProject.ext.libraries;
 android {
     compileSdkVersion appConfig.compileSdkVersion
     defaultConfig {
-            javaCompileOptions {
-                annotationProcessorOptions {
-                    includeCompileClasspath false
-                }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                includeCompileClasspath false
             }
+        }
 
         applicationId appConfig.applicationId
         minSdkVersion appConfig.minSdkVersion
@@ -60,7 +60,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.2.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-  
+    implementation 'com.jaeger.statusbarutil:library:1.4.0'
+
     // Butterknife
     implementation "com.jakewharton:butterknife:${libs.butterknifeVersion}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${libs.butterknifeVersion}"

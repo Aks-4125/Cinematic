@@ -1,9 +1,6 @@
 package com.training.cinematic.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -70,10 +67,10 @@ public class MovieDetailActivity extends BaseActivity {
     int movieId;
     int tvId;
     Realm realm;
-    String SHARE = "share";
+ /*   String SHARE = "share";
     String NAME = "name";
     String RATING = "rating";
-    MenuItem menuItem;
+    MenuItem menuItem;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +78,7 @@ public class MovieDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_movie_detail);
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
-        collapsingToolbarLayout.setTitle("Movie");
+       // collapsingToolbarLayout.setTitle("Movie");
         apiClient = new ApiClient(this);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -166,15 +163,6 @@ public class MovieDetailActivity extends BaseActivity {
     }
 
 
-    public boolean isConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     public void getDataMovies(int movieDetailId) {
 
