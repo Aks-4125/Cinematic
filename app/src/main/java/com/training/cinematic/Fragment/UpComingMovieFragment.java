@@ -132,6 +132,8 @@ public class UpComingMovieFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         swipeRefreshLayout.removeAllViews();
+        //realm.deleteAll();
+//        realm.close();
         unbinder.unbind();
     }
 

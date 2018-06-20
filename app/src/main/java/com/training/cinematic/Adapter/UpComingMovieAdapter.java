@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.MovieResult;
 import com.training.cinematic.R;
-import com.training.cinematic.activity.MovieDetailActivity;
+import com.training.cinematic.activity.DetailScreenActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -92,7 +92,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, MovieDetailActivity.class).putExtra("movieId", movie.getId()));
+                context.startActivity(new Intent(context, DetailScreenActivity.class).putExtra("movieId", movie.getId()));
 
             }
         });

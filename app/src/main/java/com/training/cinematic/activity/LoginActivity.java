@@ -70,16 +70,6 @@ public class LoginActivity extends BaseActivity  {
 
     }
 
-    public boolean isConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo netInfo = cm.getActiveNetworkInfo();
-        if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-
-            return true;
-        } else {
-            return false;
-        }
-    }
 
 
     @OnClick(R.id.btn_signup)

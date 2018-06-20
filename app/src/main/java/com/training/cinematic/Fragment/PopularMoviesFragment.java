@@ -191,7 +191,13 @@ public class PopularMoviesFragment extends BaseFragment {
         super.onDestroyView();
         swipeRefreshLayout.removeAllViews();
         unbinder.unbind();
-        realm.close();
+      /*  realm.deleteAll();
+        realm.close();*/
     }
+   /* public void onDestroy() {
 
+        super.onDestroy();
+        realm.deleteAll();
+        realm.close();
+    }*/
 }

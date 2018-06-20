@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.PopularMovieResult;
 import com.training.cinematic.R;
-import com.training.cinematic.activity.MovieDetailActivity;
+import com.training.cinematic.activity.DetailScreenActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -81,7 +81,7 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         holder.movieImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context, MovieDetailActivity.class).putExtra("movieId", movies.get(position).getId()));
+                view.getContext().startActivity(new Intent(context, DetailScreenActivity.class).putExtra("movieId", movies.get(position).getId()));
 
             }
         });

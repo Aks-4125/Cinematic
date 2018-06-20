@@ -57,14 +57,7 @@ public class SignupActivity extends BaseActivity {
 
     }
 
-    public boolean isConnected() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info != null && info.isConnectedOrConnecting())
-            return true;
-        else
-            return false;
-    }
+
 
     @OnClick(R.id.btn_signup)
     public void OnViewClick() {
