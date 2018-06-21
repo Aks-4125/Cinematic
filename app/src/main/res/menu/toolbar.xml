@@ -4,7 +4,7 @@
 
     <item android:id="@+id/profile"
         android:onClick="onOptionItemSelected"
-        android:icon="@drawable/round_account_circle_black_18dp"
+        android:icon="@drawable/round_account_circle_white_18dp"
         android:title="Profile"
         app:showAsAction="ifRoom"
         />

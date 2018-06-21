@@ -2,6 +2,7 @@ package com.training.cinematic.Model;
 
 import com.google.gson.annotations.SerializedName;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
@@ -21,9 +22,18 @@ public class MovieDetailModel extends RealmObject {
     @SerializedName("budget")
 
     private Integer budget;
-    /*  @SerializedName("genres")
+      @SerializedName("genres")
 
-      private List<Genre> genres = null;*/
+      private RealmList<MovieGenre> genres = null;
+
+    public RealmList<MovieGenre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(RealmList<MovieGenre> genres) {
+        this.genres = genres;
+    }
+
     @SerializedName("homepage")
 
     private String homepage;

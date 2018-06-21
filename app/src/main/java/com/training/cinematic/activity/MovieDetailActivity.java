@@ -17,7 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.training.cinematic.Adapter.MovieDetailAdapter;
-import com.training.cinematic.ApiClient;
+import com.training.cinematic.network.ApiClient;
 import com.training.cinematic.Model.MovieDetailModel;
 import com.training.cinematic.Model.SliderMovieImages;
 import com.training.cinematic.Model.TvDetailModel;

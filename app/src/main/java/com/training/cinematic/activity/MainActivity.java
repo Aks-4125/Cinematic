@@ -65,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFrag(new PopularMoviesFragment(), "Popular Movies");
+        adapter.addFrag(new PopularMoviesFragment(), "Popular ");
         viewPager.setCurrentItem(0);
-        adapter.addFrag(new UpComingMovieFragment(), "Upcoming Movies");
+        adapter.addFrag(new UpComingMovieFragment(), "Upcoming ");
         viewPager.setCurrentItem(1);
-        adapter.addFrag(new PopularTvFragment(), "Popular tv Shows");
+        adapter.addFrag(new PopularTvFragment(), "Tv Shows");
         viewPager.setCurrentItem(2);
         viewPager.setAdapter(adapter);
     }

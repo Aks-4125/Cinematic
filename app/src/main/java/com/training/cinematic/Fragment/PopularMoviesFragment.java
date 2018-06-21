@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.training.cinematic.Adapter.PopularMoviesAdapter;
-import com.training.cinematic.ApiClient;
+import com.training.cinematic.network.ApiClient;
 import com.training.cinematic.Model.PoplarMovieModel;
 import com.training.cinematic.Model.PopularMovieResult;
 import com.training.cinematic.R;
