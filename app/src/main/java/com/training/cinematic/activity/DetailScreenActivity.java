@@ -11,6 +11,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,11 +25,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.training.cinematic.Adapter.MovieDetailAdapter;
-import com.training.cinematic.ApiClient;
 import com.training.cinematic.Model.MovieDetailModel;
+import com.training.cinematic.Model.MovieGenre;
 import com.training.cinematic.Model.SliderMovieImages;
 import com.training.cinematic.Model.TvDetailModel;
 import com.training.cinematic.R;
+import com.training.cinematic.network.ApiClient;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,6 +44,7 @@ import java.util.TimerTask;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import me.relex.circleindicator.CircleIndicator;
 import retrofit2.Call;
@@ -59,7 +63,7 @@ public class DetailScreenActivity extends BaseActivity {
     TextView date;
     @BindView(R.id.rating)
     RatingBar ratingBar;
-    @BindView(R.id.text_description)
+    @BindView(R.id.desciption)
     TextView description;
     @BindView(R.id.toolbar1)
     Toolbar toolbar;
@@ -69,7 +73,14 @@ public class DetailScreenActivity extends BaseActivity {
     ProgressBar progressBar;
     @BindView(R.id.appbarlayout)
     AppBarLayout appBarLayout;
-
+    @BindView(R.id.language)
+    TextView language;
+    @BindView(R.id.txt_category)
+    TextView category;
+    @BindView(R.id.duration)
+    TextView duration;
+    @BindView(R.id.homepage)
+    TextView homepage;
     int currentpage = 0;
     boolean appBarExpanded;
     Menu collapsedMenu;
@@ -83,8 +94,9 @@ public class DetailScreenActivity extends BaseActivity {
     int tvId;
     int imagesId;
     String name;
+    List<MovieGenre> movieGenreList;
     ActionBar actionBar;
-
+    ArrayList<String> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +107,7 @@ public class DetailScreenActivity extends BaseActivity {
         progressBar.setVisibility(View.VISIBLE);
         apiClient = new ApiClient(this);
         setSupportActionBar(toolbar);
-
+        description.setMovementMethod(new ScrollingMovementMethod());
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -117,33 +129,32 @@ public class DetailScreenActivity extends BaseActivity {
             Window w = getWindow();
             w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         }
-            ratingBar.setOnTouchListener((v, event) -> true);
-            fab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    shareData();
-                }
-            });
-            if (getIntent().hasExtra("movieId")) {
-                movieDetailId = getIntent().getIntExtra("movieId", 0);
-                if (isConnected()) {
-                    movieDeatils();
-                } else {
-                    Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                    getMovieData(movieDetailId);
-                }
-            } else if (getIntent().hasExtra("tvId")) {
-                tvDetailId = getIntent().getIntExtra("tvId", 0);
-                if (isConnected()) {
-                    tvDetails();
-                } else {
-                    Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
-                    progressBar.setVisibility(View.GONE);
-                    getTvData(tvDetailId);
-                }
+        ratingBar.setOnTouchListener((v, event) -> true);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                shareData();
             }
-
+        });
+        if (getIntent().hasExtra("movieId")) {
+            movieDetailId = getIntent().getIntExtra("movieId", 0);
+            if (isConnected()) {
+                movieDeatils();
+            } else {
+                Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                // getMovieData(movieDetailId);
+            }
+        } else if (getIntent().hasExtra("tvId")) {
+            tvDetailId = getIntent().getIntExtra("tvId", 0);
+            if (isConnected()) {
+                tvDetails();
+            } else {
+                Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                //  getTvData(tvDetailId);
+            }
+        }
 
 
     }
@@ -169,7 +180,8 @@ public class DetailScreenActivity extends BaseActivity {
 
         return super.onPrepareOptionsMenu(menu);
     }
-    private void shareData(){
+
+    private void shareData() {
         RealmResults<MovieDetailModel> realmResults = realm.where(MovieDetailModel.class).findAll();
         for (MovieDetailModel movieDetailModel : realmResults) {
 
@@ -214,16 +226,28 @@ public class DetailScreenActivity extends BaseActivity {
     }
 
 
-    private void getMovieData(int movieId){
+    private void getMovieData(int movieId) {
         MovieDetailModel movieDetailModel = realm.where(MovieDetailModel.class)
                 .equalTo("id", movieDetailId).findFirst();
 
+        RealmList<MovieGenre> genres = movieDetailModel.getGenres();
+        Log.d("list", "moviegenre list" + genres);
+        String names = "";
+        for (int i = 0; i < genres.size(); i++) {
+            String name = genres.get(i).getName();
+            names = names+ ", " +name;
+
+        }
+        if (names!=null)
+        category.setText(names);
+
+        //  category.setText(genres.toString());
         if (movieDetailModel != null) {
             Double rates = movieDetailModel.getVoteAverage();
             float rating = (float) (rates / 2);
             ratingBar.setRating(rating);
             ratingBar.setVisibility(View.VISIBLE);
-            name=movieDetailModel.getTitle();
+            name = movieDetailModel.getTitle();
             String movieDate = movieDetailModel.getReleaseDate();
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             Date date1;
@@ -234,13 +258,38 @@ public class DetailScreenActivity extends BaseActivity {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            date.setText(convertedDate);
-           // movieName.setText(movieDetailModel.getTitle());
+            int time = movieDetailModel.getRuntime();
+            int houres = time / 60;
+            int minutes = time % 60;
+            duration.setText("Duration: " + houres + " Hour " + minutes + " Minutes");
+
+            date.setText("Release Date: " + convertedDate);
+            language.setText("Language: " + movieDetailModel.getOriginalLanguage());
             description.setText(movieDetailModel.getOverview());
-            /*if (getSupportActionBar() != null)*/
-                getSupportActionBar().setTitle(name);
-                collapsingToolbarLayout.setTitle(name);
-        }
+            String url = movieDetailModel.getHomepage();
+            if (url!=null) {
+                if (Build.VERSION.SDK_INT >= 24) {
+                    homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
+                } else {
+                    homepage.setText(Html.fromHtml(url));
+                }
+            }
+            getSupportActionBar().setTitle(name);
+            collapsingToolbarLayout.setTitle(name);
+            // RealmList<MovieGenre> genre = movieDetailModel.getGenres();
+          /*  MovieGenre list = new MovieGenre();
+            String name=list.getName();
+            Log.d("list", "moviegenre list" + name);*/
+         /*   RealmResults<MovieGenre> genres=realm.where(MovieGenre.class)
+                    .findAll();
+            Log.d("list","moviegenre list"+genres);*/
+           /* for (int i=0;i<genres.size();i++)
+            category.setText(genres.get(i).getName());*/
+            //  category.setText(genres.toString());
+
+            // int id=movieGenre.getId();
+
+
 
        /*
         RealmResults<MovieDetailModel> realmResults = realm.where(MovieDetailModel.class).findAll();
@@ -253,20 +302,19 @@ public class DetailScreenActivity extends BaseActivity {
 
             }
 */
-        //}
+            //}
 
+        }
     }
 
-
-    private void getTvData(int tvId){
+    private void getTvData(int tvId) {
         TvDetailModel tvDetailModel = realm.where(TvDetailModel.class)
                 .equalTo("id", tvDetailId).findFirst();
         Double rate = tvDetailModel.getVoteAverage();
         float rating = (float) (rate / 2);
         ratingBar.setRating(rating);
         ratingBar.setVisibility(View.VISIBLE);
-       // movieName.setText(tvDetailModel.getName());
-        name=tvDetailModel.getName();
+        name = tvDetailModel.getName();
         description.setText(tvDetailModel.getOverview());
         String tvDate = tvDetailModel.getFirstAirDate();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -278,9 +326,20 @@ public class DetailScreenActivity extends BaseActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        date.setText(convertedDate);
-            getSupportActionBar().setTitle(name);
-            collapsingToolbarLayout.setTitle(name);
+        date.setText("Realease Date:" + convertedDate);
+        language.setText("Langauge:" + tvDetailModel.getOriginalLanguage());
+        getSupportActionBar().setTitle(name);
+        collapsingToolbarLayout.setTitle(name);
+        Integer episodes = tvDetailModel.getNumberOfEpisodes();
+        int season = tvDetailModel.getNumberOfSeasons();
+        duration.setText("Number of Seasons: " + season + "\nNumber of Episodes: " + episodes);
+        String url = tvDetailModel.getHomepage();
+        if (Build.VERSION.SDK_INT >= 24) {
+            homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            homepage.setText(Html.fromHtml(url));
+        }
+
     /*    RealmResults<TvDetailModel> tvDetailModelRealmResults = realm.where(TvDetailModel.class).findAll();
         ratingBar.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -298,14 +357,13 @@ public class DetailScreenActivity extends BaseActivity {
 
     }
 
-    private void movieDeatils(){
+    private void movieDeatils() {
         apiClient.getClient()
                 .getMovieDetail((movieDetailId), getString(Integer.parseInt(String.valueOf(R.string.apikey))))
                 .enqueue(new Callback<MovieDetailModel>() {
                     @Override
                     public void onResponse(Call<MovieDetailModel> call, Response<MovieDetailModel> response) {
                         MovieDetailModel movieDetailModel = response.body();
-
                         realm = Realm.getDefaultInstance();
                         realm.executeTransaction(realm1 -> {
                             realm1.insertOrUpdate(movieDetailModel);
@@ -385,7 +443,7 @@ public class DetailScreenActivity extends BaseActivity {
                 });
     }
 
-    private void tvDetails(){
+    private void tvDetails() {
         apiClient.getClient()
                 .getTvDetail((tvDetailId), getString(Integer.parseInt(String.valueOf(R.string.apikey))))
                 .enqueue(new Callback<TvDetailModel>() {

@@ -1,4 +1,4 @@
-package com.training.cinematic;
+package com.training.cinematic.network;
 
 import android.content.Context;
 import android.content.SharedPreferences;

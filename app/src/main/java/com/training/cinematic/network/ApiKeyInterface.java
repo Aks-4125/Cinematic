@@ -1,4 +1,4 @@
-package com.training.cinematic;
+package com.training.cinematic.network;
 
 import com.training.cinematic.Model.MovieDetailModel;
 import com.training.cinematic.Model.PoplarMovieModel;

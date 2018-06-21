@@ -1,6 +1,8 @@
-package com.training.cinematic;
+package com.training.cinematic.network;
 
 import android.content.Context;
+
+import com.training.cinematic.BuildConfig;
 
 import java.util.concurrent.TimeUnit;
 
