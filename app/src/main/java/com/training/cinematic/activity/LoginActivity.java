@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.training.cinematic.Model.User;
 import com.training.cinematic.R;
+import com.training.cinematic.Utils.SharedPrefsHelp;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,8 +61,8 @@ public class LoginActivity extends BaseActivity  {
 
 
 
-        SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
-        if (sharedPreferences.getBoolean("logged", false)) {
+
+        if (SharedPrefsHelp.getBoolean(LoginActivity.this,getString(R.string.get_loggedin_pref), false)) {
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
@@ -196,15 +197,16 @@ public class LoginActivity extends BaseActivity  {
 
 
         if (user != null) {
-            SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
+            SharedPrefsHelp.setBoolean(LoginActivity.this,getString(R.string.get_loggedin_pref),true);
+            SharedPrefsHelp.setString(LoginActivity.this,getString(R.string.get_email_pref),user.getEmailId());
+          /*  SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
             SharedPreferences.Editor editor = sharedPreferences.edit();
-            sharedPreferences.edit().putBoolean("logged", true).apply();
+            sharedPreferences.edit().putBoolean("logged",true).apply();
             Log.e(KEY_EMAIL, user.getEmailId());
             Log.e(KEY_PWD, user.getPassword());
             editor.putString(KEY_EMAIL, email);
             editor.commit();
-            finish();
-
+            finish();*/
 
             return true;
         } else {
@@ -216,6 +218,7 @@ public class LoginActivity extends BaseActivity  {
     public void onResume() {
 
         super.onResume();
+
 
 
     }

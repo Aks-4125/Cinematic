@@ -29,6 +29,7 @@ import com.training.cinematic.Model.MovieDetailModel;
 import com.training.cinematic.Model.MovieGenre;
 import com.training.cinematic.Model.SliderMovieImages;
 import com.training.cinematic.Model.TvDetailModel;
+import com.training.cinematic.Model.TvGenre;
 import com.training.cinematic.R;
 import com.training.cinematic.network.ApiClient;
 
@@ -79,8 +80,20 @@ public class DetailScreenActivity extends BaseActivity {
     TextView category;
     @BindView(R.id.duration)
     TextView duration;
+    @BindView(R.id.seasons)
+    TextView season;
     @BindView(R.id.homepage)
     TextView homepage;
+   /* @BindView(R.id.text_episodes)
+    TextView textEpisopdes*/;
+    @BindView(R.id.text_duration)
+    TextView textDuration;
+    @BindView(R.id.text_season)
+    TextView textSeason;
+    @BindView(R.id.text_episodes)
+    TextView textofEpisode;
+    @BindView(R.id.episodes)
+    TextView episodesTv;
     int currentpage = 0;
     boolean appBarExpanded;
     Menu collapsedMenu;
@@ -235,11 +248,11 @@ public class DetailScreenActivity extends BaseActivity {
         String names = "";
         for (int i = 0; i < genres.size(); i++) {
             String name = genres.get(i).getName();
-            names = names+ ", " +name;
+            names = name + ", " + names;
 
         }
-        if (names!=null)
-        category.setText(names);
+        if (names != null)
+            category.setText(names);
 
         //  category.setText(genres.toString());
         if (movieDetailModel != null) {
@@ -261,13 +274,14 @@ public class DetailScreenActivity extends BaseActivity {
             int time = movieDetailModel.getRuntime();
             int houres = time / 60;
             int minutes = time % 60;
-            duration.setText("Duration: " + houres + " Hour " + minutes + " Minutes");
-
-            date.setText("Release Date: " + convertedDate);
-            language.setText("Language: " + movieDetailModel.getOriginalLanguage());
+            duration.setText(houres + " Hour and " + minutes + " Minutes");
+            duration.setVisibility(View.VISIBLE);
+            textDuration.setVisibility(View.VISIBLE);
+            date.setText(convertedDate);
+            language.setText(movieDetailModel.getOriginalLanguage());
             description.setText(movieDetailModel.getOverview());
             String url = movieDetailModel.getHomepage();
-            if (url!=null) {
+            if (url != null) {
                 if (Build.VERSION.SDK_INT >= 24) {
                     homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
                 } else {
@@ -310,6 +324,16 @@ public class DetailScreenActivity extends BaseActivity {
     private void getTvData(int tvId) {
         TvDetailModel tvDetailModel = realm.where(TvDetailModel.class)
                 .equalTo("id", tvDetailId).findFirst();
+        RealmList<TvGenre> genres = tvDetailModel.getGenres();
+        Log.d("list", "moviegenre list" + genres);
+        String names = "";
+        for (int i = 0; i < genres.size(); i++) {
+            String name = genres.get(i).getName();
+            names = names + ", " + name;
+
+        }
+        if (names != null)
+            category.setText(names);
         Double rate = tvDetailModel.getVoteAverage();
         float rating = (float) (rate / 2);
         ratingBar.setRating(rating);
@@ -326,13 +350,17 @@ public class DetailScreenActivity extends BaseActivity {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        date.setText("Realease Date:" + convertedDate);
-        language.setText("Langauge:" + tvDetailModel.getOriginalLanguage());
+        date.setText(convertedDate);
+        language.setText(tvDetailModel.getOriginalLanguage());
         getSupportActionBar().setTitle(name);
         collapsingToolbarLayout.setTitle(name);
-        Integer episodes = tvDetailModel.getNumberOfEpisodes();
-        int season = tvDetailModel.getNumberOfSeasons();
-        duration.setText("Number of Seasons: " + season + "\nNumber of Episodes: " + episodes);
+        textSeason.setVisibility(View.VISIBLE);
+        season.setText(Integer.toString(tvDetailModel.getNumberOfSeasons()));
+        season.setVisibility(View.VISIBLE);
+        episodesTv.setText(Integer.toString(tvDetailModel.getNumberOfEpisodes()));
+        episodesTv.setVisibility(View.VISIBLE);
+        textofEpisode.setVisibility(View.VISIBLE);
+
         String url = tvDetailModel.getHomepage();
         if (Build.VERSION.SDK_INT >= 24) {
             homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));

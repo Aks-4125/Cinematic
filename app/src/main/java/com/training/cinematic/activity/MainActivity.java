@@ -1,7 +1,6 @@
 package com.training.cinematic.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -21,6 +20,7 @@ import com.training.cinematic.Fragment.PopularMoviesFragment;
 import com.training.cinematic.Fragment.PopularTvFragment;
 import com.training.cinematic.Fragment.UpComingMovieFragment;
 import com.training.cinematic.R;
+import com.training.cinematic.Utils.SharedPrefsHelp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,11 +116,12 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
+                SharedPrefsHelp.clearSharedPrefs(MainActivity.this);
+             /*   SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.clear();
                 editor.commit();
-                finish();
+                finish();*/
                 Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent1);
                 return true;

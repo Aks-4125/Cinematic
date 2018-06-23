@@ -12,38 +12,44 @@
         <item name="android:windowActionBar">false</item>
 
         <item name="android:windowContentTransitions" tools:ignore="NewApi">true</item>
-    </style>]
+    </style>
+    ]
+
     <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">#dedcdc</item>
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
+
     <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">#149e96</item>
         <item name="colorPrimaryDark">#dedcdc</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="AppTheme.ProgressBar">
         <item name="colorAccent">#07fdd4</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorPrimary">#149e96</item>
         <item name="colorPrimaryDark">#dedcdc</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
 
 
-
     </style>
-<style name="RatingBar">
-    <item name="colorPrimaryDark">#dedcdc</item>
-    <item name="colorAccent">#f9ed0e</item>
-</style>
+
+    <style name="RatingBar">
+        <item name="colorPrimaryDark">#dedcdc</item>
+        <item name="colorAccent">#fcd200</item>
+    </style>
+
     <style name="fab">
         <item name="colorAccent">#feff036c</item>
     </style>
+
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>

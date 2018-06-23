@@ -23,10 +23,20 @@ public class TvDetailModel extends RealmObject {
     @SerializedName("first_air_date")
    
     private String firstAirDate;
-   /* @SerializedName("genres")
+    @SerializedName("genres")
    
-    private List<Genre> genres = null;*/
+    private RealmList<TvGenre> genres = null;
+
+    public RealmList<TvGenre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(RealmList<TvGenre> genres) {
+        this.genres = genres;
+    }
+
     @SerializedName("homepage")
+
    
     private String homepage;
     @PrimaryKey

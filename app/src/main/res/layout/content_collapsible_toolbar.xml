@@ -23,14 +23,31 @@
             android:theme="@style/RatingBar"
             android:visibility="visible" />
 
+        <LinearLayout
+            android:id="@+id/lineardate"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/rating"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
         <TextView
             android:id="@+id/text_date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rating"
             android:layout_marginTop="10dp"
             android:text="Realease Date:"
             android:textStyle="bold" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/linearlanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/lineardate"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
         <TextView
             android:id="@+id/language"
@@ -39,12 +56,13 @@
             android:layout_below="@id/text_date"
             android:text="Language:"
             android:textStyle="bold" />
-
+        </LinearLayout>
         <LinearLayout
+            android:layout_marginTop="10dp"
             android:id="@+id/linear_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/language"
+            android:layout_below="@id/linearlanguage"
             android:orientation="horizontal"
             android:weightSum="2">
 
@@ -54,7 +72,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/language"
-                android:layout_marginTop="10dp"
                 android:layout_weight="1.4"
                 android:text="Overview:"
                 android:textSize="15sp"
