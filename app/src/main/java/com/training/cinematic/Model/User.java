@@ -1,14 +1,15 @@
 package com.training.cinematic.Model;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
 
 /**
  * Created by dhruvisha on 5/18/2018.
  */
 
-public class User extends RealmObject {
+public class User extends RealmObject implements Serializable {
     private String fullName;
     private String phoneNumber;
     @PrimaryKey

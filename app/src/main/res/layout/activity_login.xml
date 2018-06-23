@@ -12,13 +12,11 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="380dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="80dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="80dp"
         app:cardBackgroundColor="#81ffffff"
         app:cardUseCompatPadding="true">
 
@@ -69,7 +67,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:background="#2b000000"
                 android:drawableLeft="@drawable/ic_lock_black_24dp"
                 android:hint="@string/Password"
@@ -89,7 +87,6 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
                 android:background="#d0ff036c"
-                android:layout_margin="10dp"
                 android:text="@string/login"
                 android:textColor="#fff"
                 android:textSize="15sp" />
@@ -98,7 +95,7 @@
                 android:id="@+id/btn_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="25dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:text="@string/createnewaccout"

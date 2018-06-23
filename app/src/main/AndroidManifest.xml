@@ -11,12 +11,10 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_logo_cinematic"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@drawable/ic_logo_cinematic"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".activity.MainActivity"
-            android:theme="@style/AppTheme2" />
+
         <activity
             android:name=".activity.LoginActivity"
             android:screenOrientation="portrait"
@@ -27,6 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity.MainActivity"
+            android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.SignupActivity"
             android:label="Sign up"
@@ -49,9 +50,9 @@
 
         <activity android:name=".activity.DetailScreenActivity" android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".activity.MainActivity">
-            <meta-data
+           <!-- <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.MainActivity" />
+                android:value=".activity.MainActivity" />-->
         </activity>
     </application>
 

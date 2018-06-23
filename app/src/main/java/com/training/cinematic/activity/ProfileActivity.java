@@ -1,13 +1,13 @@
 package com.training.cinematic.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.training.cinematic.Model.User;
 import com.training.cinematic.R;
+import com.training.cinematic.Utils.SharedPrefsHelp;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,8 +37,9 @@ public class ProfileActivity extends AppCompatActivity {
         intent = getIntent();
         realm = Realm.getDefaultInstance();
 
-        SharedPreferences mypref = getSharedPreferences(FLAG, 0);
-        email.setText(mypref.getString(KEY_EMAIL, ""));
+       email.setText(SharedPrefsHelp.getString(ProfileActivity.this,getString(R.string.get_email_pref),""));
+       /* SharedPreferences mypref = getSharedPreferences(FLAG, 0);
+        email.setText(mypref.getString(KEY_EMAIL, ""));*/
         String semail = email.getText().toString();
 
 

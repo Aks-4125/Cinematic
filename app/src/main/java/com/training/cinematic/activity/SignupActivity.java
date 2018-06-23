@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.training.cinematic.Model.User;
 import com.training.cinematic.R;
+import com.training.cinematic.Utils.SharedPrefsHelp;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,14 +76,15 @@ public class SignupActivity extends BaseActivity {
                         user.setPhoneNumber(snumber);
                         user.setEmailId(semail);
                         user.setPassword(spassword);
-                        SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
+                        SharedPrefsHelp.setObject(SignupActivity.this,getString(R.string.get_user_pref),user);
+                      /*  SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         Log.e(KEY_NAME, user.getFullName());
                         Log.e(NUMBER, user.getPhoneNumber());
                         Log.e(KEY_EMAIL, user.getEmailId());
                         Log.e(KEY_PWD, user.getPassword());
                         editor.commit();
-
+*/
                         r.executeTransaction(realm -> {
                             realm.insert(user);
                         });

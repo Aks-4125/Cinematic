@@ -10,7 +10,7 @@
         />
     <item android:id="@+id/logout"
         android:onClick="onOptionItemSelected"
-        android:icon="@drawable/round_power_settings_new_black_18dp"
+        android:icon="@drawable/round_power_settings_new_white_18dp"
         android:title="Logout"
         app:showAsAction="ifRoom"
 

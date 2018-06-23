@@ -25,6 +25,7 @@ public class MovieDetailAdapter extends PagerAdapter {
     private Context context;
 
 
+
     public MovieDetailAdapter(Context context, ArrayList<String> images) {
         this.context = context;
         this.images = images;
