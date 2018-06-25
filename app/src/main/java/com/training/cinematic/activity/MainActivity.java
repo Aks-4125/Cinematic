@@ -21,6 +21,7 @@ import com.training.cinematic.Fragment.PopularTvFragment;
 import com.training.cinematic.Fragment.UpComingMovieFragment;
 import com.training.cinematic.R;
 import com.training.cinematic.Utils.SharedPrefsHelp;
+import com.training.cinematic.activity.login.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
