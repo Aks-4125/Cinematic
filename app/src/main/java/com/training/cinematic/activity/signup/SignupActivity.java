@@ -19,7 +19,7 @@ import butterknife.OnClick;
 import io.realm.Realm;
 import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
-public class SignupActivity extends BaseActivity implements SignupController.ISignView{
+public class SignupActivity extends BaseActivity implements SignupController.ISignView {
 
     @BindView(R.id.edt_fullname)
     EditText fullname;
@@ -41,12 +41,11 @@ public class SignupActivity extends BaseActivity implements SignupController.ISi
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
         Realm.init(this);
-        signupPresenter=new SignupPresenter(this);
+        signupPresenter = new SignupPresenter(this);
         signupPresenter.setSignView(this);
         realm = Realm.getDefaultInstance();
 
     }
-
 
 
     @OnClick(R.id.btn_signup)
@@ -65,7 +64,7 @@ public class SignupActivity extends BaseActivity implements SignupController.ISi
                         user.setPhoneNumber(stringNumber);
                         user.setEmailId(stringEmail);
                         user.setPassword(stringPassword);
-                        SharedPrefsHelp.setObject(SignupActivity.this,getString(R.string.get_user_pref),user);
+                        SharedPrefsHelp.setObject(SignupActivity.this, getString(R.string.get_user_pref), user);
 
                         r.executeTransaction(realm -> {
                             realm.insert(user);
@@ -88,7 +87,7 @@ public class SignupActivity extends BaseActivity implements SignupController.ISi
     }
 
 
-
+    @Override
     public boolean Validation(String stringFullname, String stringNumber, String stringEmail, String stringPassword) {
         if (stringFullname.trim().equals("")) {
             Snackbar.make(fullname, "Name is Requried", Snackbar.LENGTH_LONG).show();
