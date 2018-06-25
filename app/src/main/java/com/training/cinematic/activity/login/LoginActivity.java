@@ -13,7 +13,7 @@ import com.training.cinematic.R;
 import com.training.cinematic.Utils.SharedPrefsHelp;
 import com.training.cinematic.activity.BaseActivity;
 import com.training.cinematic.activity.MainActivity;
-import com.training.cinematic.activity.SignupActivity;
+import com.training.cinematic.activity.signup.SignupActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
