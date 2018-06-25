@@ -29,7 +29,7 @@
             android:name=".activity.MainActivity"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".activity.SignupActivity"
+            android:name=".activity.signup.SignupActivity"
             android:label="Sign up"
             android:parentActivityName=".activity.login.LoginActivity"
             android:screenOrientation="portrait"
