@@ -248,7 +248,7 @@ public class DetailScreenActivity extends BaseActivity {
         String names = "";
         for (int i = 0; i < genres.size(); i++) {
             String name = genres.get(i).getName();
-            names = name + ", " + names;
+            names = name + " " + names;
 
         }
         if (names != null)
@@ -329,7 +329,7 @@ public class DetailScreenActivity extends BaseActivity {
         String names = "";
         for (int i = 0; i < genres.size(); i++) {
             String name = genres.get(i).getName();
-            names = names + ", " + name;
+            names = names + " " + name;
 
         }
         if (names != null)
