@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme1">
             <intent-filter>
@@ -31,7 +31,7 @@
         <activity
             android:name=".activity.SignupActivity"
             android:label="Sign up"
-            android:parentActivityName=".activity.LoginActivity"
+            android:parentActivityName=".activity.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2" />
         <activity

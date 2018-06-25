@@ -1,14 +1,9 @@
 package com.training.cinematic.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +12,7 @@ import android.widget.Toast;
 import com.training.cinematic.Model.User;
 import com.training.cinematic.R;
 import com.training.cinematic.Utils.SharedPrefsHelp;
+import com.training.cinematic.activity.login.LoginActivity;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
