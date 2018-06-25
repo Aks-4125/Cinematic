@@ -40,6 +40,7 @@
                     android:text="Basic Infromation"
                     android:textColor="#000"
                     android:textSize="20sp"
+                    android:visibility="gone"
                     android:textStyle="bold" />
             </android.support.v7.widget.CardView>
 
