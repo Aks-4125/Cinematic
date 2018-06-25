@@ -1,6 +1,5 @@
 package com.training.cinematic.activity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -96,7 +95,6 @@ public class DetailScreenActivity extends BaseActivity {
     TextView episodesTv;
     int currentpage = 0;
     boolean appBarExpanded;
-    Menu collapsedMenu;
     ArrayList<String> array = new ArrayList<String>();
     Realm realm;
     private ApiClient apiClient;
@@ -107,9 +105,9 @@ public class DetailScreenActivity extends BaseActivity {
     int tvId;
     int imagesId;
     String name;
-    List<MovieGenre> movieGenreList;
+    /*List<MovieGenre> movieGenreList;
     ActionBar actionBar;
-    ArrayList<String> arrayList;
+    ArrayList<String> arrayList;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
