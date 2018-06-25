@@ -22,6 +22,7 @@ import com.training.cinematic.Model.TvModel;
 import com.training.cinematic.Model.TvResult;
 import com.training.cinematic.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -124,7 +125,6 @@ public class PopularTvFragment extends BaseFragment {
         }
 
 
-
     }
 
     public void retrofitData() {
@@ -133,7 +133,7 @@ public class PopularTvFragment extends BaseFragment {
         if (isConnected()) {
             realm = Realm.getDefaultInstance();
             realm.executeTransaction(realm1 -> {
-                RealmResults<PopularMovieResult> results=realm1.where(PopularMovieResult.class).findAll();
+                RealmResults<PopularMovieResult> results = realm1.where(PopularMovieResult.class).findAll();
                 results.deleteAllFromRealm();
             });
             ApiClient apiClient = new ApiClient(getActivity());
@@ -142,6 +142,7 @@ public class PopularTvFragment extends BaseFragment {
                     .enqueue(new Callback<TvModel>() {
                         @Override
                         public void onResponse(Call<TvModel> call, Response<TvModel> response) {
+                            popularTv = new ArrayList<>();
                             popularTv = response.body().getResults();
                             if (popularTv == null) {
                                 circleProgressbarTv.setVisibility(View.VISIBLE);
@@ -176,8 +177,7 @@ public class PopularTvFragment extends BaseFragment {
             mRecyclerView.setAdapter(tvAdapter);
             swipeRefreshLayout.setRefreshing(false);
 
-        }
-        else {
+        } else {
             getData();
         }
     }

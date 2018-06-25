@@ -112,6 +112,10 @@ public class DetailScreenActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
         setContentView(R.layout.activity_detail_screen);
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
@@ -136,10 +140,7 @@ public class DetailScreenActivity extends BaseActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window w = getWindow();
-            w.setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS, WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-        }
+
         ratingBar.setOnTouchListener((v, event) -> true);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -243,14 +244,22 @@ public class DetailScreenActivity extends BaseActivity {
 
         RealmList<MovieGenre> genres = movieDetailModel.getGenres();
         Log.d("list", "moviegenre list" + genres);
+
+        StringBuffer sb = new StringBuffer();
         String names = "";
         for (int i = 0; i < genres.size(); i++) {
-            String name = genres.get(i).getName();
+          /*  String name = genres.get(i).getName();
             names = name + " " + names;
+*/
+            sb.append(genres.get(i).getName());
+            if (i != genres.size() - 1)
+                sb.append(", ");
 
         }
-        if (names != null)
-            category.setText(names);
+
+
+        //if (names != null)
+            category.setText(sb.toString());
 
         //  category.setText(genres.toString());
         if (movieDetailModel != null) {
