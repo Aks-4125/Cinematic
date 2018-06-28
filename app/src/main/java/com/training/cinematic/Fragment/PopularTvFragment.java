@@ -187,7 +187,6 @@ public class PopularTvFragment extends BaseFragment {
         super.onDestroyView();
         swipeRefreshLayout.removeAllViews();
         unbinder.unbind();
-      /*  realm.deleteAll();
-        realm.close();*/
+
     }
 }

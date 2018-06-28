@@ -1,4 +1,4 @@
-package com.training.cinematic.activity;
+package com.training.cinematic.activity.Profile;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -38,14 +38,12 @@ public class ProfileActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
 
        email.setText(SharedPrefsHelp.getString(ProfileActivity.this,getString(R.string.get_email_pref),""));
-       /* SharedPreferences mypref = getSharedPreferences(FLAG, 0);
-        email.setText(mypref.getString(KEY_EMAIL, ""));*/
-        String semail = email.getText().toString();
+        String stringEmail = email.getText().toString();
 
 
         realm.beginTransaction();
         User user = realm.where(User.class)
-                .equalTo("emailId", semail)
+                .equalTo("emailId", stringEmail)
                 .findFirst();
         if (user != null) {
             number.setText(user.getPhoneNumber());

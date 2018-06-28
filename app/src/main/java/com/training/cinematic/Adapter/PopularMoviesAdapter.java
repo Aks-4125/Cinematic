@@ -13,7 +13,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.PopularMovieResult;
 import com.training.cinematic.R;
-import com.training.cinematic.activity.DetailScreenActivity;
+import com.training.cinematic.activity.CategoryEnum;
+import com.training.cinematic.activity.detailscreen.DetailScreenActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.training.cinematic.Utils.ConstantHelper.CAT_NAME;
 
 /**
  * Created by dhruvisha on 5/28/2018.
@@ -81,8 +84,9 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         holder.movieImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                view.getContext().startActivity(new Intent(context, DetailScreenActivity.class).putExtra("movieId", movies.get(position).getId()));
-
+                Intent intent=new Intent(context, DetailScreenActivity.class).putExtra("movieId", movies.get(position).getId());
+                intent.putExtra(CAT_NAME, CategoryEnum.category.MOVIES.getValue());
+                view.getContext().startActivity(intent);
             }
         });
     }

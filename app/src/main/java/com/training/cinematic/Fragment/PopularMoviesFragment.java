@@ -1,7 +1,6 @@
 package com.training.cinematic.Fragment;
 
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,10 +16,10 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.training.cinematic.Adapter.PopularMoviesAdapter;
-import com.training.cinematic.network.ApiClient;
 import com.training.cinematic.Model.PoplarMovieModel;
 import com.training.cinematic.Model.PopularMovieResult;
 import com.training.cinematic.R;
+import com.training.cinematic.network.ApiClient;
 
 import java.util.List;
 
@@ -48,14 +47,11 @@ public class PopularMoviesFragment extends BaseFragment {
     RecyclerView mRecyclerView;
     @BindView(R.id.swipeRefreshLayout)
     SwipeRefreshLayout swipeRefreshLayout;
-    ProgressDialog progressBar;
     @BindView(R.id.HeaderProgress)
     ProgressBar cirlcleProgressbarMovie;
     private Realm realm;
     List<PopularMovieResult> movies;
     RealmList<PopularMovieResult> movieModelList;
-
-    int movieId;
 
     public PopularMoviesFragment() {
 
@@ -136,8 +132,8 @@ public class PopularMoviesFragment extends BaseFragment {
         if (isConnected()) {
             realm = Realm.getDefaultInstance();
             realm.executeTransaction(realmm -> {
-               RealmResults<PopularMovieResult> results=realmm.where(PopularMovieResult.class).findAll();
-               results.deleteAllFromRealm();
+                RealmResults<PopularMovieResult> results = realmm.where(PopularMovieResult.class).findAll();
+                results.deleteAllFromRealm();
 
             });
             ApiClient apiClient = new ApiClient(getActivity());
@@ -178,12 +174,10 @@ public class PopularMoviesFragment extends BaseFragment {
                     });
             mRecyclerView.setAdapter(popularMovieAdapter);
             swipeRefreshLayout.setRefreshing(false);
-        }
-        else {
+        } else {
             getData();
         }
     }
-
 
 
     @Override
@@ -191,13 +185,7 @@ public class PopularMoviesFragment extends BaseFragment {
         super.onDestroyView();
         swipeRefreshLayout.removeAllViews();
         unbinder.unbind();
-      /*  realm.deleteAll();
-        realm.close();*/
-    }
-   /* public void onDestroy() {
 
-        super.onDestroy();
-        realm.deleteAll();
-        realm.close();
-    }*/
+    }
+
 }

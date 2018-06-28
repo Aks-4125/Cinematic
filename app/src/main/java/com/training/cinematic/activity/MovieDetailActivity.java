@@ -16,12 +16,11 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.training.cinematic.Adapter.MovieDetailAdapter;
-import com.training.cinematic.network.ApiClient;
 import com.training.cinematic.Model.MovieDetailModel;
 import com.training.cinematic.Model.SliderMovieImages;
 import com.training.cinematic.Model.TvDetailModel;
 import com.training.cinematic.R;
+import com.training.cinematic.network.ApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -269,7 +268,7 @@ public class MovieDetailActivity extends BaseActivity {
                             Log.d("moviedetails", "tvDetailId" + imagesId);
                             Log.d("array", "arrya of images" + array);
 
-                            viewPager.setAdapter(new MovieDetailAdapter(MovieDetailActivity.this, array));
+                        //    viewPager.setAdapter(new DetailScreenAdapter(MovieDetailActivity.this, array));
 
 
                             final Handler handeer = new Handler();
@@ -356,7 +355,7 @@ public class MovieDetailActivity extends BaseActivity {
                             Log.d("image id", "image id for the movieDetail detail page" + imagesId);
                             Log.d("moviedetails", "moviedetailid" + imagesId);
                             Log.d("array", "arrya of images" + array);
-                            viewPager.setAdapter(new MovieDetailAdapter(MovieDetailActivity.this, array));
+                         //   viewPager.setAdapter(new DetailScreenAdapter(MovieDetailActivity.this, array));
                             indicator.setViewPager(viewPager);
 
 

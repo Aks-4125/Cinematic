@@ -16,15 +16,15 @@
     ]
 
     <style name="AppTheme1" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorToolbar</item>
         <item name="colorPrimaryDark">#dedcdc</item>
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
 
     <style name="AppTheme2" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorToolbar</item>
+        <item name="colorPrimaryDark">#dedcdc</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -51,6 +51,9 @@
     </style>
 
     <style name="AppTheme.NoActionBar">
+        <item name="colorPrimary">@color/colorToolbar</item>
+        <item name="colorPrimaryDark">#dedcdc</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

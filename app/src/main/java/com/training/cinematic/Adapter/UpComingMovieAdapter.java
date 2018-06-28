@@ -14,7 +14,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.MovieResult;
 import com.training.cinematic.R;
-import com.training.cinematic.activity.DetailScreenActivity;
+import com.training.cinematic.activity.CategoryEnum;
+import com.training.cinematic.activity.detailscreen.DetailScreenActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,6 +24,8 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.training.cinematic.Utils.ConstantHelper.CAT_NAME;
 
 
 /**
@@ -92,7 +95,9 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                context.startActivity(new Intent(context, DetailScreenActivity.class).putExtra("movieId", movie.getId()));
+                Intent intent=new Intent(context, DetailScreenActivity.class).putExtra("movieId", movie.getId());
+                intent.putExtra(CAT_NAME, CategoryEnum.category.MOVIES.getValue());
+                context.startActivity(intent);
 
             }
         });
