@@ -5,6 +5,7 @@ package com.training.cinematic.activity.signup;
  */
 
 public interface SignupController {
+
     interface ISignView {
         boolean Validation(String stringFullname, String stringNumber, String stringEmail, String stringPassword);
     }

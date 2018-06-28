@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.main.MainActivity"
             android:theme="@style/AppTheme2" />
         <activity
             android:name=".activity.signup.SignupActivity"
@@ -35,21 +35,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme2" />
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name=".activity.Profile.ProfileActivity"
             android:label="Profile"
-            android:parentActivityName=".activity.MainActivity"
+            android:parentActivityName=".activity.main.MainActivity"
             android:theme="@style/AppTheme2"></activity>
         <activity
             android:name=".activity.MovieDetailActivity"
-            android:parentActivityName=".activity.MainActivity"
+            android:parentActivityName=".activity.main.MainActivity"
             android:theme="@style/AppTheme2"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".activity.DetailScreenActivity" android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activity.MainActivity">
+        <activity android:name=".activity.detailscreen.DetailScreenActivity" android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activity.main.MainActivity">
            <!-- <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />-->

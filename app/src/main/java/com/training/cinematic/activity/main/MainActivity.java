@@ -1,4 +1,4 @@
-package com.training.cinematic.activity;
+package com.training.cinematic.activity.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,6 @@ import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -16,15 +13,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.training.cinematic.Adapter.MainAdapter;
 import com.training.cinematic.Fragment.PopularMoviesFragment;
 import com.training.cinematic.Fragment.PopularTvFragment;
 import com.training.cinematic.Fragment.UpComingMovieFragment;
 import com.training.cinematic.R;
 import com.training.cinematic.Utils.SharedPrefsHelp;
+import com.training.cinematic.activity.Profile.ProfileActivity;
 import com.training.cinematic.activity.login.LoginActivity;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -42,11 +38,8 @@ public class MainActivity extends AppCompatActivity {
     boolean doublePresstoExit = false;
     @BindView(R.id.constrainlayout)
     ConstraintLayout constraintLayout;
-    private Realm realm;
-    private ViewPagerAdapter adapter;
-    PopularTvFragment popularTvFragment ;
-    PopularMoviesFragment popularMoviesFragment;
-    UpComingMovieFragment upComingMovieFragment;
+    private MainAdapter adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +47,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         Realm.init(this);
-       /*  popularTvFragment=new PopularTvFragment() ;
-         popularMoviesFragment=new PopularMoviesFragment();
-        upComingMovieFragment=new UpComingMovieFragment();*/
         setupViewPager(viewPager);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setCurrentItem(1);
@@ -65,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new MainAdapter(getSupportFragmentManager());
         adapter.addFrag(new PopularMoviesFragment(), "Popular ");
         viewPager.setCurrentItem(0);
         adapter.addFrag(new UpComingMovieFragment(), "Upcoming ");
@@ -75,37 +65,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-
-    class ViewPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragmentList = new ArrayList<>();
-        private final List<String> mFragmentTitleList = new ArrayList<>();
-
-        public ViewPagerAdapter(FragmentManager manager) {
-            super(manager);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragmentList.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragmentList.size();
-        }
-
-        public void addFrag(Fragment fragment, String title) {
-
-            mFragmentList.add(fragment);
-            mFragmentTitleList.add(title);
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-
-            return mFragmentTitleList.get(position);
-        }
-    }
 
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -118,11 +77,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.logout:
                 SharedPrefsHelp.clearSharedPrefs(MainActivity.this);
-             /*   SharedPreferences sharedPreferences = getSharedPreferences(FLAG, 0);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.clear();
-                editor.commit();
-                finish();*/
                 Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent1);
                 return true;
@@ -151,8 +105,5 @@ public class MainActivity extends AppCompatActivity {
                 doublePresstoExit = false;
             }
         }, 2000);
-
     }
-
-
 }

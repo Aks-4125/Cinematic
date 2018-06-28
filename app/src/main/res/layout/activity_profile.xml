@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/last"
     android:orientation="vertical"
-    tools:context="com.training.cinematic.activity.ProfileActivity">
+    tools:context="com.training.cinematic.activity.Profile.ProfileActivity">
 
     <ImageView
         android:id="@+id/image"
