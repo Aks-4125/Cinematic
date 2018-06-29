@@ -3,13 +3,13 @@ package com.training.cinematic.Model;
 import com.google.gson.annotations.SerializedName;
 
 import io.realm.RealmList;
-import io.realm.RealmModel;
+import io.realm.RealmObject;
 
 /**
  * Created by dhruvisha on 5/31/2018.
  */
 
-public class TvModel implements RealmModel {
+public class TvModel extends RealmObject {
 
     @SerializedName("page")
     private Integer page;
