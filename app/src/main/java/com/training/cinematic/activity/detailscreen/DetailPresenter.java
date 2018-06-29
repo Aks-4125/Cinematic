@@ -6,22 +6,15 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.training.cinematic.Model.MovieDetailModel;
-import com.training.cinematic.Model.MovieGenre;
 import com.training.cinematic.Model.SliderMovieImages;
 import com.training.cinematic.Model.TvDetailModel;
-import com.training.cinematic.Model.TvGenre;
 import com.training.cinematic.R;
 import com.training.cinematic.network.ApiClient;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,15 +32,8 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
     Double rating;
     Uri uri;
     float rates;
-    String convertedDate = "";
     DetailController.IDetailView detailView;
-    SimpleDateFormat dateFormat;
-    Date date1;
-    int minutes, houres, time, seasonsofTv, episodes;
-    RealmList<MovieGenre> genres;
-    RealmList<TvGenre> tvGenres;
-    StringBuffer sb;
-    String language, overview, url, movieDate, movieName, tvName;
+    String url, movieName, tvName;
     ArrayList<String> array = new ArrayList<String>();
     String[] image;
 
@@ -74,8 +60,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
                             realm = Realm.getDefaultInstance();
                             realm.executeTransaction(realm1 -> {
                                 realm1.copyToRealmOrUpdate(movieDetailModel);
-                                setMovieData(movieDetailModel, context);
-                                detailView.ShowMovieData();
+                                detailView.setMovieData(movieDetailModel);
                             });
                         } else {
                             Toast.makeText(context, "please check internet", Toast.LENGTH_SHORT).show();
@@ -102,8 +87,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
                             realm = Realm.getDefaultInstance();
                             realm.executeTransaction(realm1 -> {
                                 realm1.insertOrUpdate(tvDetailModel);
-                                setTvData(tvDetailModel, context);
-                                detailView.ShowTvData();
+                                detailView.setTvData(tvDetailModel);
                             });
                         }
                     }
@@ -139,82 +123,6 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
             url = tvDetailModel.getHomepage();
         }
 
-    }
-
-    @Override
-    public void setMovieData(MovieDetailModel movieDetailModel, Context context) {
-       /* genres = movieDetailModel.getGenres();
-        sb = new StringBuffer();
-        for (int i = 0; i < genres.size(); i++) {
-            sb.append(genres.get(i).getName());
-            if (i != genres.size() - 1)
-                sb.append(", ");
-        }
-        movieName = movieDetailModel.getTitle();
-        url = movieDetailModel.getHomepage();
-        rating = movieDetailModel.getVoteAverage();
-        rates = (float) (rating / 2);
-        movieDate = movieDetailModel.getReleaseDate();
-        language = movieDetailModel.getOriginalLanguage();
-        if (movieDetailModel.getOverview() != null) {
-            overview = movieDetailModel.getOverview();
-        } else {
-            overview = "Not Avalible!";
-        }
-        if (movieDetailModel.getRuntime() != null) {
-            time = movieDetailModel.getRuntime();
-            houres = time / 60;
-            minutes = time % 60;
-        }
-        if (movieDetailModel.getHomepage() != null) {
-            url = movieDetailModel.getHomepage();
-        } else {
-            url = "Not Avalible!";
-        }
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        try {
-            date1 = dateFormat.parse(movieDate);
-            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    @Override
-    public void setTvData(TvDetailModel tvDetailModel, Context context) {
-        /*tvGenres = tvDetailModel.getGenres();
-        sb = new StringBuffer();
-        for (int i = 0; i < tvGenres.size(); i++) {
-            sb.append(tvGenres.get(i).getName());
-            if (i != tvGenres.size() - 1)
-                sb.append(", ");
-        }
-        tvName = tvDetailModel.getName();
-        url = tvDetailModel.getHomepage();
-        overview = tvDetailModel.getOverview();
-        rating = tvDetailModel.getVoteAverage();
-        rates = (float) (rating / 2);
-        movieDate = tvDetailModel.getFirstAirDate();
-        language = tvDetailModel.getOriginalLanguage();
-        seasonsofTv = tvDetailModel.getNumberOfSeasons();
-        episodes = tvDetailModel.getNumberOfEpisodes();
-        if (tvDetailModel.getOverview() != null) {
-            overview = tvDetailModel.getOverview();
-        } else {
-            overview = "Not Avalible!";
-        }
-        if (tvDetailModel.getHomepage() != null) {
-            url = tvDetailModel.getHomepage();
-        } else {
-            url = "Not Avalible!";
-        }
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        try {
-            date1 = dateFormat.parse(movieDate);
-            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }*/
     }
 
     @Override
