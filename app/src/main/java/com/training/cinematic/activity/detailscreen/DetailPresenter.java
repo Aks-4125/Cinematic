@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class DetailPresenter implements DetailController.IDetailPresenter {
 
     private Context context;
-    private static final String TAG = DetailScreenActivity.class.getName();
+    private static final String TAG = DetailPresenter.class.getName();
     private ApiClient apiClient;
     Realm realm;
     Double rating;
