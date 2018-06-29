@@ -17,15 +17,15 @@ public interface DetailController {
 
         void movieDataSharing(int movieDetailId, Context context);
 
-        void tvDataSharing(int tvDetailId,Context context);
+        void tvDataSharing(int tvDetailId, Context context);
 
         void setMovieData(MovieDetailModel model, Context context);
 
-        void setTvData(TvDetailModel model,Context context);
+        void setTvData(TvDetailModel model, Context context);
 
-        void fetchMovieImage(int movieDetailId ,Context context);
+        void fetchMovieImage(int movieDetailId, Context context);
 
-        void fetchTvImages(int tvDetailId,Context context);
+        void fetchTvImages(int tvDetailId, Context context);
 
     }
 
@@ -40,6 +40,11 @@ public interface DetailController {
         void ShowTvData();
 
         void ShowImages();
+
+        void setMovieData(MovieDetailModel movieDetailModel);
+
+        void setTvData(TvDetailModel tvDetailModel);
+
 
     }
 
