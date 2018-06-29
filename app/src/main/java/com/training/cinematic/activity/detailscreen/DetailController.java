@@ -19,10 +19,6 @@ public interface DetailController {
 
         void tvDataSharing(int tvDetailId, Context context);
 
-        void setMovieData(MovieDetailModel model, Context context);
-
-        void setTvData(TvDetailModel model, Context context);
-
         void fetchMovieImage(int movieDetailId, Context context);
 
         void fetchTvImages(int tvDetailId, Context context);
@@ -34,10 +30,6 @@ public interface DetailController {
         void ShowProgressbar();
 
         void StopProgressbar();
-
-        void ShowMovieData();
-
-        void ShowTvData();
 
         void ShowImages();
 

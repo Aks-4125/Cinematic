@@ -92,6 +92,17 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
     private int tvDetailId;
     DetailPresenter detailPresenter;
     int catId = 0;
+    SimpleDateFormat dateFormat;
+    Date date1;
+    int minutes, houres, time, seasonsofTv, episodes;
+    RealmList<MovieGenre> genres;
+    RealmList<TvGenre> tvGenres;
+    StringBuffer sb;
+    String cast_language, overview, url, movieDate, movieName, tvName;
+    Double rating;
+    float rates;
+    String convertedDate = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,53 +231,10 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         startActivity(Intent.createChooser(intent, "Share link"));
     }
 
-    @Override
-    public void ShowMovieData() {
-        /*category.setText(sb);
-        ratingBar.setRating(rates);
-        duration.setText(houres + " Hour and " + minutes + " Minutes");
-        date.setText(convertedDate);
-        language.setText(cast_language);
-        description.setText(overview);
-        if (url != null) {
-            if (Build.VERSION.SDK_INT >= 24) {
-                homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
-            } else {
-                homepage.setText(Html.fromHtml(url));
-            }
-        }
-        getSupportActionBar().setTitle(movieName);
-        collapsingToolbarLayout.setTitle(movieName);
-        duration.setVisibility(View.VISIBLE);
-        textDuration.setVisibility(View.VISIBLE);
-        ratingBar.setVisibility(View.VISIBLE);*/
-    }
-
-    @Override
-    public void ShowTvData() {
-        /*category.setText(sb);
-        ratingBar.setRating(rates);
-        ratingBar.setVisibility(View.VISIBLE);
-        date.setText(convertedDate);
-        description.setText(overview);
-        season.setText(Integer.toString(seasonsofTv));
-        episodesTv.setText(Integer.toString(episodes));
-        if (Build.VERSION.SDK_INT >= 24) {
-            homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            homepage.setText(Html.fromHtml(url));
-        }
-        textSeason.setVisibility(View.VISIBLE);
-        season.setVisibility(View.VISIBLE);
-        episodesTv.setVisibility(View.VISIBLE);
-        textofEpisode.setVisibility(View.VISIBLE);
-        getSupportActionBar().setTitle(tvName);
-        collapsingToolbarLayout.setTitle(tvName);*/
-    }
 
     @Override
     public void ShowImages() {
-        viewPager.setAdapter(new DetailScreenAdapter(DetailScreenActivity.this, array, fab));
+        viewPager.setAdapter(new DetailScreenAdapter(DetailScreenActivity.this, detailPresenter.array, fab));
         indicator.setViewPager(viewPager);
         final Handler handeer = new Handler();
         final Runnable run = new Runnable() {
@@ -293,17 +261,6 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
 
     @Override
     public void setMovieData(MovieDetailModel movieDetailModel) {
-        SimpleDateFormat dateFormat;
-        Date date1;
-        int minutes = 0, houres = 0, time, seasonsofTv, episodes;
-        RealmList<MovieGenre> genres;
-        RealmList<TvGenre> tvGenres;
-        StringBuffer sb;
-        String cast_language, overview, url, movieDate, movieName, tvName;
-        Double rating;
-        float rates;
-        String convertedDate = "";
-
         genres = movieDetailModel.getGenres();
         sb = new StringBuffer();
         for (int i = 0; i < genres.size(); i++) {
@@ -364,18 +321,6 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
 
     @Override
     public void setTvData(TvDetailModel tvDetailModel) {
-        SimpleDateFormat dateFormat;
-        Date date1;
-        int minutes, houres, time, seasonsofTv, episodes;
-        RealmList<MovieGenre> genres;
-        RealmList<TvGenre> tvGenres;
-        StringBuffer sb;
-        String cast_language, overview, url, movieDate, movieName, tvName;
-        Double rating;
-        float rates;
-        String convertedDate = "";
-
-
         tvGenres = tvDetailModel.getGenres();
         sb = new StringBuffer();
         for (int i = 0; i < tvGenres.size(); i++) {
@@ -410,8 +355,9 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
             e.printStackTrace();
         }
 
-    // show tv data
+        // show tv data
         category.setText(sb);
+        language.setText(cast_language);
         ratingBar.setRating(rates);
         ratingBar.setVisibility(View.VISIBLE);
         date.setText(convertedDate);
@@ -429,11 +375,6 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         textofEpisode.setVisibility(View.VISIBLE);
         getSupportActionBar().setTitle(tvName);
         collapsingToolbarLayout.setTitle(tvName);
-
-
-
-
-
 
     }
 
