@@ -75,7 +75,8 @@ public class PopularMoviePresenter implements PopularMovieController.IPopularMov
     public void deleteData() {
         realm = Realm.getDefaultInstance();
         realm.executeTransaction(realmm -> {
-            realmm.deleteAll();
+            realmm.delete(PopularMovieResult.class);
+            realmm.delete(PoplarMovieModel.class);
         });
         storeDataUsingRetrofit(context);
     }

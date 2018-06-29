@@ -15,7 +15,7 @@ import android.widget.Toast;
 
 import com.training.cinematic.Adapter.MainAdapter;
 import com.training.cinematic.Fragment.poplarmovie.PopularMoviesFragment;
-import com.training.cinematic.Fragment.PopularTvFragment;
+import com.training.cinematic.Fragment.populartv.PopularTvFragment;
 import com.training.cinematic.Fragment.UpComingMovieFragment;
 import com.training.cinematic.R;
 import com.training.cinematic.Utils.SharedPrefsHelp;
