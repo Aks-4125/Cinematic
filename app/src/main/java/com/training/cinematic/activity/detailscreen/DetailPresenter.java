@@ -143,7 +143,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
 
     @Override
     public void setMovieData(MovieDetailModel movieDetailModel, Context context) {
-        genres = movieDetailModel.getGenres();
+       /* genres = movieDetailModel.getGenres();
         sb = new StringBuffer();
         for (int i = 0; i < genres.size(); i++) {
             sb.append(genres.get(i).getName());
@@ -177,12 +177,12 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
             convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date1);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override
     public void setTvData(TvDetailModel tvDetailModel, Context context) {
-        tvGenres = tvDetailModel.getGenres();
+        /*tvGenres = tvDetailModel.getGenres();
         sb = new StringBuffer();
         for (int i = 0; i < tvGenres.size(); i++) {
             sb.append(tvGenres.get(i).getName());
@@ -214,7 +214,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
             convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date1);
         } catch (ParseException e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
     @Override

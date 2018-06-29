@@ -22,16 +22,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.training.cinematic.Adapter.DetailScreenAdapter;
+import com.training.cinematic.Model.MovieDetailModel;
+import com.training.cinematic.Model.MovieGenre;
+import com.training.cinematic.Model.TvDetailModel;
+import com.training.cinematic.Model.TvGenre;
 import com.training.cinematic.R;
 import com.training.cinematic.activity.BaseActivity;
 import com.training.cinematic.activity.CategoryEnum;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.Realm;
+import io.realm.RealmList;
 import me.relex.circleindicator.CircleIndicator;
 
 import static com.training.cinematic.Utils.ConstantHelper.CAT_NAME;
@@ -213,51 +222,51 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
 
     @Override
     public void ShowMovieData() {
-        category.setText(detailPresenter.sb);
-        ratingBar.setRating(detailPresenter.rates);
-        duration.setText(detailPresenter.houres + " Hour and " + detailPresenter.minutes + " Minutes");
-        date.setText(detailPresenter.convertedDate);
-        language.setText(detailPresenter.language);
-        description.setText(detailPresenter.overview);
-        if (detailPresenter.url != null) {
+        /*category.setText(sb);
+        ratingBar.setRating(rates);
+        duration.setText(houres + " Hour and " + minutes + " Minutes");
+        date.setText(convertedDate);
+        language.setText(cast_language);
+        description.setText(overview);
+        if (url != null) {
             if (Build.VERSION.SDK_INT >= 24) {
-                homepage.setText(Html.fromHtml(detailPresenter.url, Html.FROM_HTML_MODE_LEGACY));
+                homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
             } else {
-                homepage.setText(Html.fromHtml(detailPresenter.url));
+                homepage.setText(Html.fromHtml(url));
             }
         }
-        getSupportActionBar().setTitle(detailPresenter.movieName);
-        collapsingToolbarLayout.setTitle(detailPresenter.movieName);
+        getSupportActionBar().setTitle(movieName);
+        collapsingToolbarLayout.setTitle(movieName);
         duration.setVisibility(View.VISIBLE);
         textDuration.setVisibility(View.VISIBLE);
-        ratingBar.setVisibility(View.VISIBLE);
+        ratingBar.setVisibility(View.VISIBLE);*/
     }
 
     @Override
     public void ShowTvData() {
-        category.setText(detailPresenter.sb);
-        ratingBar.setRating(detailPresenter.rates);
+        /*category.setText(sb);
+        ratingBar.setRating(rates);
         ratingBar.setVisibility(View.VISIBLE);
-        date.setText(detailPresenter.convertedDate);
-        description.setText(detailPresenter.overview);
-        season.setText(Integer.toString(detailPresenter.seasonsofTv));
-        episodesTv.setText(Integer.toString(detailPresenter.episodes));
+        date.setText(convertedDate);
+        description.setText(overview);
+        season.setText(Integer.toString(seasonsofTv));
+        episodesTv.setText(Integer.toString(episodes));
         if (Build.VERSION.SDK_INT >= 24) {
-            homepage.setText(Html.fromHtml(detailPresenter.url, Html.FROM_HTML_MODE_LEGACY));
+            homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
         } else {
-            homepage.setText(Html.fromHtml(detailPresenter.url));
+            homepage.setText(Html.fromHtml(url));
         }
         textSeason.setVisibility(View.VISIBLE);
         season.setVisibility(View.VISIBLE);
         episodesTv.setVisibility(View.VISIBLE);
         textofEpisode.setVisibility(View.VISIBLE);
-        getSupportActionBar().setTitle(detailPresenter.tvName);
-        collapsingToolbarLayout.setTitle(detailPresenter.tvName);
+        getSupportActionBar().setTitle(tvName);
+        collapsingToolbarLayout.setTitle(tvName);*/
     }
 
     @Override
     public void ShowImages() {
-        viewPager.setAdapter(new DetailScreenAdapter(DetailScreenActivity.this, detailPresenter.array, fab));
+        viewPager.setAdapter(new DetailScreenAdapter(DetailScreenActivity.this, array, fab));
         indicator.setViewPager(viewPager);
         final Handler handeer = new Handler();
         final Runnable run = new Runnable() {
@@ -281,6 +290,153 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
             }
         }, 2500, 2500);
     }
+
+    @Override
+    public void setMovieData(MovieDetailModel movieDetailModel) {
+        SimpleDateFormat dateFormat;
+        Date date1;
+        int minutes = 0, houres = 0, time, seasonsofTv, episodes;
+        RealmList<MovieGenre> genres;
+        RealmList<TvGenre> tvGenres;
+        StringBuffer sb;
+        String cast_language, overview, url, movieDate, movieName, tvName;
+        Double rating;
+        float rates;
+        String convertedDate = "";
+
+        genres = movieDetailModel.getGenres();
+        sb = new StringBuffer();
+        for (int i = 0; i < genres.size(); i++) {
+            sb.append(genres.get(i).getName());
+            if (i != genres.size() - 1)
+                sb.append(", ");
+        }
+        movieName = movieDetailModel.getTitle();
+        url = movieDetailModel.getHomepage();
+        rating = movieDetailModel.getVoteAverage();
+        rates = (float) (rating / 2);
+        movieDate = movieDetailModel.getReleaseDate();
+        cast_language = movieDetailModel.getOriginalLanguage();
+        if (movieDetailModel.getOverview() != null) {
+            overview = movieDetailModel.getOverview();
+        } else {
+            overview = "Not Avalible!";
+        }
+        if (movieDetailModel.getRuntime() != null) {
+            time = movieDetailModel.getRuntime();
+            houres = time / 60;
+            minutes = time % 60;
+        }
+        if (movieDetailModel.getHomepage() != null) {
+            url = movieDetailModel.getHomepage();
+        } else {
+            url = "Not Avalible!";
+        }
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        try {
+            date1 = dateFormat.parse(movieDate);
+            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        //show movie data
+        category.setText(sb);
+        ratingBar.setRating(rates);
+        duration.setText(houres + " Hour and " + minutes + " Minutes");
+        date.setText(convertedDate);
+        language.setText(cast_language);
+        description.setText(overview);
+        if (url != null) {
+            if (Build.VERSION.SDK_INT >= 24) {
+                homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                homepage.setText(Html.fromHtml(url));
+            }
+        }
+        getSupportActionBar().setTitle(movieName);
+        collapsingToolbarLayout.setTitle(movieName);
+        duration.setVisibility(View.VISIBLE);
+        textDuration.setVisibility(View.VISIBLE);
+        ratingBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setTvData(TvDetailModel tvDetailModel) {
+        SimpleDateFormat dateFormat;
+        Date date1;
+        int minutes, houres, time, seasonsofTv, episodes;
+        RealmList<MovieGenre> genres;
+        RealmList<TvGenre> tvGenres;
+        StringBuffer sb;
+        String cast_language, overview, url, movieDate, movieName, tvName;
+        Double rating;
+        float rates;
+        String convertedDate = "";
+
+
+        tvGenres = tvDetailModel.getGenres();
+        sb = new StringBuffer();
+        for (int i = 0; i < tvGenres.size(); i++) {
+            sb.append(tvGenres.get(i).getName());
+            if (i != tvGenres.size() - 1)
+                sb.append(", ");
+        }
+        tvName = tvDetailModel.getName();
+        url = tvDetailModel.getHomepage();
+        overview = tvDetailModel.getOverview();
+        rating = tvDetailModel.getVoteAverage();
+        rates = (float) (rating / 2);
+        movieDate = tvDetailModel.getFirstAirDate();
+        cast_language = tvDetailModel.getOriginalLanguage();
+        seasonsofTv = tvDetailModel.getNumberOfSeasons();
+        episodes = tvDetailModel.getNumberOfEpisodes();
+        if (tvDetailModel.getOverview() != null) {
+            overview = tvDetailModel.getOverview();
+        } else {
+            overview = "Not Avalible!";
+        }
+        if (tvDetailModel.getHomepage() != null) {
+            url = tvDetailModel.getHomepage();
+        } else {
+            url = "Not Avalible!";
+        }
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        try {
+            date1 = dateFormat.parse(movieDate);
+            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+    // show tv data
+        category.setText(sb);
+        ratingBar.setRating(rates);
+        ratingBar.setVisibility(View.VISIBLE);
+        date.setText(convertedDate);
+        description.setText(overview);
+        season.setText(Integer.toString(seasonsofTv));
+        episodesTv.setText(Integer.toString(episodes));
+        if (Build.VERSION.SDK_INT >= 24) {
+            homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            homepage.setText(Html.fromHtml(url));
+        }
+        textSeason.setVisibility(View.VISIBLE);
+        season.setVisibility(View.VISIBLE);
+        episodesTv.setVisibility(View.VISIBLE);
+        textofEpisode.setVisibility(View.VISIBLE);
+        getSupportActionBar().setTitle(tvName);
+        collapsingToolbarLayout.setTitle(tvName);
+
+
+
+
+
+
+    }
+
     @Override
     public void ShowProgressbar() {
         progressBar.setVisibility(View.VISIBLE);
