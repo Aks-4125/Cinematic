@@ -44,7 +44,7 @@ public class PopularTvPresenter implements PopularTvController.IPopularTvPresent
                 .enqueue(new Callback<TvModel>() {
                     @Override
                     public void onResponse(Call<TvModel> call, Response<TvModel> response) {
-                        tvModel = response.body();
+                        tvModel=response.body();
                         popularTv = response.body().getResults();
                         if (popularTv == null) {
                             popularTvView.showProgressBar();
