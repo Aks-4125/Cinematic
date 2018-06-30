@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/a"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/last"
@@ -25,7 +25,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="100dp"
-        app:cardBackgroundColor="#81ffffff">
+        app:cardBackgroundColor="@color/cardview_BackgroingColor">
 
         <ImageView
             android:id="@+id/image1"
@@ -66,7 +66,7 @@
                     android:gravity="center_horizontal"
                     android:inputType="textPersonName"
                     android:text="Name:"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
                 <TextView
@@ -90,7 +90,7 @@
                     android:gravity="center_horizontal"
                     android:inputType="numberDecimal"
                     android:text="phone number:"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
                 <TextView
@@ -115,7 +115,7 @@
                     android:gravity="center_horizontal"
                     android:inputType="textEmailAddress"
                     android:text="Email:"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
                 <TextView
@@ -142,7 +142,7 @@
                     android:gravity="center_horizontal"
                     android:inputType="text"
                     android:text="Password:"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
             </RelativeLayout>

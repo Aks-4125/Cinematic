@@ -5,4 +5,10 @@
     <color name="colorAccent">#23ACDB</color>
     <color name="colorText">#fe04a789</color>
     <color name="colorToolbar">#01b7a0</color>
+    <color name="colorwhite">#fff</color>
+    <color name="colorBlack">#000</color>
+    <color name="colorLightBlack">#282626</color>
+    <color name="colorPink">#d0ff036c</color>
+    <color name="editText_Background_Color">#2b000000</color>
+    <color name="cardview_BackgroingColor">#81ffffff</color>
 </resources>

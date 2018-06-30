@@ -30,7 +30,7 @@
                 android:layout_below="@id/rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#fff"
+                app:cardBackgroundColor="@color/colorwhite"
                 app:contentPadding="8dp">
 
                 <TextView
@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Basic Infromation"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlack"
                     android:textSize="20sp"
                     android:visibility="gone"
                     android:textStyle="bold" />
@@ -52,7 +52,7 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
                 android:layout_marginTop="-2dp"
-                app:cardBackgroundColor="#fff"
+                app:cardBackgroundColor="@color/colorwhite"
                 app:cardElevation="2dp"
                 app:contentPadding="8dp">
 
@@ -82,7 +82,7 @@
                             android:id="@+id/text_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="#000"
+                            android:textColor="@color/colorBlack"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -110,7 +110,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/text_date"
-                            android:textColor="#000"
+                            android:textColor="@color/colorBlack"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardview_overview"
                 android:layout_marginTop="10dp"
-                app:cardBackgroundColor="#fff"
+                app:cardBackgroundColor="@color/colorwhite"
                 app:contentPadding="8dp">
 
                 <TextView
@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/language"
                     android:text="Overview:"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlack"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </android.support.v7.widget.CardView>
@@ -145,7 +145,7 @@
                 android:layout_below="@id/cardview2"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                app:cardBackgroundColor="#fff"
+                app:cardBackgroundColor="@color/colorwhite"
                 app:cardElevation="2dp"
                 app:contentPadding="8dp">
 
@@ -154,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="0dp"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlack"
                     android:textSize="15sp" />
             </android.support.v7.widget.CardView>
 
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cardview_description"
                 android:layout_marginTop="10dp"
-                app:cardBackgroundColor="#fff"
+                app:cardBackgroundColor="@color/colorwhite"
                 app:contentPadding="8dp">
 
                 <TextView
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/language"
                     android:text="More"
-                    android:textColor="#000"
+                    android:textColor="@color/colorBlack"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </android.support.v7.widget.CardView>
@@ -185,7 +185,7 @@
                 android:layout_below="@id/cardview3"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                app:cardBackgroundColor="#fff"
+                app:cardBackgroundColor="@color/colorwhite"
                 app:cardElevation="2dp"
                 app:contentPadding="8dp">
 
@@ -216,7 +216,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.9"
-                            android:textColor="#000"
+                            android:textColor="@color/colorBlack"
                             android:textSize="18sp" />
 
                     </LinearLayout>
@@ -237,7 +237,6 @@
                                 android:id="@+id/text_duration"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/linearcategory"
                                 android:text="Duration:"
                                 android:textColor="@color/colorText"
                                 android:textSize="18sp"
@@ -248,7 +247,6 @@
                                 android:id="@+id/text_season"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@id/linearcategory"
                                 android:text="Seasons:"
                                 android:textColor="@color/colorText"
                                 android:textSize="18sp"
@@ -265,7 +263,7 @@
                                 android:id="@+id/duration"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="#000"
+                                android:textColor="@color/colorBlack"
                                 android:textSize="18sp"
                                 android:visibility="gone" />
 
@@ -273,7 +271,7 @@
                                 android:id="@+id/seasons"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textColor="#000"
+                                android:textColor="@color/colorBlack"
                                 android:textSize="18sp"
                                 android:visibility="gone" />
                         </FrameLayout>
@@ -292,7 +290,6 @@
                             android:id="@+id/text_episodes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/linearcategory"
                             android:layout_weight="1.1"
                             android:text="Episodes:"
                             android:textColor="@color/colorText"
@@ -304,9 +301,8 @@
                             android:id="@+id/episodes"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/linearcategory"
                             android:layout_weight="0.9"
-                            android:textColor="#000"
+                            android:textColor="@color/colorBlack"
                             android:textSize="18sp"
                             android:visibility="gone" />
                     </LinearLayout>
@@ -335,7 +331,7 @@
                             android:layout_height="wrap_content"
                             android:autoLink="web"
                             android:linksClickable="true"
-                            android:textColor="#000"
+                            android:textColor="@color/colorBlack"
                             android:layout_marginBottom="40dp"
                             android:textSize="18sp" />
                     </LinearLayout>

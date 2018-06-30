@@ -39,10 +39,6 @@
             android:label="Profile"
             android:parentActivityName=".activity.main.MainActivity"
             android:theme="@style/AppTheme2"></activity>
-        <activity
-            android:name=".activity.MovieDetailActivity"
-            android:parentActivityName=".activity.main.MainActivity"
-            android:theme="@style/AppTheme2"></activity>
 
         <meta-data
             android:name="preloaded_fonts"
