@@ -47,7 +47,7 @@
     </style>
 
     <style name="fab">
-        <item name="colorAccent">#feff036c</item>
+        <item name="colorAccent">@color/colorPink</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

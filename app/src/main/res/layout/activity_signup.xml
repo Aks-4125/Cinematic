@@ -18,7 +18,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="40dp"
-        app:cardBackgroundColor="#6dffffff">
+        app:cardBackgroundColor="@color/cardview_BackgroingColor">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,13 +32,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:background="#2b000000"
+                android:background="@color/editText_Background_Color"
                 android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:hint="@string/fullname"
                 android:inputType="textPersonName"
                 android:padding="4dp"
-                android:textColor="#fff"
-                android:textColorHint="#fff"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
 
 
@@ -48,30 +48,29 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
-                android:background="#2b000000"
+                android:background="@color/editText_Background_Color"
                 android:drawableLeft="@drawable/ic_phone_android_black_24dp"
                 android:hint="@string/phonenumber"
                 android:inputType="number"
                 android:padding="4dp"
-                android:textColor="#fff"
-                android:textColorHint="#fff"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
 
             <EditText
                 android:id="@+id/edt_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:layout_marginTop="20dp"
-                android:background="#2b000000"
+                android:background="@color/editText_Background_Color"
                 android:drawableLeft="@drawable/ic_email_black_24dp"
                 android:hint="@string/Email"
                 android:inputType="textEmailAddress"
                 android:padding="4dp"
-                android:textColor="#fff"
-                android:textColorHint="#fff"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
 
             <EditText
@@ -79,16 +78,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-
                 android:layout_margin="15dp"
                 android:layout_marginTop="20dp"
-                android:background="#2b000000"
+                android:background="@color/editText_Background_Color"
                 android:drawableLeft="@drawable/ic_lock_black_24dp"
                 android:hint="@string/Password"
                 android:inputType="textPassword"
                 android:padding="4dp"
-                android:textColor="#fff"
-                android:textColorHint="#fff"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
 
 
@@ -99,7 +97,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="15dp"
                 android:layout_marginTop="30dp"
-                android:background="#d0ff036c"
+                android:background="@color/colorPink"
                 android:padding="4dp"
                 android:text="@string/signup"
                 android:textSize="15sp" />

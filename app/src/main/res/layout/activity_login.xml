@@ -17,23 +17,13 @@
         android:layout_gravity="center"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        app:cardBackgroundColor="#81ffffff"
+        app:cardBackgroundColor="@color/cardview_BackgroingColor"
         app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <!-- <TextView
-                 android:id="@+id/txt_loginn"
-                 android:layout_marginTop="20dp"
-                 android:text="Login"
-                 android:layout_gravity="center"
-                 android:gravity="center"
-                 android:textStyle="bold"
-                 android:textSize="30sp"
-                 android:layout_width="match_parent"
-                 android:layout_height="wrap_content" />-->
 
             <ImageView
                 android:id="@+id/txt_login"
@@ -51,13 +41,13 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="20dp"
-                android:background="#2b000000"
+                android:background="@color/editText_Background_Color"
                 android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:hint="@string/Email"
                 android:inputType="textEmailAddress"
                 android:padding="4dp"
-                android:textColor="#fff"
-                android:textColorHint="#Afff"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
 
             <EditText
@@ -68,13 +58,13 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="25dp"
-                android:background="#2b000000"
+                android:background="@color/editText_Background_Color"
                 android:drawableLeft="@drawable/ic_lock_black_24dp"
                 android:hint="@string/Password"
                 android:inputType="textPassword"
                 android:padding="4dp"
-                android:textColor="#fff"
-                android:textColorHint="#Afff"
+                android:textColor="@color/colorwhite"
+                android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
 
 
@@ -86,9 +76,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="30dp"
-                android:background="#d0ff036c"
+                android:background="@color/colorPink"
                 android:text="@string/login"
-                android:textColor="#fff"
+                android:textColor="@color/colorwhite"
                 android:textSize="15sp" />
 
             <Button
@@ -99,23 +89,8 @@
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:text="@string/createnewaccout"
-                android:textColor="#fff" />
+                android:textColor="@color/colorwhite" />
         </LinearLayout>
 
-        <!--   <FrameLayout
-               android:id="@+id/frame_progress"
-               android:visibility="gone"
-               android:background="#78b9d4d1"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent">
-
-               <ProgressBar
-                   android:indeterminate="true"
-                   android:theme="@style/AppTheme.ProgressBar"
-                   android:layout_gravity="center"
-                   android:layout_width="40dp"
-                   android:layout_height="40dp" />
-           </FrameLayout>-->
     </android.support.v7.widget.CardView>
-
 </RelativeLayout>
