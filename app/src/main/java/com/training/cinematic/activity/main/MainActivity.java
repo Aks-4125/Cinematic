@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
 import com.training.cinematic.Adapter.MainAdapter;
 import com.training.cinematic.Fragment.poplarmovie.PopularMoviesFragment;
 import com.training.cinematic.Fragment.populartv.PopularTvFragment;
@@ -27,7 +28,6 @@ import butterknife.ButterKnife;
 import io.realm.Realm;
 
 public class MainActivity extends AppCompatActivity {
-
 
     private static final String TAG = MainActivity.class.getName();
     private static final String FLAG = "flag";
@@ -76,8 +76,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
+                LoginManager.getInstance().logOut();
                 SharedPrefsHelp.clearSharedPrefs(MainActivity.this);
                 Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
+                intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent1);
                 return true;
             case R.id.profile:
@@ -105,5 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 doublePresstoExit = false;
             }
         }, 2000);
+
     }
 }

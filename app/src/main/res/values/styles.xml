@@ -50,6 +50,10 @@
         <item name="colorAccent">@color/colorPink</item>
     </style>
 
+    <style name="FacebookLoginButton">
+        <item name="android:background">@drawable/round_butoon</item>
+        <item name="android:gravity">center</item>
+    </style>
     <style name="AppTheme.NoActionBar">
         <item name="colorPrimary">@color/colorToolbar</item>
         <item name="colorPrimaryDark">#dedcdc</item>

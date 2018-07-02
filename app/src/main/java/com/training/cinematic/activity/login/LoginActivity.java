@@ -1,19 +1,26 @@
 package com.training.cinematic.activity.login;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
 import com.training.cinematic.Model.User;
 import com.training.cinematic.R;
 import com.training.cinematic.Utils.SharedPrefsHelp;
 import com.training.cinematic.activity.BaseActivity;
 import com.training.cinematic.activity.main.MainActivity;
 import com.training.cinematic.activity.signup.SignupActivity;
+
+import java.util.Arrays;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,6 +31,8 @@ import io.realm.exceptions.RealmPrimaryKeyConstraintException;
 
 public class LoginActivity extends BaseActivity implements LoginController.ILoginView {
 
+    @BindView(R.id.facebooklogin)
+    ImageView faceBookLogin;
     @BindView(R.id.edt_email)
     EditText email;
     @BindView(R.id.edt_password)
@@ -35,13 +44,16 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
     private Realm realm;
     private static final String TAG = LoginActivity.class.getName();
     private LoginPresenter loginPresenter;
-
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        callbackManager = CallbackManager.Factory.create();
+
         Realm.init(this);
         realm = Realm.getDefaultInstance();
         loginPresenter = new LoginPresenter(this);
@@ -55,6 +67,12 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
 
     }
 
+    @OnClick(R.id.facebooklogin)
+    public void facebookLogin(){
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends"));
+        loginPresenter.loginWithFb(callbackManager,LoginActivity.this);
+    }
     @OnClick(R.id.btn_signup)
     public void Submit() {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
@@ -86,6 +104,10 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
         }
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public boolean vaildate(String stringEmail, String stringPassword) {
@@ -107,6 +129,13 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
         return true;
     }
 
+    @Override
+    public void loginCompleteWithFb(Context context) {
+        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+        SharedPrefsHelp.setBoolean(context, context.getString(R.string.get_loggedin_pref), true);
+        startActivity(intent);
+    }
+
     //get data without using realm query
     private boolean checkUser(String email, String password) {
         RealmResults<User> realmobjects = realm.where(User.class).findAll();
@@ -126,6 +155,7 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
         realm.close();
 
     }
+
 
 
 }
