@@ -81,11 +81,27 @@
                 android:textColor="@color/colorwhite"
                 android:textSize="15sp" />
 
+            <ImageView
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:id="@+id/facebooklogin"
+                android:onClick="facebookLogin"
+                android:background="@drawable/ic_fb"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+          <!--  <com.facebook.login.widget.LoginButton
+                android:layout_marginTop="10dp"
+                android:onClick="facebookLogin"
+                android:id="@+id/facebooklogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />-->
+
             <Button
                 android:id="@+id/btn_signup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="15dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:text="@string/createnewaccout"

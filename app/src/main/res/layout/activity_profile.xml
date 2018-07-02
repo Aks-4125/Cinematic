@@ -65,7 +65,6 @@
                     android:layout_below="@id/text_name"
                     android:gravity="center_horizontal"
                     android:inputType="textPersonName"
-                    android:text="Name:"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
@@ -89,7 +88,6 @@
                     android:layout_below="@id/text_number"
                     android:gravity="center_horizontal"
                     android:inputType="numberDecimal"
-                    android:text="phone number:"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
@@ -112,9 +110,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/text_email"
+                    android:minHeight="0dp"
                     android:gravity="center_horizontal"
                     android:inputType="textEmailAddress"
-                    android:text="Email:"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
@@ -141,7 +139,6 @@
                     android:layout_marginLeft="30dp"
                     android:gravity="center_horizontal"
                     android:inputType="text"
-                    android:text="Password:"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
