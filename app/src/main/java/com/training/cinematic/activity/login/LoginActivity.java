@@ -68,11 +68,12 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
     }
 
     @OnClick(R.id.facebooklogin)
-    public void facebookLogin(){
+    public void facebookLogin() {
         FacebookSdk.sdkInitialize(getApplicationContext());
-        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends"));
-        loginPresenter.loginWithFb(callbackManager,LoginActivity.this);
+        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "email"));
+        loginPresenter.loginWithFb(callbackManager, LoginActivity.this);
     }
+
     @OnClick(R.id.btn_signup)
     public void Submit() {
         Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
@@ -131,7 +132,7 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
 
     @Override
     public void loginCompleteWithFb(Context context) {
-        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         SharedPrefsHelp.setBoolean(context, context.getString(R.string.get_loggedin_pref), true);
         startActivity(intent);
     }
@@ -155,7 +156,5 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
         realm.close();
 
     }
-
-
 
 }

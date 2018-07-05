@@ -80,9 +80,7 @@ public class LoginPresenter implements LoginController.ILoginPresenter {
                     public void onCompleted(
                             JSONObject json_object,
                             GraphResponse response) {
-                       // SharedPrefsHelp.setBoolean(context, context.getString(R.string.get_loggedin_pref), true);
-                        SharedPrefsHelp.setString(context,"userProfile", json_object.toString());
-
+                        SharedPrefsHelp.setString(context, "userProfile", json_object.toString());
                         loginView.loginCompleteWithFb(context);
                     }
                 });
