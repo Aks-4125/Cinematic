@@ -29,13 +29,11 @@ public class ProfileActivity extends AppCompatActivity {
     TextView number;
     @BindView(R.id.email)
     TextView email;
-    @BindView(R.id.password)
-    TextView password;
+    /* @BindView(R.id.password)
+     TextView password;*/
     Intent intent;
     private static final String TAG = ProfileActivity.class.getName();
-    String FLAG = "flag";
     JSONObject response, profile_pic_data, profile_pic_url;
-    String KEY_EMAIL = "email";
     private Realm realm;
 
     @Override
@@ -48,10 +46,14 @@ public class ProfileActivity extends AppCompatActivity {
         String jsonData = SharedPrefsHelp.getString(ProfileActivity.this, "userProfile", null);
         email.setText(SharedPrefsHelp.getString(ProfileActivity.this, getString(R.string.get_email_pref), ""));
         String stringEmail = email.getText().toString();
-        if (jsonData!=null) {
+        if (jsonData != null) {
             try {
                 response = new JSONObject(jsonData);
-                email.setText(response.get("email").toString());
+                if (response.get("email").toString() != null) {
+                    email.setText(response.get("email").toString());
+                } else {
+                    email.setText("Not Avalible!");
+                }
                 fullname.setText(response.get("name").toString());
                 profile_pic_data = new JSONObject(response.get("picture").toString());
                 profile_pic_url = new JSONObject(profile_pic_data.getString("data"));
@@ -70,7 +72,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (user != null) {
             number.setText(user.getPhoneNumber());
             fullname.setText(user.getFullName());
-            password.setText(user.getPassword());
+            //  password.setText(user.getPassword());
         }
         realm.commitTransaction();
 
