@@ -70,7 +70,7 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
     @OnClick(R.id.facebooklogin)
     public void facebookLogin(){
         FacebookSdk.sdkInitialize(getApplicationContext());
-        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends"));
+        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile","email"));
         loginPresenter.loginWithFb(callbackManager,LoginActivity.this);
     }
     @OnClick(R.id.btn_signup)
