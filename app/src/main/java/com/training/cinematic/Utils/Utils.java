@@ -37,10 +37,10 @@ public class Utils {
         return matcher.matches();
     }
 
-    public String convertDate(String movieDate,Context context) {
-         SimpleDateFormat dateFormat;
-         Date date1;
-         String convertedDate = "";
+    public String convertDate(String movieDate, Context context) {
+        SimpleDateFormat dateFormat;
+        Date date1;
+        String convertedDate = "";
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
             date1 = dateFormat.parse(movieDate);
@@ -49,6 +49,7 @@ public class Utils {
             e.printStackTrace();
         }
         return convertedDate;
+
     }
 
 }

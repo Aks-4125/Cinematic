@@ -14,13 +14,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.MovieResult;
 import com.training.cinematic.R;
+import com.training.cinematic.Utils.Utils;
 import com.training.cinematic.activity.CategoryEnum;
 import com.training.cinematic.activity.detailscreen.DetailScreenActivity;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,6 +34,8 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
     Context context;
     private String MOVIES_POSTER_URL;
     int layout;
+    String convertedDate = "";
+    Utils utils;
 
 
     List<MovieResult> movieResponse;
@@ -53,6 +53,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View myview = inflater.inflate(R.layout.movie_item, parent, false);
+        utils = new Utils(context);
         return new MyHolder(myview);
     }
 
@@ -62,17 +63,8 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
 
         holder.moviename.setText(movie.getTitle());
 
-        String dateString = movie.getReleaseDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date;
-        String convertedDate = "";
-        try {
-            date = dateFormat.parse(dateString);
-            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date);
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        String movieDate = movie.getReleaseDate();
+        convertedDate = utils.convertDate(movieDate, context);
         Log.d("date", "converted dateee" + convertedDate.toString());
         holder.moviedate.setText(convertedDate);
 
@@ -90,7 +82,7 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         holder.movieimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, DetailScreenActivity.class).putExtra("movieId", movie.getId());
+                Intent intent = new Intent(context, DetailScreenActivity.class).putExtra("movieId", movie.getId());
                 intent.putExtra(CAT_NAME, CategoryEnum.category.MOVIES.getValue());
                 context.startActivity(intent);
 

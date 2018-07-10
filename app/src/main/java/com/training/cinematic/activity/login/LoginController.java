@@ -12,6 +12,7 @@ import com.facebook.login.LoginResult;
 public interface LoginController {
 
     interface ILoginView {
+
         boolean vaildate(String stringEmail, String stringPassword);
 
         void loginCompleteWithFb(Context context);
@@ -19,7 +20,6 @@ public interface LoginController {
     }
 
     interface ILoginPresenter {
-
 
         boolean checkUserNew(String stringEmail, String stringPassword);
 

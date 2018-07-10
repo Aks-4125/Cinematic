@@ -32,6 +32,8 @@ public class CategoryEnum {
             return this.typeString;
         }
 
-        public Integer getValue() { return this.typeInt; }
+        public Integer getValue() {
+            return this.typeInt;
+        }
     }
 }

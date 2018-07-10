@@ -48,14 +48,13 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
     CallbackManager callbackManager;
 
     private Utils mUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         callbackManager = CallbackManager.Factory.create();
-
         Realm.init(this);
         realm = Realm.getDefaultInstance();
         loginPresenter = new LoginPresenter(this);

@@ -31,10 +31,6 @@ import com.training.cinematic.Utils.Utils;
 import com.training.cinematic.activity.BaseActivity;
 import com.training.cinematic.activity.CategoryEnum;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -93,17 +89,16 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
     private int tvDetailId;
     DetailPresenter detailPresenter;
     int catId = 0;
-    SimpleDateFormat dateFormat;
-    Date date1;
+
     int minutes, houres, time, seasonsofTv, episodes;
     RealmList<MovieGenre> genres;
     RealmList<TvGenre> tvGenres;
     StringBuffer sb;
-    String cast_language, overview, url, movieDate, movieName, tvName;
+    String cast_language, overview, url, realeaseDate, movieName, tvName;
     Double rating;
     float rates;
     String convertedDate = "";
-
+    Utils mutils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +115,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         realm = Realm.getDefaultInstance();
         showProgressbar();
         setSupportActionBar(toolbar);
+        mutils = new Utils(this);
         catId = getIntent().getIntExtra(CAT_NAME, 0);
         description.setMovementMethod(new ScrollingMovementMethod());
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -237,7 +233,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
     public void showImages() {
         viewPager.setAdapter(new DetailScreenAdapter(DetailScreenActivity.this, detailPresenter.array, fab));
         indicator.setViewPager(viewPager);
-        final Handler handeer = new Handler();
+        final Handler handler = new Handler();
         final Runnable run = new Runnable() {
             @Override
             public void run() {
@@ -255,7 +251,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                handeer.post(run);
+                handler.post(run);
             }
         }, 2500, 2500);
     }
@@ -273,7 +269,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         url = movieDetailModel.getHomepage();
         rating = movieDetailModel.getVoteAverage();
         rates = (float) (rating / 2);
-        movieDate = movieDetailModel.getReleaseDate();
+        realeaseDate = movieDetailModel.getReleaseDate();
         cast_language = movieDetailModel.getOriginalLanguage();
         if (movieDetailModel.getOverview() != null) {
             overview = movieDetailModel.getOverview();
@@ -290,15 +286,8 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         } else {
             url = "Not Avalible!";
         }
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        try {
-            date1 = dateFormat.parse(movieDate);
-            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
 
-
+        convertedDate = mutils.convertDate(realeaseDate, this);
         //show movie data
         category.setText(sb);
         ratingBar.setRating(rates);
@@ -334,7 +323,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         overview = tvDetailModel.getOverview();
         rating = tvDetailModel.getVoteAverage();
         rates = (float) (rating / 2);
-        movieDate = tvDetailModel.getFirstAirDate();
+        realeaseDate = tvDetailModel.getFirstAirDate();
         cast_language = tvDetailModel.getOriginalLanguage();
         seasonsofTv = tvDetailModel.getNumberOfSeasons();
         episodes = tvDetailModel.getNumberOfEpisodes();
@@ -343,19 +332,12 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         } else {
             overview = "Not Avalible!";
         }
-        if (tvDetailModel.getHomepage().isEmpty()) {
+        if (tvDetailModel.getHomepage() != null) {
             url = tvDetailModel.getHomepage();
         } else {
             url = "Not Avalible!";
         }
-
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        try {
-            date1 = dateFormat.parse(movieDate);
-            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date1);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        convertedDate = mutils.convertDate(realeaseDate, this);
 
         // show tv data
         category.setText(sb);
@@ -366,11 +348,15 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         description.setText(overview);
         season.setText(Integer.toString(seasonsofTv));
         episodesTv.setText(Integer.toString(episodes));
-        if (Build.VERSION.SDK_INT >= 24) {
-            homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            homepage.setText(Html.fromHtml(url));
+        if (url != null) {
+
+            if (Build.VERSION.SDK_INT >= 24) {
+                homepage.setText(Html.fromHtml(url, Html.FROM_HTML_MODE_LEGACY));
+            } else {
+                homepage.setText(Html.fromHtml(url));
+            }
         }
+
         textSeason.setVisibility(View.VISIBLE);
         season.setVisibility(View.VISIBLE);
         episodesTv.setVisibility(View.VISIBLE);

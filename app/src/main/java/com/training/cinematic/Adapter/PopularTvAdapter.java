@@ -14,14 +14,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.TvResult;
 import com.training.cinematic.R;
+import com.training.cinematic.Utils.Utils;
 import com.training.cinematic.activity.CategoryEnum;
 import com.training.cinematic.activity.detailscreen.DetailScreenActivity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +34,8 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
     int layout;
     List<TvResult> popularTv;
     String TV_POSTAR_URL;
+    Utils utils;
+    String convertedDate = "";
 
 
     public PopularTvAdapter(Context context, int layout, List<TvResult> popularTv) {
@@ -50,6 +49,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
     public PopularTvAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View myview = inflater.inflate(R.layout.movie_item, parent, false);
+        utils = new Utils(context);
         return new PopularTvAdapter.MyHolder(myview);
     }
 
@@ -59,16 +59,8 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         holder.tvName.setText(popularTv.get(position).getName());
         Log.d("TV", "POPULATTV NAMES" + popularTv.size());
 
-        String tvDatee = popularTv.get(position).getFirstAirDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date;
-        String convertedDate = "";
-        try {
-            date = dateFormat.parse(tvDatee);
-            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        String tvDate = popularTv.get(position).getFirstAirDate();
+        convertedDate = utils.convertDate(tvDate, context);
         holder.tvDate.setText(convertedDate);
         holder.language.setText("Language:" + popularTv.get(position).getOriginalLanguage());
         String path = "https://image.tmdb.org/t/p/w500/";
@@ -85,8 +77,8 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         holder.tvImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, DetailScreenActivity.class).putExtra("tvId", popularTv.get(position).getId());
-               intent.putExtra(CAT_NAME, CategoryEnum.category.TV.getValue());
+                Intent intent = new Intent(context, DetailScreenActivity.class).putExtra("tvId", popularTv.get(position).getId());
+                intent.putExtra(CAT_NAME, CategoryEnum.category.TV.getValue());
                 view.getContext().startActivity(intent);
                 Log.d("populat tv", "id ---->>>>" + popularTv.get(position).getId());
             }
