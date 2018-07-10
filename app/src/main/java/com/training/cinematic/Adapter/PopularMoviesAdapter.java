@@ -13,14 +13,11 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.training.cinematic.Model.PopularMovieResult;
 import com.training.cinematic.R;
+import com.training.cinematic.Utils.Utils;
 import com.training.cinematic.activity.CategoryEnum;
 import com.training.cinematic.activity.detailscreen.DetailScreenActivity;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -37,6 +34,8 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
     int rowlayout;
     Context context;
     String MOVIES_POSTER_URL;
+    Utils utils;
+    String convertedDate = "";
 
     public PopularMoviesAdapter(List<PopularMovieResult> movies, int rowlayout, Context context) {
         this.movies = movies;
@@ -49,6 +48,7 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
     public PopularMoviesAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View myview = inflater.inflate(R.layout.movie_item, parent, false);
+        utils = new Utils(context);
         return new PopularMoviesAdapter.MyHolder(myview);
     }
 
@@ -59,15 +59,7 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         MOVIES_POSTER_URL = movies.get(position).getPosterPath();
         String imageurl = path.concat(MOVIES_POSTER_URL);
         String movieDate = movies.get(position).getReleaseDate();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        Date date;
-        String convertedDate = "";
-        try {
-            date = dateFormat.parse(movieDate);
-            convertedDate = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        convertedDate = utils.convertDate(movieDate, context);
         holder.movieDate.setText(convertedDate);
         holder.movieLanguage.setText("Language:" + movies.get(position).getOriginalLanguage());
 
@@ -79,7 +71,7 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         holder.movieImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, DetailScreenActivity.class).putExtra("movieId", movies.get(position).getId());
+                Intent intent = new Intent(context, DetailScreenActivity.class).putExtra("movieId", movies.get(position).getId());
                 intent.putExtra(CAT_NAME, CategoryEnum.category.MOVIES.getValue());
                 view.getContext().startActivity(intent);
             }

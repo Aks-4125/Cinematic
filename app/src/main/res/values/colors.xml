@@ -12,4 +12,5 @@
     <color name="editText_Background_Color">#2b000000</color>
     <color name="cardview_BackgroingColor">#81ffffff</color>
     <color name="statusBarColor">#179c8c</color>
+    <color name="urlColor">#04e9f1</color>
 </resources>

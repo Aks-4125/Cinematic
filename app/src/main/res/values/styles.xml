@@ -27,7 +27,11 @@
         <item name="colorPrimaryDark">@color/statusBarColor</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <style name="AppTheme3" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorToolbar</item>
+        <item name="colorPrimaryDark">@color/statusBarColor</item>
+        <item name="colorAccent">@color/urlColor</item>
+    </style>
     <style name="AppTheme.ProgressBar">
         <item name="colorAccent">#07fdd4</item>
     </style>

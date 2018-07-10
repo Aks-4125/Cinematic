@@ -14,6 +14,7 @@ import java.util.List;
 public class MainAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
+
     public MainAdapter(FragmentManager fm) {
         super(fm);
     }
@@ -27,6 +28,7 @@ public class MainAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return mFragmentList.size();
     }
+
     public void addFrag(Fragment fragment, String title) {
 
         mFragmentList.add(fragment);
