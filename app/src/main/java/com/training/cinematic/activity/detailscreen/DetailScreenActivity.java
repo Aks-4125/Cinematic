@@ -27,6 +27,7 @@ import com.training.cinematic.Model.MovieGenre;
 import com.training.cinematic.Model.TvDetailModel;
 import com.training.cinematic.Model.TvGenre;
 import com.training.cinematic.R;
+import com.training.cinematic.Utils.Utils;
 import com.training.cinematic.activity.BaseActivity;
 import com.training.cinematic.activity.CategoryEnum;
 
@@ -117,7 +118,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         detailPresenter = new DetailPresenter(this);
         detailPresenter.setDetailView(this);
         realm = Realm.getDefaultInstance();
-        ShowProgressbar();
+        showProgressbar();
         setSupportActionBar(toolbar);
         catId = getIntent().getIntExtra(CAT_NAME, 0);
         description.setMovementMethod(new ScrollingMovementMethod());
@@ -153,7 +154,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
                 movieDeatils();
             } else {
                 Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
-                StopProgressbar();
+                stopProgressbar();
 
             }
         } else if (getIntent().hasExtra("tvId")) {
@@ -162,7 +163,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
                 tvDetails();
             } else {
                 Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
-                StopProgressbar();
+                stopProgressbar();
             }
         }
 
@@ -233,7 +234,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
 
 
     @Override
-    public void ShowImages() {
+    public void showImages() {
         viewPager.setAdapter(new DetailScreenAdapter(DetailScreenActivity.this, detailPresenter.array, fab));
         indicator.setViewPager(viewPager);
         final Handler handeer = new Handler();
@@ -245,7 +246,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
                 }
                 viewPager.setCurrentItem(currentpage++, true);
                 viewPager.setVisibility(View.VISIBLE);
-                StopProgressbar();
+                stopProgressbar();
             }
         };
 
@@ -342,11 +343,12 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         } else {
             overview = "Not Avalible!";
         }
-        if (tvDetailModel.getHomepage() != null) {
+        if (tvDetailModel.getHomepage().isEmpty()) {
             url = tvDetailModel.getHomepage();
         } else {
             url = "Not Avalible!";
         }
+
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
             date1 = dateFormat.parse(movieDate);
@@ -375,17 +377,15 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         textofEpisode.setVisibility(View.VISIBLE);
         getSupportActionBar().setTitle(tvName);
         collapsingToolbarLayout.setTitle(tvName);
-
     }
 
     @Override
-    public void ShowProgressbar() {
+    public void showProgressbar() {
         progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void StopProgressbar() {
+    public void stopProgressbar() {
         progressBar.setVisibility(View.GONE);
     }
-
 }

@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#5536AF</color>
-    <color name="colorAccent">#23ACDB</color>
+    <color name="colorAccent">#ffffff</color>
     <color name="colorText">#fe04a789</color>
     <color name="colorToolbar">#01b7a0</color>
     <color name="colorwhite">#fff</color>
@@ -11,4 +11,5 @@
     <color name="colorPink">#d0ff036c</color>
     <color name="editText_Background_Color">#2b000000</color>
     <color name="cardview_BackgroingColor">#81ffffff</color>
+    <color name="statusBarColor">#179c8c</color>
 </resources>

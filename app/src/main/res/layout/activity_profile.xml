@@ -14,7 +14,7 @@
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:src="@drawable/ic_logo_cinematic" />
 
     <android.support.v7.widget.CardView
@@ -25,6 +25,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="100dp"
+        android:layout_marginBottom="40dp"
         app:cardBackgroundColor="@color/cardview_BackgroingColor">
 
         <ImageView
@@ -42,6 +43,7 @@
 
             <RelativeLayout
                 android:padding="30dp"
+                android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center">
@@ -50,9 +52,8 @@
                     android:id="@+id/text_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:inputType="textPersonName"
-                    android:text="Name:"
+                    android:layout_marginStart="30dp"
+                    android:text="@string/profile_name"
                     android:textColor="@color/colorText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -64,7 +65,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/text_name"
                     android:gravity="center_horizontal"
-                    android:inputType="textPersonName"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
@@ -73,21 +73,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/name"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginTop="20dp"
-                    android:inputType="numberDecimal"
-                    android:text="phone number:"
+                    android:text="@string/profile_phone_number"
+                    android:visibility="gone"
                     android:textColor="@color/colorText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/number"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/text_number"
                     android:gravity="center_horizontal"
-                    android:inputType="numberDecimal"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
@@ -97,10 +97,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/number"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="30dp"
+                    android:layout_marginStart="30dp"
                     android:layout_marginTop="20dp"
-                    android:inputType="textEmailAddress"
-                    android:text="Email:"
+                    android:text="@string/profile_email"
                     android:textColor="@color/colorText"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -112,11 +111,10 @@
                     android:layout_below="@id/text_email"
                     android:minHeight="0dp"
                     android:gravity="center_horizontal"
-                    android:inputType="textEmailAddress"
                     android:textColor="@color/colorBlack"
                     android:textSize="20sp" />
 
-                <TextView
+             <!--   <TextView
                     android:id="@+id/text_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +138,7 @@
                     android:gravity="center_horizontal"
                     android:inputType="text"
                     android:textColor="@color/colorBlack"
-                    android:textSize="20sp" />
+                    android:textSize="20sp" />-->
 
             </RelativeLayout>
         </ScrollView>

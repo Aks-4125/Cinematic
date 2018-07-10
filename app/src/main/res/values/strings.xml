@@ -16,10 +16,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="pop_movies">popularMovies</string>
-    <string name="get_loggedin_pref">loggedIn</string>
+    <!--<string name="get_loggedin_pref">loggedIn</string>-->
     <string name="get_fbloggedin_pref">fbloggedIn</string>
     <string name="get_email_pref">KEY_EMAIL</string>
     <string name="get_user_pref">KEY_USER</string>
+    <string name="profile_email">Email:</string>
+    <string name="profile_phone_number">phone number:</string>
+    <string name="profile_name">Name:</string>
     <string-array name="mname">
         <item>android</item>
         <item>cupcake</item>

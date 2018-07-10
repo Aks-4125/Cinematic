@@ -19,9 +19,7 @@ public interface LoginController {
     }
 
     interface ILoginPresenter {
-        boolean isEmailVaild(String stringEmail);
 
-        boolean isPasswrodValid(String stringPassword);
 
         boolean checkUserNew(String stringEmail, String stringPassword);
 

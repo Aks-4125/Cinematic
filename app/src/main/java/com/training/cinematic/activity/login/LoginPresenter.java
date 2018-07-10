@@ -3,7 +3,6 @@ package com.training.cinematic.activity.login;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.Patterns;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -17,9 +16,6 @@ import com.training.cinematic.R;
 import com.training.cinematic.Utils.SharedPrefsHelp;
 
 import org.json.JSONObject;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import io.realm.Realm;
 
@@ -43,18 +39,6 @@ public class LoginPresenter implements LoginController.ILoginPresenter {
     }
 
     @Override
-    public boolean isEmailVaild(String stringEmail) {
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
-        Matcher matcher = pattern.matcher(stringEmail);
-        return matcher.matches();
-    }
-
-    @Override
-    public boolean isPasswrodValid(String stringPassword) {
-        return stringPassword.length() >= 8;
-    }
-
-    @Override
     public boolean checkUserNew(String stringEmail, String stringPassword) {
         Realm realm = Realm.getDefaultInstance();
         User user = realm.where(User.class)
@@ -63,7 +47,7 @@ public class LoginPresenter implements LoginController.ILoginPresenter {
                 .findFirst();
 
         if (user != null) {
-            SharedPrefsHelp.setBoolean(context, context.getString(R.string.get_loggedin_pref), true);
+            SharedPrefsHelp.setBoolean(context, "logIn", true);
             SharedPrefsHelp.setString(context, context.getString(R.string.get_email_pref), user.getEmailId());
             return true;
         } else {
@@ -88,16 +72,15 @@ public class LoginPresenter implements LoginController.ILoginPresenter {
         permission_param.putString("fields", "id,name,email,picture.width(120).height(120)");
         data_request.setParameters(permission_param);
         data_request.executeAsync();
+
     }
 
     @Override
     public void loginWithFb(CallbackManager callbackManager, Context context) {
-        LoginManager.getInstance().logOut();
         LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 getUserDetails(loginResult);
-                LoginManager.getInstance().logOut();
             }
 
             @Override

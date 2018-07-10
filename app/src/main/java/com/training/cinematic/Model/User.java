@@ -12,6 +12,16 @@ import io.realm.annotations.PrimaryKey;
 public class User extends RealmObject implements Serializable {
     private String fullName;
     private String phoneNumber;
+    private String profilePicUrl;
+
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
+    }
+
     @PrimaryKey
     private String emailId;
     private String password;

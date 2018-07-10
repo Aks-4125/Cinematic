@@ -70,12 +70,7 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         }
         holder.movieDate.setText(convertedDate);
         holder.movieLanguage.setText("Language:" + movies.get(position).getOriginalLanguage());
-    /*    Boolean isadult=movies.get(position).getAdult();
-        if (isadult==true)
-        {
-            holder.adult.setVisibility(View.VISIBLE);
-        }*/
-        //   holder.movieDate.setText(movies.get(position).getReleaseDate());
+
         Picasso.with(context)
                 .load(imageurl)
                 .into(holder.movieImage);
@@ -110,8 +105,6 @@ public class PopularMoviesAdapter extends RecyclerView.Adapter<PopularMoviesAdap
         public MyHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-
-
         }
     }
 }

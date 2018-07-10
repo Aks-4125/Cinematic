@@ -11,13 +11,13 @@
     <android.support.v7.widget.CardView
         android:id="@+id/cardview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="500dp"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:layout_marginBottom="40dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="40dp"
+
         app:cardBackgroundColor="@color/cardview_BackgroingColor">
 
         <LinearLayout
@@ -36,7 +36,7 @@
                 android:drawableLeft="@drawable/ic_person_black_24dp"
                 android:hint="@string/fullname"
                 android:inputType="textPersonName"
-                android:padding="4dp"
+                android:padding="5dp"
                 android:textColor="@color/colorwhite"
                 android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
@@ -52,7 +52,7 @@
                 android:drawableLeft="@drawable/ic_phone_android_black_24dp"
                 android:hint="@string/phonenumber"
                 android:inputType="number"
-                android:padding="4dp"
+                android:padding="5dp"
                 android:textColor="@color/colorwhite"
                 android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
@@ -68,7 +68,7 @@
                 android:drawableLeft="@drawable/ic_email_black_24dp"
                 android:hint="@string/Email"
                 android:inputType="textEmailAddress"
-                android:padding="4dp"
+                android:padding="5dp"
                 android:textColor="@color/colorwhite"
                 android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
@@ -84,7 +84,7 @@
                 android:drawableLeft="@drawable/ic_lock_black_24dp"
                 android:hint="@string/Password"
                 android:inputType="textPassword"
-                android:padding="4dp"
+                android:padding="5dp"
                 android:textColor="@color/colorwhite"
                 android:textColorHint="@color/colorwhite"
                 android:textSize="15sp" />
@@ -95,8 +95,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="15dp"
                 android:layout_marginTop="30dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:background="@color/colorPink"
                 android:padding="4dp"
                 android:text="@string/signup"

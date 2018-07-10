@@ -20,7 +20,6 @@ public class CategoryEnum {
     public enum category {
         MOVIES("Movies", 0),
         TV("Tv", 1);
-
         private int typeInt;
         private String typeString;
 

@@ -55,8 +55,7 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
 
     @Override
     public void onBindViewHolder(@NonNull PopularTvAdapter.MyHolder holder, int position) {
-        //   holder.movieImage.setImageResource(img[position]);
-        // holder.movieName.setText(data[position]);
+
         holder.tvName.setText(popularTv.get(position).getName());
         Log.d("TV", "POPULATTV NAMES" + popularTv.size());
 
@@ -72,7 +71,6 @@ public class PopularTvAdapter extends RecyclerView.Adapter<PopularTvAdapter.MyHo
         }
         holder.tvDate.setText(convertedDate);
         holder.language.setText("Language:" + popularTv.get(position).getOriginalLanguage());
-        //holder.tvDate.setText(popularTv.get(position).getFirstAirDate());
         String path = "https://image.tmdb.org/t/p/w500/";
         TV_POSTAR_URL = popularTv.get(position).getPosterPath();
         String imageUrl = path.concat(TV_POSTAR_URL);
