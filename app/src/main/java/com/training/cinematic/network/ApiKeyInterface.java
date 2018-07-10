@@ -24,19 +24,12 @@ public interface ApiKeyInterface {
     @GET("movie/popular")
     Call<PoplarMovieModel> getMovielist(@Query("api_key") String api_key);
 
-  /*  @GET("movie/{id}")
-    Call<MovieModel> getMovieDetails(@Path("id") int id, @Query("api_key") String api_key);
-*/
-
     @GET("movie/{id}/images")
     Call<SliderMovieImages> getImages(@Path("id") int id, @Query("api_key") String api_key);
 
     @GET("tv/{id}/images")
     Call<SliderMovieImages> getTvImages(@Path("id") int id, @Query("api_key") String api_key);
 
- /*   @GET("movie/{id}/images")
-    Call<SliderMovieImages> getId(@Path("id") int id);
-*/
     @GET("movie/{id}")
     Call<MovieDetailModel> getMovieDetail(@Path("id")int id,@Query("api_key") String api_key);
 

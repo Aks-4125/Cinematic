@@ -27,11 +27,11 @@ public interface DetailController {
 
     interface IDetailView {
 
-        void ShowProgressbar();
+        void showProgressbar();
 
-        void StopProgressbar();
+        void stopProgressbar();
 
-        void ShowImages();
+        void showImages();
 
         void setMovieData(MovieDetailModel movieDetailModel);
 

@@ -76,11 +76,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout:
-                LoginManager.getInstance().logOut();
                 SharedPrefsHelp.clearSharedPrefs(MainActivity.this);
                 Intent intent1 = new Intent(MainActivity.this, LoginActivity.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent1);
+                LoginManager.getInstance().logOut();
                 return true;
             case R.id.profile:
                 Toast.makeText(this, "User Profile.", Toast.LENGTH_SHORT).show();
@@ -89,7 +89,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected((MenuItem) item);
-
         }
 
     }
@@ -108,5 +107,9 @@ public class MainActivity extends AppCompatActivity {
             }
         }, 2000);
 
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

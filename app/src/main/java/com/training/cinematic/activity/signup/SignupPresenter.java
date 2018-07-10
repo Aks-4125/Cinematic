@@ -1,10 +1,12 @@
 package com.training.cinematic.activity.signup;
 
 import android.content.Context;
-import android.util.Patterns;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.training.cinematic.Model.User;
+import com.training.cinematic.R;
+import com.training.cinematic.Utils.SharedPrefsHelp;
+
+import io.realm.Realm;
 
 /**
  * Created by dhruvisha on 6/25/2018.
@@ -23,22 +25,23 @@ public class SignupPresenter implements SignupController.ISignupPresenter{
         this.signView = signView;
     }
 
-    @Override
-    public boolean isEmailvalid(String stringEmail) {
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
-        Matcher matcher = pattern.matcher(stringEmail);
-        return matcher.matches();
-
-    }
 
     @Override
-    public boolean isValidphone(String stringNumber) {
-        Pattern pattern = Patterns.PHONE;
-        Matcher matcher = pattern.matcher(stringNumber);
-        return matcher.matches();
-    }
-    @Override
-    public boolean isPasswordvalid(String stringPassword) {
-        return stringPassword.length() >= 8;
+    public void storeUserData(String stringFullname, String stringPassword, String stringEmail, String stringNumber) {
+        try (Realm r = Realm.getDefaultInstance()) {
+
+                final User user = new User();
+                user.setFullName(stringFullname);
+                user.setPhoneNumber(stringNumber);
+                user.setEmailId(stringEmail);
+                user.setPassword(stringPassword);
+                r.executeTransaction(realm -> {
+                    realm.insert(user);
+                });
+            SharedPrefsHelp.setObject(context, context.getString(R.string.get_user_pref), user);
+
+            }
+
+
     }
 }

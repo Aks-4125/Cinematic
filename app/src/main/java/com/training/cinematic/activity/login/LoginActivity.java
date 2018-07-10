@@ -16,6 +16,7 @@ import com.facebook.login.LoginManager;
 import com.training.cinematic.Model.User;
 import com.training.cinematic.R;
 import com.training.cinematic.Utils.SharedPrefsHelp;
+import com.training.cinematic.Utils.Utils;
 import com.training.cinematic.activity.BaseActivity;
 import com.training.cinematic.activity.main.MainActivity;
 import com.training.cinematic.activity.signup.SignupActivity;
@@ -46,6 +47,7 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
     private LoginPresenter loginPresenter;
     CallbackManager callbackManager;
 
+    private Utils mUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +60,8 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
         realm = Realm.getDefaultInstance();
         loginPresenter = new LoginPresenter(this);
         loginPresenter.setLoginView(this);
-
-        if (SharedPrefsHelp.getBoolean(LoginActivity.this, getString(R.string.get_loggedin_pref), false)) {
+        mUtils = new Utils(this);
+        if (SharedPrefsHelp.getBoolean(LoginActivity.this, "logIn", false)) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -96,7 +98,7 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
                     }
 
                 } else {
-                    Toast.makeText(this, "No Internet Connection!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
                 }
             } catch (RealmPrimaryKeyConstraintException e) {
                 e.printStackTrace();
@@ -115,25 +117,24 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
         if (stringEmail.trim().equals("")) {
             Snackbar.make(email, "Email is required", Snackbar.LENGTH_LONG).show();
             return false;
-        } else if (!loginPresenter.isEmailVaild(stringEmail)) {
+        } else if (!mUtils.isEmailVaild(stringEmail)) {
             Snackbar.make(email, "Invalid Email", Snackbar.LENGTH_LONG).show();
             return false;
         }
         if (stringPassword.trim().equals("")) {
             Snackbar.make(password, "Password is Required", Snackbar.LENGTH_LONG).show();
             return false;
-        } else if (!loginPresenter.isPasswrodValid(stringPassword)) {
+        } else if (!mUtils.isPasswrodValid(stringPassword)) {
             Snackbar.make(password, "Password must contain at least 8 characters", Snackbar.LENGTH_LONG).show();
             return false;
         }
-
         return true;
     }
 
     @Override
     public void loginCompleteWithFb(Context context) {
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-        SharedPrefsHelp.setBoolean(context, context.getString(R.string.get_loggedin_pref), true);
+        SharedPrefsHelp.setBoolean(context, "logIn", true);
         startActivity(intent);
     }
 
@@ -143,8 +144,6 @@ public class LoginActivity extends BaseActivity implements LoginController.ILogi
         for (User user : realmobjects) {
             if (email.equals(user.getEmailId()) && password.equals(user.getPassword())) {
                 Log.e(TAG, user.getEmailId());
-
-
                 return true;
             }
         }

@@ -48,7 +48,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
 
     @Override
     public void storeAndFetchMoviesData(int movieDetailId, Context context) {
-        detailView.ShowProgressbar();
+        detailView.showProgressbar();
         apiClient = new ApiClient(context);
         apiClient.getClient()
                 .getMovieDetail((movieDetailId), context.getString(R.string.apikey))
@@ -139,7 +139,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
                             image = new String[imagePath.size()];
                             for (int i = 1; i < imagePath.size(); i++)
                                 array.add(imagePath.get(i).getFilePath());
-                            detailView.ShowImages();
+                            detailView.showImages();
                             Log.d("array", "arrya of images" + array);
 
                         }
@@ -167,7 +167,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
                             image = new String[imagePath.size()];
                             for (int i = 1; i < imagePath.size(); i++)
                                 array.add(imagePath.get(i).getFilePath());
-                            detailView.ShowImages();
+                            detailView.showImages();
                             Log.d("array", "arrya of images" + array);
 
                         }

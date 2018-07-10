@@ -88,7 +88,6 @@ public class PopularMoviesFragment extends BaseFragment implements PopularMovieC
         else
             setOfflineData();
 
-
     }
 
     @Override

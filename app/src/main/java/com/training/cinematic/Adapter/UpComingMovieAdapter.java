@@ -75,11 +75,6 @@ public class UpComingMovieAdapter extends RecyclerView.Adapter<UpComingMovieAdap
         }
         Log.d("date", "converted dateee" + convertedDate.toString());
         holder.moviedate.setText(convertedDate);
-     /*   Boolean isAdult=movieDetail.getAdult();
-        Log.d("adult","adulttttt"+isAdult);
-        if (isAdult==true){
-            holder.adult.setVisibility(View.VISIBLE);
-        }*/
 
         holder.language.setText("Language:" + movie.getOriginalLanguage());
         String path = "https://image.tmdb.org/t/p/w500/";
