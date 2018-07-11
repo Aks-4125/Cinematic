@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
@@ -44,6 +45,8 @@ import static com.training.cinematic.Utils.ConstantHelper.CAT_NAME;
 
 public class DetailScreenActivity extends BaseActivity implements DetailController.IDetailView {
     private static final String TAG = DetailScreenActivity.class.getName();
+    @BindView(R.id.coordinator)
+    CoordinatorLayout coordinatorLayout;
     @BindView(R.id.viewpager)
     ViewPager viewPager;
     @BindView(R.id.circleindicator)
@@ -147,8 +150,10 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         if (getIntent().hasExtra("movieId")) {
             movieDetailId = getIntent().getIntExtra("movieId", 0);
             if (isConnected()) {
+                coordinatorLayout.setVisibility(View.VISIBLE);
                 movieDeatils();
             } else {
+                coordinatorLayout.setVisibility(View.GONE);
                 Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
                 stopProgressbar();
 
@@ -156,8 +161,10 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         } else if (getIntent().hasExtra("tvId")) {
             tvDetailId = getIntent().getIntExtra("tvId", 0);
             if (isConnected()) {
+                coordinatorLayout.setVisibility(View.VISIBLE);
                 tvDetails();
             } else {
+                coordinatorLayout.setVisibility(View.GONE);
                 Toast.makeText(this, "No Internet Connection!", Toast.LENGTH_SHORT).show();
                 stopProgressbar();
             }
@@ -266,12 +273,11 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
                 sb.append(", ");
         }
         movieName = movieDetailModel.getTitle();
-        url = movieDetailModel.getHomepage();
         rating = movieDetailModel.getVoteAverage();
         rates = (float) (rating / 2);
         realeaseDate = movieDetailModel.getReleaseDate();
         cast_language = movieDetailModel.getOriginalLanguage();
-        if (movieDetailModel.getOverview() != null) {
+        if (!movieDetailModel.getOverview().isEmpty()) {
             overview = movieDetailModel.getOverview();
         } else {
             overview = "Not Avalible!";
@@ -319,7 +325,6 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
                 sb.append(", ");
         }
         tvName = tvDetailModel.getName();
-        url = tvDetailModel.getHomepage();
         overview = tvDetailModel.getOverview();
         rating = tvDetailModel.getVoteAverage();
         rates = (float) (rating / 2);
@@ -332,7 +337,7 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
         } else {
             overview = "Not Avalible!";
         }
-        if (tvDetailModel.getHomepage() != null) {
+        if (!tvDetailModel.getHomepage().isEmpty()) {
             url = tvDetailModel.getHomepage();
         } else {
             url = "Not Avalible!";
@@ -355,6 +360,8 @@ public class DetailScreenActivity extends BaseActivity implements DetailControll
             } else {
                 homepage.setText(Html.fromHtml(url));
             }
+        } else {
+            homepage.setText("not avalible!");
         }
 
         textSeason.setVisibility(View.VISIBLE);
