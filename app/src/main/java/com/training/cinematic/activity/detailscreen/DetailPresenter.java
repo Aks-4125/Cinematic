@@ -1,7 +1,6 @@
 package com.training.cinematic.activity.detailscreen;
 
 import android.content.Context;
-import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -30,7 +29,6 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
     private ApiClient apiClient;
     Realm realm;
     Double rating;
-    Uri uri;
     float rates;
     DetailController.IDetailView detailView;
     String url, movieName, tvName;
@@ -107,7 +105,13 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
             movieName = movieDetailModel.getTitle();
             rating = movieDetailModel.getVoteAverage();
             rates = (float) (rating / 2);
-            url = movieDetailModel.getHomepage();
+            if (movieDetailModel.getHomepage() == null) {
+                url = "Not Available!";
+            } else {
+                url = movieDetailModel.getHomepage();
+
+            }
+
         }
     }
 
@@ -119,8 +123,14 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
             tvName = tvDetailModel.getName();
             rating = tvDetailModel.getVoteAverage();
             rates = (float) (rating / 2);
-            uri = Uri.parse(tvDetailModel.getHomepage());
-            url = tvDetailModel.getHomepage();
+            // uri = Uri.parse(tvDetailModel.getHomepage());
+            if (tvDetailModel.getHomepage().isEmpty()) {
+                url = "Not Available!";
+            } else {
+                url = tvDetailModel.getHomepage();
+
+            }
+
         }
 
     }
@@ -137,7 +147,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
                             SliderMovieImages sliderImage = response.body();
                             Log.d("image path", "image path------->" + imagePath);
                             image = new String[imagePath.size()];
-                            for (int i = 1; i < imagePath.size(); i++)
+                            for (int i = 0; i < imagePath.size(); i++)
                                 array.add(imagePath.get(i).getFilePath());
                             detailView.showImages();
                             Log.d("array", "arrya of images" + array);
@@ -165,7 +175,7 @@ public class DetailPresenter implements DetailController.IDetailPresenter {
                             SliderMovieImages sliderImage = response.body();
                             Log.d("image path", "image path------->" + imagePath);
                             image = new String[imagePath.size()];
-                            for (int i = 1; i < imagePath.size(); i++)
+                            for (int i = 0; i < imagePath.size(); i++)
                                 array.add(imagePath.get(i).getFilePath());
                             detailView.showImages();
                             Log.d("array", "arrya of images" + array);
