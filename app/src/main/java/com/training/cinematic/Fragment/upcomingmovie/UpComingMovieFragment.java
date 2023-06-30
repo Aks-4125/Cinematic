@@ -73,7 +73,7 @@ public class UpComingMovieFragment extends BaseFragment implements UpComingMovie
         final LinearLayoutManager layoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(layoutManager);
         if (isConnected())
-            upComingMoviePresenter.callJsonClass("https://api.themoviedb.org/3/movie/upcoming?api_key=fec13c5a0623fefac5055a3f7b823553");
+            upComingMoviePresenter.callJsonClass("https://api.themoviedb.org/3/movie/upcoming?api_key=TODO");
         else
             setOfflineData();
 
